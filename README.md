@@ -1,6 +1,6 @@
 # C Programming Final Project: Kernel-style Linked List
 
-8주 동안 C Programming에서 학습한 `struct`, pointer, dynamic memory, linked list를
+C Programming에서 학습한 `struct`, pointer, dynamic memory, linked list를
 하나의 Student Management System으로 통합하는 프로젝트입니다.
 
 ## Learning Path
