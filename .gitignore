@@ -1,0 +1,10 @@
+*.o
+*.out
+*.exe
+student_manager
+a.out
+core
+core.*
+.vscode/
+.idea/
+.DS_Store
