@@ -1,6 +1,6 @@
 # C Programming — Kernel-style Linked List
 
-8주 동안 C의 핵심 개념을 단계적으로 학습하고, 마지막에는 **Kernel-style Linked List**를 이용한 **Student Management System**을 구현합니다.
+C의 핵심 개념을 단계적으로 학습하고, 마지막에는 **Kernel-style Linked List**를 이용한 **Student Management System**을 구현합니다.
 
 ## Learning Path
 
@@ -71,5 +71,3 @@ Student Management System
 gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager
 ./student_manager
 ```
-
-가능하다면 `-Werror`와 Valgrind도 사용하세요.
