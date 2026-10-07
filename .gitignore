@@ -1,10 +1,15 @@
+# Build artifacts
 *.o
-*.out
-*.exe
 student_manager
+*.out
+
 a.out
-core
-core.*
+
+# Debug / tooling
+*.gch
 .vscode/
 .idea/
+
+# OS files
 .DS_Store
+Thumbs.db

@@ -1,6 +1,6 @@
 # Grading
 
-총점: 100점
+총점: **100점**
 
 | 평가 항목 | 배점 |
 |---|---:|
@@ -18,10 +18,10 @@
 
 ## 주요 감점 예시
 
-- 컴파일되지 않음: 구현 정도에 따라 큰 폭 감점
-- Student 배열을 사용하여 전체 데이터를 관리: 핵심 요구사항 위반
-- 별도의 `struct node` 사용: 핵심 요구사항 위반
-- `list_del()`에서 Student를 직접 `free()`하도록 설계: API 책임 분리 위반
-- `malloc()` 후 `free()` 누락: Memory Management 감점
-- `container_of()` 대신 별도 mapping table 사용: 핵심 요구사항 위반
-- Circular invariant가 깨짐: Circular List 항목 감점
+- 컴파일되지 않음
+- Student 배열로 전체 데이터를 관리함
+- 별도의 `struct node`를 사용함
+- `list_del()`에서 Student를 직접 `free()`하도록 설계함
+- `malloc()` 후 `free()`를 누락함
+- `container_of()` 대신 별도 mapping table을 사용함
+- Circular List의 `next`/`prev` invariant가 깨짐

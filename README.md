@@ -1,7 +1,6 @@
-# C Programming Final Project: Kernel-style Linked List
+# C Programming — Kernel-style Linked List
 
-C Programming에서 학습한 `struct`, pointer, dynamic memory, linked list를
-하나의 Student Management System으로 통합하는 프로젝트입니다.
+8주 동안 C의 핵심 개념을 단계적으로 학습하고, 마지막에는 **Kernel-style Linked List**를 이용한 **Student Management System**을 구현합니다.
 
 ## Learning Path
 
@@ -24,48 +23,53 @@ offsetof()
   ↓
 container_of()
   ↓
-Kernel-style Linked List
+Student Management System
 ```
 
-## Repository Guide
+## Weekly Assignments
 
-- `week01_struct/` — Struct와 Student 기본
-- `week02_dynamic_memory/` — Dynamic Memory
-- `week03_singly_linked_list/` — Singly Linked List
-- `week04_doubly_linked_list/` — Doubly Linked List
-- `week05_circular_list/` — Circular Doubly Linked List
-- `week06_intrusive_list/` — Intrusive Linked List
-- `week07_container_of/` — `offsetof()`와 `container_of()`
-- `week08_final_project/` — 최종 Student Management System
-- `docs/` — 전체 프로젝트 명세, 제출 방법, 평가 기준
+| Week | Topic | Main Concepts |
+|---|---|---|
+| 1 | Struct | `struct`, pointer |
+| 2 | Dynamic Memory | `malloc()`, `free()`, heap |
+| 3 | Singly Linked List | `next`, traversal |
+| 4 | Doubly Linked List | `prev`, `next` |
+| 5 | Circular Doubly Linked List | sentinel, circular invariant |
+| 6 | Intrusive Linked List | embedded `list_head` |
+| 7 | `container_of()` | `offsetof()`, pointer arithmetic |
+| 8 | Final Project | Student Management System |
 
-각 주차의 `README.md`를 먼저 읽고 해당 주차의 `starter/`에서 작업하세요.
+각 주차의 `README.md`를 먼저 읽고 `starter/`에서 과제를 시작하세요.
+
+## Start Here
+
+- [Week 01 — Struct](assignments/week01-struct/)
+- [Week 02 — Dynamic Memory](assignments/week02-dynamic-memory/)
+- [Week 03 — Singly Linked List](assignments/week03-singly-linked-list/)
+- [Week 04 — Doubly Linked List](assignments/week04-doubly-linked-list/)
+- [Week 05 — Circular Doubly Linked List](assignments/week05-circular-list/)
+- [Week 06 — Intrusive Linked List](assignments/week06-intrusive-list/)
+- [Week 07 — `container_of()`](assignments/week07-container-of/)
+- [Week 08 — Final Project](assignments/week08-final-project/)
 
 ## General Rules
 
 1. C11 기준으로 작성합니다.
-2. 컴파일 경고를 확인합니다.
-3. Dynamic Memory를 사용하는 경우 반드시 `free()`까지 책임집니다.
-4. 배열 기반의 Student 저장소로 최종 프로젝트를 구현하지 않습니다.
-5. 최종 프로젝트에서는 별도의 `struct node`를 만들지 않습니다.
-6. 최종 프로젝트는 Circular Doubly Linked List + Intrusive List 구조를 사용합니다.
+2. `gcc -Wall -Wextra -std=c11` 컴파일 경고를 확인합니다.
+3. `malloc()`으로 할당한 메모리는 반드시 적절한 시점에 `free()`합니다.
+4. 최종 프로젝트에서는 Student 배열을 사용하지 않습니다.
+5. 최종 프로젝트에서는 별도의 `struct node`를 사용하지 않습니다.
+6. 최종 프로젝트는 **Circular Doubly Linked List + Intrusive List** 구조를 사용합니다.
 7. 최종 프로젝트에서는 `container_of()`를 사용합니다.
-8. 최종 제출물은 정상적으로 컴파일되어야 합니다.
+8. 제출 전 반드시 컴파일과 기본 동작을 확인합니다.
 
-## Compile
+## Final Project
+
+최종 프로젝트는 `assignments/week08-final-project/README.md`에 모든 요구사항이 정리되어 있습니다.
 
 ```bash
 gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager
 ./student_manager
 ```
 
-가능하면 다음도 사용하세요.
-
-```bash
-gcc -Wall -Wextra -Werror -std=c11 main.c list.c student.c -o student_manager
-```
-
-## Final Project
-
-최종 프로젝트의 자세한 요구사항은
-`week08_final_project/README.md`와 `docs/final_project_specification.md`를 확인하세요.
+가능하다면 `-Werror`와 Valgrind도 사용하세요.
