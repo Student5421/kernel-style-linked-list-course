@@ -1,6 +1,6 @@
 # C Programming — Kernel-style Linked List
 
-C의 핵심 개념을 단계적으로 학습하고, 마지막에는 **Kernel-style Linked List**를 이용한 **Student Management System**을 구현합니다.
+Learn the core ideas of C step by step. At the end, you build a **Student Management System** with a **kernel-style linked list**.
 
 ## Learning Path
 
@@ -8,6 +8,8 @@ C의 핵심 개념을 단계적으로 학습하고, 마지막에는 **Kernel-sty
 Struct
   ↓
 Pointer
+  ↓
+Operators & Precedence
   ↓
 Dynamic Memory
   ↓
@@ -23,6 +25,8 @@ offsetof()
   ↓
 container_of()
   ↓
+File I/O
+  ↓
 Student Management System
 ```
 
@@ -31,41 +35,49 @@ Student Management System
 | Week | Topic | Main Concepts |
 |---|---|---|
 | 1 | Struct | `struct`, pointer |
-| 2 | Dynamic Memory | `malloc()`, `free()`, heap |
-| 3 | Singly Linked List | `next`, traversal |
-| 4 | Doubly Linked List | `prev`, `next` |
-| 5 | Circular Doubly Linked List | sentinel, circular invariant |
-| 6 | Intrusive Linked List | embedded `list_head` |
-| 7 | `container_of()` | `offsetof()`, pointer arithmetic |
-| 8 | Final Project | Student Management System |
+| 2 | Operators & Precedence | precedence, short-circuit, bit flags |
+| 3 | Dynamic Memory | `malloc()`, `free()`, heap |
+| 4 | Singly Linked List | `next`, traversal |
+| 5 | Doubly Linked List | `prev`, `next` |
+| 6 | Circular Doubly Linked List | sentinel, circular invariant |
+| 7 | Intrusive Linked List | embedded `list_head` |
+| 8 | `container_of()` | `offsetof()`, pointer arithmetic |
+| 9 | File I/O | `fopen()`, `fgets()`, `fprintf()` |
+| 10 | Final Project | Student Management System |
 
-각 주차의 `README.md`를 먼저 읽고 `starter/`에서 과제를 시작하세요.
+Read each week's `README.md` first, then start the assignment in `starter/`.
 
 ## Start Here
 
 - [Week 01 — Struct](assignments/week01-struct/)
-- [Week 02 — Dynamic Memory](assignments/week02-dynamic-memory/)
-- [Week 03 — Singly Linked List](assignments/week03-singly-linked-list/)
-- [Week 04 — Doubly Linked List](assignments/week04-doubly-linked-list/)
-- [Week 05 — Circular Doubly Linked List](assignments/week05-circular-list/)
-- [Week 06 — Intrusive Linked List](assignments/week06-intrusive-list/)
-- [Week 07 — `container_of()`](assignments/week07-container-of/)
-- [Week 08 — Final Project](assignments/week08-final-project/)
+- [Week 02 — Operators and Precedence](assignments/week02-operators/)
+- [Week 03 — Dynamic Memory](assignments/week03-dynamic-memory/)
+- [Week 04 — Singly Linked List](assignments/week04-singly-linked-list/)
+- [Week 05 — Doubly Linked List](assignments/week05-doubly-linked-list/)
+- [Week 06 — Circular Doubly Linked List](assignments/week06-circular-list/)
+- [Week 07 — Intrusive Linked List](assignments/week07-intrusive-list/)
+- [Week 08 — `container_of()`](assignments/week08-container-of/)
+- [Week 09 — File I/O](assignments/week09-file-io/)
+- [Week 10 — Final Project](assignments/week10-final-project/)
+
+## Lecture Notes
+
+The lecture notes for each week (a 3-hour session, including the lab) are in [`lectures/`](lectures/). You can build each week's demo code with `make` in `lectures/weekNN-*/examples/`. The slides are `weekNN-slides.pptx` in each week's folder.
 
 ## General Rules
 
-1. C11 기준으로 작성합니다.
-2. `gcc -Wall -Wextra -std=c11` 컴파일 경고를 확인합니다.
-3. `malloc()`으로 할당한 메모리는 반드시 적절한 시점에 `free()`합니다.
-4. 최종 프로젝트에서는 Student 배열을 사용하지 않습니다.
-5. 최종 프로젝트에서는 별도의 `struct node`를 사용하지 않습니다.
-6. 최종 프로젝트는 **Circular Doubly Linked List + Intrusive List** 구조를 사용합니다.
-7. 최종 프로젝트에서는 `container_of()`를 사용합니다.
-8. 제출 전 반드시 컴파일과 기본 동작을 확인합니다.
+1. Write C11 code.
+2. Check the compiler warnings from `gcc -Wall -Wextra -std=c11`.
+3. Always `free()` memory from `malloc()` at the right time.
+4. Do not use an array of students in the final project.
+5. Do not use a separate `struct node` in the final project.
+6. The final project uses a **circular doubly linked list + intrusive list**.
+7. Use `container_of()` in the final project.
+8. Before you submit, always check that the program compiles and works.
 
 ## Final Project
 
-최종 프로젝트는 `assignments/week08-final-project/README.md`에 모든 요구사항이 정리되어 있습니다.
+All requirements for the final project are in `assignments/week10-final-project/README.md`.
 
 ```bash
 gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager

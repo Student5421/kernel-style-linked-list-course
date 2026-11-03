@@ -1,27 +1,27 @@
 # Grading
 
-총점: **100점**
+Total: **100 points**
 
-| 평가 항목 | 배점 |
+| Item | Points |
 |---|---:|
-| Student 구조체 및 Dynamic Memory | 10 |
-| `list_head` 및 List 기본 구현 | 10 |
-| Circular Doubly Linked List | 20 |
-| 삽입/삭제 정확성 | 15 |
-| 검색/출력 기능 | 10 |
+| Student struct and dynamic memory | 10 |
+| `list_head` and basic list operations | 10 |
+| Circular doubly linked list | 20 |
+| Correct insert and delete | 15 |
+| Search and print features | 10 |
 | `container_of()` | 15 |
-| 예외 처리 | 5 |
-| Memory Management | 5 |
-| 코드 가독성 및 구조화 | 5 |
-| README 및 설명 | 5 |
-| **합계** | **100** |
+| Error handling | 5 |
+| Memory management | 5 |
+| Code readability and structure | 5 |
+| README and explanations | 5 |
+| **Total** | **100** |
 
-## 주요 감점 예시
+## Common Deductions
 
-- 컴파일되지 않음
-- Student 배열로 전체 데이터를 관리함
-- 별도의 `struct node`를 사용함
-- `list_del()`에서 Student를 직접 `free()`하도록 설계함
-- `malloc()` 후 `free()`를 누락함
-- `container_of()` 대신 별도 mapping table을 사용함
-- Circular List의 `next`/`prev` invariant가 깨짐
+- The program does not compile.
+- All students are stored in an array.
+- A separate `struct node` is used.
+- `list_del()` is designed to `free()` the student itself.
+- A `free()` is missing after `malloc()`.
+- A mapping table is used instead of `container_of()`.
+- The `next`/`prev` invariant of the circular list is broken.

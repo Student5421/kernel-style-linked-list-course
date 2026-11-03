@@ -1,0 +1,19 @@
+# Step 4: a 'run' target and .PHONY.
+#   make -f Makefile.step4 run
+
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c11
+TARGET = hello
+
+all: $(TARGET)
+
+$(TARGET): hello.c
+	$(CC) $(CFLAGS) hello.c -o $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f $(TARGET)
+
+.PHONY: all run clean

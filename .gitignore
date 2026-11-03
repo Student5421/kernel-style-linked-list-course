@@ -1,9 +1,17 @@
 # Build artifacts
 *.o
 student_manager
+*.dSYM/
 *.out
 
 a.out
+
+# Files written by the Week 09 assignment
+students_out.txt
+check.txt
+
+# Slide generator dependencies
+lectures/slides/node_modules/
 
 # Debug / tooling
 *.gch
@@ -13,3 +21,4 @@ a.out
 # OS files
 .DS_Store
 Thumbs.db
+~$*

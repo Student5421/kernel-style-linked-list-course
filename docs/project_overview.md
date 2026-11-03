@@ -1,23 +1,25 @@
 # Project Overview
 
-## 목적
+## Goal
 
-이 프로젝트의 목적은 Linked List API를 단순히 외우는 것이 아니라, C의 핵심 개념이 하나의 자료구조 구현으로 어떻게 연결되는지 이해하는 것입니다.
+The goal of this project is not to memorize a linked list API. It is to understand how the core ideas of C connect inside one data structure.
 
-## 8주 학습 목표
+## 10-Week Learning Goals
 
-| 주차 | 주제 | 핵심 개념 |
+| Week | Topic | Key Concepts |
 |---|---|---|
 | 1 | Struct | `struct`, pointer |
-| 2 | Dynamic Memory | `malloc()`, `free()`, heap |
-| 3 | Singly Linked List | `next`, traversal |
-| 4 | Doubly Linked List | `prev`, bidirectional traversal |
-| 5 | Circular Doubly Linked List | sentinel, circular invariant |
-| 6 | Intrusive Linked List | object 내부의 `list_head` |
-| 7 | `container_of()` | `offsetof()`, pointer arithmetic |
-| 8 | Final Project | 전체 개념 통합 |
+| 2 | Operators & Precedence | precedence, short-circuit, bit flags |
+| 3 | Dynamic Memory | `malloc()`, `free()`, heap |
+| 4 | Singly Linked List | `next`, traversal |
+| 5 | Doubly Linked List | `prev`, bidirectional traversal |
+| 6 | Circular Doubly Linked List | sentinel, circular invariant |
+| 7 | Intrusive Linked List | `list_head` inside the object |
+| 8 | `container_of()` | `offsetof()`, pointer arithmetic |
+| 9 | File I/O | `fopen()`, `fgets()`, saving and loading files |
+| 10 | Final Project | putting it all together |
 
-## 최종 자료구조
+## Final Data Structure
 
 ```c
 struct list_head {
@@ -33,13 +35,13 @@ struct student {
 };
 ```
 
-`struct student`가 자신의 `list_head`를 직접 포함하므로 별도의 `struct node`가 필요하지 않습니다. 이것이 **Intrusive Linked List**의 핵심입니다.
+`struct student` contains its own `list_head`, so no separate `struct node` is needed. This is the key idea of an **intrusive linked list**.
 
-빈 Circular List에서는 다음 불변식이 항상 성립해야 합니다.
+In an empty circular list, this invariant must always hold:
 
 ```text
 head->next == head
 head->prev == head
 ```
 
-따라서 마지막 element의 `next`는 `NULL`이 아니라 `head`를 가리킵니다.
+So the `next` of the last element points to `head`, not to `NULL`.

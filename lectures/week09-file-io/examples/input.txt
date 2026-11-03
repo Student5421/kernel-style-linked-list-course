@@ -1,0 +1,14 @@
+1
+K&R
+1978
+abc
+2
+SICP
+1985
+3
+AVeryLongTitleThatDoesNotFitIntoThirtyTwoBytes
+2001
+4
+Tiny
+3000
+0

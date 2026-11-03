@@ -1,0 +1,6 @@
+ID (0 to quit): Title: Year: OK: [1] K&R (1978)
+ID (0 to quit): Error: Invalid input.
+ID (0 to quit): Title: Year: OK: [2] SICP (1985)
+ID (0 to quit): Title: Year: OK: [3] AVeryLongTitleThatDoesNotFitInt (2001)
+ID (0 to quit): Title: Year: Error: Year must be 1450-2100.
+ID (0 to quit): bye

@@ -1,0 +1,5 @@
+# Step 1: a single rule, everything hard-coded.
+#   make -f Makefile.step1
+
+hello: hello.c
+	gcc -Wall -Wextra -std=c11 hello.c -o hello

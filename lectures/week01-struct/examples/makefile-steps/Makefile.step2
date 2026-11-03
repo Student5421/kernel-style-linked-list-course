@@ -1,0 +1,11 @@
+# Step 2: 'all' is the default goal, 'clean' removes build results.
+#   make -f Makefile.step2
+#   make -f Makefile.step2 clean
+
+all: hello
+
+hello: hello.c
+	gcc -Wall -Wextra -std=c11 hello.c -o hello
+
+clean:
+	rm -f hello

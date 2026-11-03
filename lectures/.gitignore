@@ -1,0 +1,49 @@
+# Executables and generated files produced by the lecture examples
+*.i
+
+# week01
+struct_basics
+pointer_basics
+struct_pointer
+warnings
+hello
+# week02
+pointer_exprs
+arith_logic
+bit_flags
+macro_parens
+precedence_traps
+# week03
+memory_map
+malloc_basics
+book_factory
+dangling_local
+# week04
+sll_manual
+sll_book
+# week05
+dll_book
+# week06
+clist_book
+# week07
+first_member
+intrusive_book
+multi_list
+# week08
+layout
+pointer_arith
+container_of_demo
+list_macros
+# week09
+stdio_streams
+count_chars
+library_io
+input_demo
+actual.txt
+saved.txt
+saved2.txt
+out.txt
+err.txt
+# week10
+stats_demo
+broken

@@ -4,8 +4,8 @@ TARGET = week01
 
 all: $(TARGET)
 
-$(TARGET): main.c
-	$(CC) $(CFLAGS) main.c -o $(TARGET)
+$(TARGET): assignment_01.c
+	$(CC) $(CFLAGS) assignment_01.c -o $(TARGET)
 
 clean:
 	rm -f $(TARGET)

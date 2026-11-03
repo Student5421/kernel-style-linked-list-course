@@ -1,0 +1,11 @@
+{
+  "name": "kernel-style-linked-list-slides",
+  "private": true,
+  "description": "Builds the lecture slide decks: lectures/weekNN-*/weekNN-slides.pptx",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "3.12.0"
+  }
+}
