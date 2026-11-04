@@ -1,5 +1,5 @@
 /*
- * Week 09 demo: reading numbers and words safely with scanf().
+ * Week 07 demo: reading numbers and words safely with scanf().
  *
  *   ./input_demo               type the input by hand
  *   ./input_demo < input.txt   feed a prepared test file (make test)

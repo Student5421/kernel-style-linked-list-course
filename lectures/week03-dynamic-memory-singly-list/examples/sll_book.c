@@ -1,5 +1,5 @@
 /*
- * Week 04 demo: a singly linked list of books on the heap.
+ * Week 03 demo: a singly linked list of books on the heap.
  *
  * Shown in class: create, push_front, push_back, print, count, free.
  * Left for the lab: search and delete.

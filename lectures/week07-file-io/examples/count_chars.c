@@ -1,5 +1,5 @@
 /*
- * Week 09 demo: reading a file one character at a time.
+ * Week 07 demo: reading a file one character at a time.
  *
  *   ./count_chars books.txt
  *   ./count_chars missing.txt ; echo $?

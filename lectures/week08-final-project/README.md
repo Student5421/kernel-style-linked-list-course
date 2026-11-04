@@ -1,23 +1,11 @@
-# Week 10 — Multi-file Programs and the Final Project
+# Week 08 — Multi-file Programs and the Final Project
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + project lab) |
-| **Assignment** | [Week 10 — Final Project: Student Management System](../../assignments/week10-final-project/) |
+| **Session** | Lecture + live coding + project lab |
+| **Assignment** | [Week 08 — Final Project: Student Management System](../../assignments/week08-final-project/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous** | [Week 09](../week09-file-io/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review: the whole course in one struct | Discussion |
-| 0:10 – 0:45 | Part 1 — Programs made of several `.c` files | Lecture + live demo |
-| 0:45 – 1:15 | Part 2 — The final project's Makefile, line by line | Lecture + live demo |
-| 1:15 – 1:25 | Break | |
-| 1:25 – 1:40 | Part 3 — Project architecture and test plan | Lecture |
-| 1:40 – 2:50 | Lab — Project kickoff (milestones M0–M4) | Hands-on |
-| 2:50 – 3:00 | Wrap-up: submission checklist | Discussion |
+| **Previous** | [Week 07](../week07-file-io/) |
 
 ## Learning Objectives
 
@@ -28,15 +16,15 @@ By the end of this session you can:
 3. Tell a compile error from a link error, and fix both.
 4. Read every line of the final project's Makefile: `$(SRCS:.c=.o)`, `%.o: %.c`, `$@`, `$^`, `$<`.
 5. Explain why editing a header does not trigger a rebuild with the starter Makefile, and fix it.
-6. Apply Week 09's robust input handling and file-based testing to the project.
+6. Apply Week 07's robust input handling and file-based testing to the project.
 7. Lay out the final project in three layers with clear responsibilities.
 
 ---
 
-## 0. Review: the Whole Course in One Struct (10 min)
+## 0. Review: the Whole Course in One Struct
 
 ```c
-struct list_head {              /* Weeks 05–06: next + prev, circular, with a sentinel */
+struct list_head {              /* Week 04: next + prev, circular, with a sentinel */
     struct list_head *next;
     struct list_head *prev;
 };
@@ -45,17 +33,17 @@ struct student {                /* Week 01: a struct.  Week 03: created with mal
     int id;
     char name[20];              /* at most 19 characters + '\0'                          */
     int score;
-    struct list_head list;      /* Week 07: the links live inside the object             */
+    struct list_head list;      /* Week 05: the links live inside the object             */
 };
 
-struct student *s = container_of(pos, struct student, list);   /* Week 08 */
+struct student *s = container_of(pos, struct student, list);   /* Week 06 */
 ```
 
 Ask the class: for each line, which week explained it, and what bug does it prevent?
 
 ---
 
-## 1. Programs Made of Several `.c` Files (35 min)
+## 1. Programs Made of Several `.c` Files
 
 ### 1.1 Why split a program?
 
@@ -147,7 +135,7 @@ gcc -Wall -Wextra -std=c11 -o student_manager main.o list.o student.o
 **Live demo:** link the multi-file example **without** `stats.c`:
 
 ```bash
-cd lectures/week10-final-project/examples
+cd lectures/week08-final-project/examples
 gcc -Wall -Wextra -std=c11 main.c -o broken
 ```
 
@@ -177,9 +165,9 @@ Mark every helper that is not part of a header's interface as `static`. Then it 
 
 ---
 
-## 2. The Final Project's Makefile, Line by Line (30 min)
+## 2. The Final Project's Makefile, Line by Line
 
-[`assignments/week10-final-project/starter/Makefile`](../../assignments/week10-final-project/starter/Makefile), unchanged:
+[`assignments/week08-final-project/starter/Makefile`](../../assignments/week08-final-project/starter/Makefile), unchanged:
 
 ```make
 CC = gcc
@@ -227,7 +215,7 @@ clean:
 **Live demo** — [`examples/`](examples/) has the same Makefile shape with `main.c`, `stats.c`, and `stats.h`:
 
 ```bash
-cd lectures/week10-final-project/examples
+cd lectures/week08-final-project/examples
 make
 ```
 
@@ -308,7 +296,7 @@ list.o: list.h
 
 ---
 
-## 3. Project Architecture and Test Plan (15 min)
+## 3. Project Architecture and Test Plan
 
 ### 3.1 Three layers
 
@@ -326,7 +314,7 @@ Each layer calls only the layer directly below it. If `list.c` ever mentions `st
 
 ### 3.2 Responsibilities
 
-These come from the [project specification](../../assignments/week10-final-project/README.md):
+These come from the [project specification](../../assignments/week08-final-project/README.md):
 
 | Function | Does | Does **not** |
 |---|---|---|
@@ -339,7 +327,7 @@ These come from the [project specification](../../assignments/week10-final-proje
 | `student_free_all(head)` | Safe traversal: unlink and free every student | leave `head` dangling: it must end as an empty ring |
 
 - `head` is a **local variable in `main()`**. The spec forbids global storage.
-- `list_add()` inserts at the **front**, so a forward print shows the newest student first. If you prefer insertion order, add a `list_add_tail()` to `list.c` (Week 07), since the starter's function set is a recommended design, not a limit.
+- `list_add()` inserts at the **front**, so a forward print shows the newest student first. If you prefer insertion order, add a `list_add_tail()` to `list.c` (Week 05), since the starter's function set is a recommended design, not a limit.
 
 ### 3.3 The "Add Student" flow
 
@@ -363,12 +351,12 @@ Check for a duplicate **before** asking for the name and score, so the user is n
 
 ### 3.4 Input handling and testing
 
-Apply Week 09 directly:
+Apply Week 07 directly:
 
-- Check every `scanf()` return value **before** using the variable, and discard the rest of a bad line ([Week 09, §2.5](../week09-file-io/README.md#25-robust-keyboard-input-with-scanf)).
+- Check every `scanf()` return value **before** using the variable, and discard the rest of a bad line ([Week 07, §2.5](../week07-file-io/README.md#25-robust-keyboard-input-with-scanf)).
 - Read the name with `"%19s"` for `char name[20]`.
 - Handle `EOF` in the menu and in the middle of "Add": free everything and exit normally.
-- Replay tests with `./student_manager < test1.txt`, and compare with `diff` ([Week 09, §2.6](../week09-file-io/README.md#26-testing-with-files)).
+- Replay tests with `./student_manager < test1.txt`, and compare with `diff` ([Week 07, §2.6](../week07-file-io/README.md#26-testing-with-files)).
 
 For the final project, each test file is the sequence of keys you would press. For example, assuming the duplicate check comes right after the ID (§3.3), this adds a student, tries a duplicate, prints, and exits:
 
@@ -398,29 +386,29 @@ Check for leaks by reasoning, as in Week 03: every `student_create()` must be ma
 
 ---
 
-## 4. Lab — Project Kickoff (70 min)
+## 4. Lab — Project Kickoff
 
-Task: [assignments/week10-final-project/README.md](../../assignments/week10-final-project/README.md). Read the whole specification first (5 min).
+Task: [assignments/week08-final-project/README.md](../../assignments/week08-final-project/README.md). Read the whole specification first.
 
-| Milestone | Time | Goal | Done when |
-|---|---|---|---|
-| **M0** | 5 min | Copy `starter/` into your submission directory (`<student_id>_<name>/`). Run `make` and `./student_manager`, then choose 7. | The untouched starter builds with zero warnings and exits cleanly. |
-| **M1** | 10 min | `list.c`: `list_init()`, `list_add()`, `list_del()` (from Week 08, Lab C). | A temporary test adds two `list_head`s and checks `head.next`/`head.prev`. |
-| **M2** | 15 min | `student_create()`, `student_print()`, `student_print_all()`, `student_count()`. | Menu 4 and 6 work on students added by temporary code in `main()`. |
-| **M3** | 20 min | Menu 1 (Add): input validation, `student_find()` duplicate check. | Adding, duplicates, and bad input behave as the spec says. |
-| **M4** | 15 min | Menu 2, 3, 5: `student_delete()`, search, `student_print_reverse()`. | The test cases in §3.4 pass. |
-| M5 | at home | `student_free_all()` with a safe traversal. Handle EOF and invalid input everywhere. | Exit leaves `head` as an empty ring, and no input crashes the program. |
-| M6 | at home | Header dependencies in the Makefile, test input files, and the README. | Everything in the final checklist is ticked. |
+| Milestone | Goal | Done when |
+|---|---|---|
+| **M0** | Copy `starter/` into your submission directory (`<student_id>_<name>/`). Run `make` and `./student_manager`, then choose 7. | The untouched starter builds with zero warnings and exits cleanly. |
+| **M1** | `list.c`: `list_init()`, `list_add()`, `list_del()` (from Week 06, Lab C). | A temporary test adds two `list_head`s and checks `head.next`/`head.prev`. |
+| **M2** | `student_create()`, `student_print()`, `student_print_all()`, `student_count()`. | Menu 4 and 6 work on students added by temporary code in `main()`. |
+| **M3** | Menu 1 (Add): input validation, `student_find()` duplicate check. | Adding, duplicates, and bad input behave as the spec says. |
+| **M4** | Menu 2, 3, 5: `student_delete()`, search, `student_print_reverse()`. | The test cases in §3.4 pass. |
+| M5 (at home) | `student_free_all()` with a safe traversal. Handle EOF and invalid input everywhere. | Exit leaves `head` as an empty ring, and no input crashes the program. |
+| M6 (at home) | Header dependencies in the Makefile, test input files, and the README. | Everything in the final checklist is ticked. |
 
 Rebuild after **every** function. Never write more than about 20 lines without compiling.
 
 ---
 
-## 5. Wrap-up (10 min)
+## 5. Wrap-up
 
 ### Submission checklist
 
-From [docs/submission.md](../../docs/submission.md) and the [final checklist](../../assignments/week10-final-project/README.md#12-final-checklist):
+From [docs/submission.md](../../docs/submission.md) and the [final checklist](../../assignments/week08-final-project/README.md#12-final-checklist):
 
 - [ ] `main.c`, `list.h`, `list.c`, `student.h`, `student.c`, `Makefile`, `README.md`. No executable, no `.o` files (`make clean`).
 - [ ] Builds with `gcc -Wall -Wextra -std=c11` and **zero warnings**.

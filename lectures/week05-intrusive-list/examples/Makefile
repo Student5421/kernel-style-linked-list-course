@@ -1,4 +1,4 @@
-# Week 07 lecture examples
+# Week 05 lecture examples
 #   make          build every example
 #   make clean    remove the executables
 

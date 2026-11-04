@@ -1,5 +1,5 @@
 /*
- * Week 08 demo: kernel-style iteration macros built on container_of().
+ * Week 06 demo: list iteration macros built on container_of().
  */
 #include <stddef.h>
 #include <stdio.h>

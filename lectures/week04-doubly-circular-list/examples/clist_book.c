@@ -1,5 +1,5 @@
 /*
- * Week 06 demo: a circular doubly linked list with a sentinel head.
+ * Week 04 demo: a circular doubly linked list with a sentinel head.
  *
  * Shown in class: init, insert_between, insert_front, insert_back,
  *                 forward print, an assert-based checker, free.

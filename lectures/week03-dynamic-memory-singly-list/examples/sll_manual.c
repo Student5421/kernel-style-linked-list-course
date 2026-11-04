@@ -1,5 +1,5 @@
 /*
- * Week 04 demo: three nodes linked by hand, then traversed.
+ * Week 03 demo: three nodes linked by hand, then traversed.
  * No malloc() yet, so we can focus on the links.
  */
 #include <stdio.h>

@@ -1,5 +1,5 @@
 /*
- * Week 08 demo: sizeof, offsetof, alignment, and padding.
+ * Week 06 demo: sizeof, offsetof, alignment, and padding.
  */
 #include <stddef.h>
 #include <stdio.h>

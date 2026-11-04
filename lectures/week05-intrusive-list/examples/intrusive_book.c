@@ -1,5 +1,5 @@
 /*
- * Week 07 demo: an intrusive circular doubly linked list.
+ * Week 05 demo: an intrusive circular doubly linked list.
  *
  * The list code knows only struct list_head. Each book embeds one.
  */
@@ -53,7 +53,7 @@ struct book {
     struct list_head list;     /* the links live INSIDE the book */
 };
 
-/* Explained in Week 08: get the book that contains this list_head. */
+/* Explained in Week 06: get the book that contains this list_head. */
 static struct book *book_from_list(struct list_head *pos)
 {
     return (struct book *)((char *)pos - offsetof(struct book, list));

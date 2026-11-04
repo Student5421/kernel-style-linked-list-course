@@ -4,20 +4,18 @@
 
 The goal of this project is not to memorize a linked list API. It is to understand how the core ideas of C connect inside one data structure.
 
-## 10-Week Learning Goals
+## 8-Week Learning Goals
 
 | Week | Topic | Key Concepts |
 |---|---|---|
 | 1 | Struct | `struct`, pointer |
 | 2 | Operators & Precedence | precedence, short-circuit, bit flags |
-| 3 | Dynamic Memory | `malloc()`, `free()`, heap |
-| 4 | Singly Linked List | `next`, traversal |
-| 5 | Doubly Linked List | `prev`, bidirectional traversal |
-| 6 | Circular Doubly Linked List | sentinel, circular invariant |
-| 7 | Intrusive Linked List | `list_head` inside the object |
-| 8 | `container_of()` | `offsetof()`, pointer arithmetic |
-| 9 | File I/O | `fopen()`, `fgets()`, saving and loading files |
-| 10 | Final Project | putting it all together |
+| 3 | Dynamic Memory and Singly Linked List | `malloc()`, `free()`, heap, `next`, traversal |
+| 4 | Doubly Linked and Circular Lists | `prev`, bidirectional traversal, sentinel, circular invariant |
+| 5 | Intrusive Linked List | `list_head` inside the object |
+| 6 | `container_of()` | `offsetof()`, pointer arithmetic |
+| 7 | File I/O | `fopen()`, `fgets()`, saving and loading files |
+| 8 | Final Project | putting it all together |
 
 ## Final Data Structure
 

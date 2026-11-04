@@ -1,5 +1,5 @@
 /*
- * Week 07 demo: one object in two lists at the same time.
+ * Week 05 demo: one object in two lists at the same time.
  *
  * Every book is in 'all'. Borrowed books are also in 'borrowed'.
  * Returning a book removes it from 'borrowed' only.
@@ -55,7 +55,7 @@ struct book {
     struct list_head borrowed;   /* link in the list of borrowed books */
 };
 
-/* Two almost identical helpers: Week 08 replaces both with one macro. */
+/* Two almost identical helpers: Week 06 replaces both with one macro. */
 static struct book *book_from_all(struct list_head *pos)
 {
     return (struct book *)((char *)pos - offsetof(struct book, all));

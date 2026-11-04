@@ -7,7 +7,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
 
-PROGRAMS = memory_map malloc_basics book_factory
+PROGRAMS = memory_map malloc_basics book_factory sll_manual sll_book
 
 all: $(PROGRAMS)
 
@@ -19,6 +19,12 @@ malloc_basics: malloc_basics.c
 
 book_factory: book_factory.c
 	$(CC) $(CFLAGS) book_factory.c -o book_factory
+
+sll_manual: sll_manual.c
+	$(CC) $(CFLAGS) sll_manual.c -o sll_manual
+
+sll_book: sll_book.c
+	$(CC) $(CFLAGS) sll_book.c -o sll_book
 
 clean:
 	rm -rf $(PROGRAMS) dangling_local *.dSYM

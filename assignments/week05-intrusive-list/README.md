@@ -1,4 +1,4 @@
-# Week 07 — Intrusive Linked List
+# Week 05 — Intrusive Linked List
 
 ## Learning Objectives
 
@@ -8,7 +8,7 @@
 
 ## Assignment
 
-In `starter/assignment_07.c`, use these structures:
+In `starter/assignment_05.c`, use these structures:
 
 ```c
 struct list_head {
@@ -37,8 +37,8 @@ Do not create a separate `struct node`. Use `student.list` as the list node.
 
 ```bash
 cd starter
-gcc -Wall -Wextra -std=c11 assignment_07.c -o week07
-./week07
+gcc -Wall -Wextra -std=c11 assignment_05.c -o week05
+./week05
 ```
 
 ## Checklist
@@ -54,6 +54,6 @@ gcc -Wall -Wextra -std=c11 assignment_07.c -o week07
 ```bash
 cd starter
 make
-./week07
+./week05
 make clean
 ```

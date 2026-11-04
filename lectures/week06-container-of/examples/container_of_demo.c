@@ -1,5 +1,5 @@
 /*
- * Week 08 demo: deriving container_of() step by step.
+ * Week 06 demo: deriving container_of() step by step.
  *
  * See the macro expanded:  make container_of_demo.i
  */

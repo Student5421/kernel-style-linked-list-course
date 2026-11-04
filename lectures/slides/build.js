@@ -27,7 +27,7 @@ const REPO = path.resolve(LECTURES, '..');
 /* ------------------------------------------------------------------ */
 
 const THEME = {
-    name: 'Kernel List',
+    name: 'Linked Lists',
     headFontFace: 'Arial',
     bodyFontFace: 'Calibri',
     colors: {
@@ -861,36 +861,6 @@ const KINDS = {
         slide.addText(fixColors(md(s.sub || ' ', { fontSize: 20, color: 'C9D1D9' }, true)), { placeholder: 'body' });
         if (s.notes) slide.addNotes(s.notes);
     },
-    agenda(deck, s) {
-        const slide = contentSlide(deck, { title: s.title || 'Today\'s session', notes: s.notes });
-        const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
-        const segs = s.plan.map(([a, b, label, kind, short]) => ({ a: toMin(a), b: toMin(b), sa: a, sb: b, label, kind, short }));
-        const total = segs[segs.length - 1].b;
-        const by = Y0 + 0.35;
-        const bh = 0.9;
-        const fill = { lecture: S('text1'), review: S('text2'), break: S('bg2'), lab: S('accent2'), wrap: S('accent1') };
-        const color = { lecture: S('bg1'), review: S('bg1'), break: S('text1'), lab: S('bg1'), wrap: S('text1') };
-        for (const g of segs) {
-            const x = X0 + CW * g.a / total;
-            const w = CW * (g.b - g.a) / total;
-            slide.addText(g.short || plain(g.label), {
-                shape: PRES.ShapeType.rect, x, y: by, w, h: bh, fill: { color: fill[g.kind] }, color: color[g.kind],
-                line: { color: 'FFFFFF', width: 1.5 }, fontSize: w < 0.9 ? 11 : 14, bold: true, align: 'center', valign: 'middle', margin: 2,
-                objectName: `segment ${g.sa}`,
-            });
-            text(slide, g.sa, { x: x - 0.3, y: by - 0.32, w: 0.6, h: 0.26, fontSize: 11, color: S('text2'), align: 'center' });
-        }
-        text(slide, segs[segs.length - 1].sb, { x: XR - 0.3, y: by - 0.32, w: 0.6, h: 0.26, fontSize: 11, color: S('text2'), align: 'center' });
-        const rows = segs.filter(g => g.kind !== 'break');
-        const ly = by + bh + 0.45;
-        const rh = Math.min(0.48, (YB - ly) / rows.length);
-        rows.forEach((g, i) => {
-            const y = ly + i * rh;
-            slide.addShape(PRES.ShapeType.ellipse, { x: X0, y: y + rh / 2 - 0.09, w: 0.18, h: 0.18, fill: { color: fill[g.kind] }, line: { color: HEX.dk2, width: 0.5 } });
-            text(slide, `${g.sa} – ${g.sb}`, { x: X0 + 0.35, y, w: 1.6, h: rh, fontSize: 16, color: S('text2'), valign: 'middle', fontFace: CODE_FONT });
-            text(slide, g.label, { x: X0 + 2.05, y, w: CW - 2.05, h: rh, fontSize: 17, color: S('text1'), valign: 'middle' });
-        });
-    },
     objectives(deck, s) {
         const slide = contentSlide(deck, { title: s.title || 'By the end of this session you can', notes: s.notes });
         block(slide, deck, { steps: s.items, cols: s.items.length > 5 ? 2 : 1, size: s.size || (s.items.length > 5 ? 17 : 20), rowH: s.rowH || (s.items.length > 5 ? 1.25 : 0.95) }, { x: X0, y: Y0 + 0.1, w: CW, h: CH - 0.1 });
@@ -1007,7 +977,7 @@ const KINDS = {
 /* ------------------------------------------------------------------ */
 
 function defineLayouts(deck) {
-    const footer = `C Programming — Kernel-style Linked List   ·   Week ${String(deck.week).padStart(2, '0')}: ${plain(deck.short || deck.title)}`;
+    const footer = `C Programming — Linked Lists   ·   Week ${String(deck.week).padStart(2, '0')}: ${plain(deck.short || deck.title)}`;
     PRES.defineSlideMaster({
         title: 'TITLE',
         background: { color: DARK_BG },
@@ -1015,7 +985,7 @@ function defineLayouts(deck) {
             { placeholder: { options: { name: 'week', type: 'body', x: X0 + 0.2, y: 1.6, w: 6.5, h: 0.5, fontSize: 20, bold: true, color: S('accent1'), charSpacing: 4, margin: 0, valign: 'middle' }, text: 'WEEK' } },
             { placeholder: { options: { name: 'title', type: 'title', x: X0 + 0.2, y: 2.2, w: 6.6, h: 2.3, fontSize: 44, bold: true, color: S('bg1'), margin: 0, valign: 'top', align: 'left' }, text: 'Title' } },
             { placeholder: { options: { name: 'body', type: 'body', x: X0 + 0.2, y: 4.6, w: 6.6, h: 1.3, fontSize: 20, color: 'C9D1D9', margin: 0, valign: 'top' }, text: 'Subtitle' } },
-            { text: { text: 'C Programming — Kernel-style Linked List', options: { x: X0 + 0.2, y: 6.6, w: 8, h: 0.35, fontSize: 14, color: '8B949E', margin: 0 } } },
+            { text: { text: 'C Programming — Linked Lists', options: { x: X0 + 0.2, y: 6.6, w: 8, h: 0.35, fontSize: 14, color: '8B949E', margin: 0 } } },
         ],
     });
     PRES.defineSlideMaster({
@@ -1074,8 +1044,8 @@ async function buildDeck(id) {
     PRES.layout = 'LAYOUT_WIDE';
     PRES.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
     PRES.title = `Week ${String(deck.week).padStart(2, '0')} — ${plain(deck.title)}`;
-    PRES.subject = 'C Programming — Kernel-style Linked List';
-    PRES.author = 'C Programming — Kernel-style Linked List';
+    PRES.subject = 'C Programming — Linked Lists';
+    PRES.author = 'C Programming — Linked Lists';
     defineLayouts(deck);
     warnings = [];
     let n = 0;

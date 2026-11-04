@@ -1,10 +1,10 @@
-# Week 10 — Final Project: Student Management System
+# Week 08 — Final Project: Student Management System
 
 ## 1. Project Goal
 
 Combine everything from the earlier weeks — `struct`, pointers, dynamic memory, linked lists, circular lists, intrusive lists, `offsetof()`, and `container_of()` — into one program.
 
-The final result is a **Student Management System** that uses a **kernel-style linked list**.
+The final result is a **Student Management System** that uses an **intrusive circular doubly linked list**.
 
 ---
 
@@ -263,20 +263,6 @@ gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager
 make
 ./student_manager
 make clean
-```
-
-If you can, we also suggest treating warnings as errors:
-
-```bash
-gcc -Wall -Wextra -Werror -std=c11 main.c list.c student.c -o student_manager
-```
-
-### Valgrind
-
-If Valgrind is available on your system:
-
-```bash
-valgrind --leak-check=full ./student_manager
 ```
 
 ---

@@ -1,5 +1,5 @@
 {
-  "name": "kernel-style-linked-list-slides",
+  "name": "linked-list-course-slides",
   "private": true,
   "description": "Builds the lecture slide decks: lectures/weekNN-*/weekNN-slides.pptx",
   "scripts": {

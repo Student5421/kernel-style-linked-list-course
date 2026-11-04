@@ -22,7 +22,7 @@ Each `content/weekNN.js` exports the deck's metadata and a list of slides. A sli
 | Kind | Use |
 |---|---|
 | `title`, `section`, `next` | dark title slide, part divider, next-week slide |
-| `agenda`, `objectives`, `review` | session plan timeline, learning objectives, warm-up questions |
+| `objectives`, `review` | learning objectives, warm-up questions |
 | `content`, `demo`, `exercise`, `answer` | one or two blocks side by side (`layout: 'lr'`) or stacked (`layout: 'tb'`) |
 | `compare` | two labeled columns, e.g. WRONG vs RIGHT |
 | `takeaways`, `quiz`, `answers` | wrap-up |
@@ -32,7 +32,7 @@ A block is code (`code`, `make`, `sh`, `out`, `term`), `bullets`, `table`, `card
 ```js
 { code: { file: 'examples/sll_book.c', fn: 'push_front', comment: true } }
 { code: { file: 'examples/sll_book.c', struct: 'node' } }
-{ make: { file: '/assignments/week10-final-project/starter/Makefile', lines: [1, 18] } }
+{ make: { file: '/assignments/week08-final-project/starter/Makefile', lines: [1, 18] } }
 ```
 
 See [`content/week01.js`](content/week01.js) for a complete deck.

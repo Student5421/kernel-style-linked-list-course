@@ -1,5 +1,5 @@
 /*
- * Week 10 demo: a program split into main.c, stats.c, and stats.h.
+ * Week 08 demo: a program split into main.c, stats.c, and stats.h.
  *
  *   make            compile each .c into a .o, then link
  *   make run        ./stats_demo < numbers.txt

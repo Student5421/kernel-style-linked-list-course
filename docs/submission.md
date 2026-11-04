@@ -40,12 +40,8 @@ We suggest this structure for your final project submission:
 ## Check Before You Submit
 
 ```bash
-gcc -Wall -Wextra -Werror -std=c11 main.c list.c student.c -o student_manager
+gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager
 ./student_manager
 ```
 
-If you can, also check for memory leaks:
-
-```bash
-valgrind --leak-check=full ./student_manager
-```
+The build must show no warnings.

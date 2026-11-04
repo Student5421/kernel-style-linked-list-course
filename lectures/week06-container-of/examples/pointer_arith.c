@@ -1,5 +1,5 @@
 /*
- * Week 08 demo: adding 1 to a pointer moves it by the size of the type it points to.
+ * Week 06 demo: adding 1 to a pointer moves it by the size of the type it points to.
  */
 #include <stdio.h>
 

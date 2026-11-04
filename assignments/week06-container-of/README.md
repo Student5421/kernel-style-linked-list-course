@@ -1,4 +1,4 @@
-# Week 08 — `container_of()`
+# Week 06 — `container_of()`
 
 ## Learning Objectives
 
@@ -8,7 +8,7 @@
 
 ## Assignment
 
-Understand and use this macro from `starter/assignment_08.c`:
+Understand and use this macro from `starter/assignment_06.c`:
 
 ```c
 #define container_of(ptr, type, member) \
@@ -38,8 +38,8 @@ student
 
 ```bash
 cd starter
-gcc -Wall -Wextra -std=c11 assignment_08.c -o week08
-./week08
+gcc -Wall -Wextra -std=c11 assignment_06.c -o week06
+./week06
 ```
 
 ## Checklist
@@ -54,6 +54,6 @@ gcc -Wall -Wextra -std=c11 assignment_08.c -o week08
 ```bash
 cd starter
 make
-./week08
+./week06
 make clean
 ```

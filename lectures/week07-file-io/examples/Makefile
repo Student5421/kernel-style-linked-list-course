@@ -1,4 +1,4 @@
-# Week 09 lecture examples
+# Week 07 lecture examples
 #   make          build every example
 #   make test     run the file-based tests (input redirection + diff)
 #   make clean    remove the executables and generated files

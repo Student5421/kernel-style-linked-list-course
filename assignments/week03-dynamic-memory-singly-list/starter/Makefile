@@ -1,11 +1,14 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
-TARGET = week03
+TARGETS = week03a week03b
 
-all: $(TARGET)
+all: $(TARGETS)
 
-$(TARGET): assignment_03.c
-	$(CC) $(CFLAGS) assignment_03.c -o $(TARGET)
+week03a: assignment_03a.c
+	$(CC) $(CFLAGS) assignment_03a.c -o week03a
+
+week03b: assignment_03b.c
+	$(CC) $(CFLAGS) assignment_03b.c -o week03b
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGETS)

@@ -1,4 +1,4 @@
-# Week 10 Starter
+# Week 08 Starter
 
 This directory has the starter code for the final project.
 

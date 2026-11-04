@@ -1,4 +1,4 @@
-# Step 3: variables. Same shape as the Week 01-09 starter Makefiles.
+# Step 3: variables. Same shape as the one-program starter Makefiles (Weeks 01, 02, 05-07).
 #   make -f Makefile.step3
 
 CC = gcc

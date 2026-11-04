@@ -1,7 +1,7 @@
-// Week 08 — offsetof() and container_of()
+// Week 06 — offsetof() and container_of()
 module.exports = {
-    week: 8,
-    dirName: 'week08-container-of',
+    week: 6,
+    dirName: 'week06-container-of',
     title: '`offsetof()` and `container_of()`',
     short: 'offsetof() and container_of()',
     subtitle: 'Struct layout, pointer arithmetic, and getting the object back from its links',
@@ -12,16 +12,8 @@ module.exports = {
                 `b = container_of(ptr, struct book,
                  borrowed);`,
             ],
-            notes: 'Today we open last week\'s black box. By the end, every token of this macro is explained, and you can read the Linux kernel\'s list.h.' },
+            notes: 'Today we open last week\'s black box. By the end, every token of this macro is explained.' },
 
-        { kind: 'agenda', plan: [
-            ['0:00', '0:10', 'Review of Week 07', 'review', 'Review'],
-            ['0:10', '0:55', 'Part 1 — Struct layout, `offsetof()`, and pointer arithmetic', 'lecture', 'Layout'],
-            ['0:55', '1:05', 'Break', 'break', 'Break'],
-            ['1:05', '1:50', 'Part 2 — Deriving `container_of()`; kernel-style iteration macros', 'lecture', 'container_of'],
-            ['1:50', '2:50', 'Lab — Week 08 assignment + port Week 07 to `container_of()`', 'lab', 'Lab'],
-            ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
-        ] },
 
         { kind: 'objectives', items: [
             'Predict member offsets and `sizeof` of a struct, including padding, and confirm them with `offsetof()`',
@@ -29,26 +21,25 @@ module.exports = {
             'Derive `container_of()` from first principles and explain every token of the macro',
             'Explain why `container_of()` must be a macro, and why each parameter is parenthesized',
             'Use and write `list_entry()`, `list_for_each()`, and `list_for_each_safe()`',
-            'Read the corresponding parts of the Linux kernel\'s `include/linux/list.h`',
         ] },
 
-        { kind: 'review', title: 'Review of Week 07', questions: [
+        { kind: 'review', title: 'Review of Week 05', questions: [
             'In an intrusive list, what does `pos->next` point to: the next object, or something inside it?',
             'Why can\'t the assignment\'s `struct student` use a first-member cast?',
             'Why is `free(pos)` wrong inside a traversal?',
         ], today: 'Today we open last week\'s black box: **what is `offsetof`, why `char *`, and how do we write it once for every type and member?**' },
 
         { kind: 'content', title: 'Last week\'s black box', layout: 'tb', ratio: 0.45,
-            a: { code: { file: '/lectures/week07-intrusive-list/examples/intrusive_book.c', fn: 'book_from_list', comment: true }, label: 'intrusive_book.c (Week 07)' },
+            a: { code: { file: '/lectures/week05-intrusive-list/examples/intrusive_book.c', fn: 'book_from_list', comment: true }, label: 'intrusive_book.c (Week 05)' },
             b: { bullets: [
                 'What is `offsetof`, and where does the number 40 come from?',
                 'Why the cast to `char *` before subtracting?',
                 'How do we write this **once** for every type and every member?',
             ] },
-            notes: 'Week 07 used this helper as a black box. Today we answer the three questions on the slide, then replace every helper like it with one macro.' },
+            notes: 'Week 05 used this helper as a black box. Today we answer the three questions on the slide, then replace every helper like it with one macro.' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — Layout', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Struct layout, `offsetof()`, and pointer arithmetic', sub: 'Offsets, alignment and padding, scaled pointer arithmetic' },
+        { newSection: 'Part 1 — Layout', kind: 'section', num: 1, label: 'PART 1', title: 'Struct layout, `offsetof()`, and pointer arithmetic', sub: 'Offsets, alignment and padding, scaled pointer arithmetic' },
 
         { kind: 'demo', title: 'Live demo: layout.c', ratio: 0.42,
             a: { code: { file: 'examples/layout.c', struct: 'book' } },
@@ -98,11 +89,11 @@ struct reordered {   /* sizeof == 8 */
             a: { cards: [
                 { n: 1, h: 'Own alignment', body: 'Each member starts at a multiple of its own alignment.' },
                 { n: 2, h: 'Whole struct', body: 'The total size is a multiple of the largest member alignment, so arrays of the struct stay aligned.' },
-                { n: 3, h: 'Never first', body: 'There is **never** padding before the first member (Week 07, §2.2).' },
+                { n: 3, h: 'Never first', body: 'There is **never** padding before the first member (Week 05, §2.2).' },
             ] } },
 
         { kind: 'exercise', minutes: 3, title: 'Predict the offsets', ratio: 0.5,
-            a: { code: { file: '/assignments/week10-final-project/starter/student.h', struct: 'student' }, label: 'student.h' },
+            a: { code: { file: '/assignments/week08-final-project/starter/student.h', struct: 'student' }, label: 'student.h' },
             b: { bullets: [
                 'On a 64-bit machine, where does each member start?',
                 'What is `sizeof(struct student)`?',
@@ -139,8 +130,8 @@ printf("%zu\\n", offsetof(struct student, list));
 ip + 1 = 0x16b38255c   (+4 bytes: sizeof(int))
 cp + 1 = 0x16b382559   (+1 byte: sizeof(char) is always 1)
 (char *)(lp + 1) = 0x16b382548   (+16 bytes)
-(char *)lp + 1   = 0x16b382539   (+1 byte)
-&numbers[2] - &numbers[0]   = 2 elements`, label: './pointer_arith (excerpt)' },
+(char *)lp + 1   = 0x16b382539   (+1 byte: parentheses matter!)
+&numbers[2] - &numbers[0]                 = 2 elements`, label: './pointer_arith (excerpt)' },
             notes: 'Run pointer_arith.c. Point at the two lp lines: the same +1 means 16 bytes or 1 byte depending on the pointer type. The full output also shows *(ip + 2) == ip[2] and the byte difference of 8 between numbers[2] and numbers[0].' },
 
         { kind: 'concept', title: 'Byte arithmetic with `char *`', ratio: 0.5,
@@ -153,16 +144,16 @@ cp + 1 = 0x16b382559   (+1 byte: sizeof(char) is always 1)
             notes: 'offsetof() gives a number of bytes, so the subtraction must happen on a char *. This is step 1 of container_of().' },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — container_of', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'Deriving `container_of()`', sub: 'From first principles to one macro, then the kernel\'s iteration macros' },
+        { newSection: 'Part 2 — container_of', kind: 'section', num: 2, label: 'PART 2', title: 'Deriving `container_of()`', sub: 'From first principles to one macro, then the list iteration macros' },
 
         { kind: 'concept', title: '`container_of()`', layout: 'tb', ratio: 0.5,
             what: '`container_of(ptr, type, member)` takes a pointer to a member embedded in a struct and returns a pointer to the whole struct. It steps back from the member by the member\'s offset, counted in bytes.',
-            why: 'An intrusive list hands you `struct list_head *` pointers, but you need the book or student around them. Week 07 wrote one helper per (type, member) pair, which does not scale; one macro replaces them all.',
+            why: 'An intrusive list hands you `struct list_head *` pointers, but you need the book or student around them. Week 05 wrote one helper per (type, member) pair, which does not scale; one macro replaces them all.',
             how: { code: [
                 { file: 'examples/container_of_demo.c', macro: 'container_of' },
                 `struct book *b = container_of(ptr, struct book, borrowed);`,
             ] },
-            notes: 'This is the macro in the Week 08 starter and in the final project\'s list.h. The next slides derive it from first principles: a picture, three steps, the same steps by hand, and a demo.' },
+            notes: 'This is the macro in the Week 06 starter and in the final project\'s list.h. The next slides derive it from first principles: a picture, three steps, the same steps by hand, and a demo.' },
         { kind: 'content', title: 'From first principles',
             intro: 'We have `ptr`, the address of the member `borrowed` inside some `struct book`. We want the address of that book, `b`.',
             a: { diagram: { type: 'layout', title: 'struct book in container_of_demo.c   (b is the start)', fields: [
@@ -216,7 +207,7 @@ via 'all'    : 0x16ee06510  id = 42`, label: './container_of_demo' },
 /* expands to */
 ((struct student *)((char *)(pos)
     - offsetof(struct student, list)))`, label: null },
-            notes: 'A macro works on text, before compilation, so it can take a type and a member name. This is exactly the macro in the Week 08 starter and in the final project\'s list.h.' },
+            notes: 'A macro works on text, before compilation, so it can take a type and a member name. This is exactly the macro in the Week 06 starter and in the final project\'s list.h.' },
 
         { kind: 'concept', title: 'Seeing the expansion: `gcc -E`', layout: 'tb', ratio: 0.47,
             what: '`gcc -E` stops after the **preprocessor** stage (Week 01) and writes the program as the compiler will see it: every `#include` pasted in and every macro expanded. A Makefile rule can produce this `.i` file on demand.',
@@ -243,20 +234,20 @@ b = ((struct book *)((char *)(ptr) - __builtin_offsetof(struct book, borrowed)))
                 'Double-check that `type` and `member` match the list the pointer came from',
                 'Linux adds a compile-time type check with GNU extensions. In C11, **you** are the type checker',
             ] },
-            notes: 'The kernel\'s version lives in include/linux/container_of.h. It is not portable C11, so we use the plain version.' },
+            notes: 'Linux\'s version lives in include/linux/container_of.h. It is not portable C11, so we use the plain version.' },
 
         { kind: 'concept', title: '`list_entry()`', ratio: 0.5,
-            what: '`list_entry(ptr, type, member)` is the Linux kernel\'s name for `container_of()` when the member is a `struct list_head`. It expands to exactly the same expression, but it says what you are doing: getting the list entry at this position.',
-            why: 'Every traversal of an intrusive list needs this step, often more than once per loop. Kernel code you read will call it `list_entry()`, and naming it makes loop bodies read as "the book at `pos`" instead of raw pointer arithmetic.',
+            what: '`list_entry(ptr, type, member)` is the usual name for `container_of()` when the member is a `struct list_head`. It expands to exactly the same expression, but it says what you are doing: getting the list entry at this position.',
+            why: 'Every traversal of an intrusive list needs this step, often more than once per loop. List code you read will call it `list_entry()`, and naming it makes loop bodies read as "the book at `pos`" instead of raw pointer arithmetic.',
             how: { code: [
                 { file: 'examples/list_macros.c', macro: 'list_entry' },
                 `printf(" [%d]",
        list_entry(pos, struct book, list)->id);`,
             ] },
-            notes: 'Once container_of() exists, the kernel builds a small family of macros on it. list_entry is just another name for container_of.' },
+            notes: 'Once container_of() exists, a small family of macros is built on it. list_entry is just another name for container_of.' },
         { kind: 'concept', title: '`list_for_each()`', layout: 'tb', ratio: 0.47,
             what: '`list_for_each(pos, head)` expands to the circular-list traversal loop: start at `head->next`, follow `next`, and stop when `pos` is back at `head`. `list_for_each_prev()` does the same backwards through `prev`.',
-            why: 'Without it, every traversal is typed by hand, and the Week 06 mistakes come back: `pos != NULL` loops forever in a ring, and starting at `head` visits the sentinel\'s meaningless data.',
+            why: 'Without it, every traversal is typed by hand, and the Week 04 mistakes come back: `pos != NULL` loops forever in a ring, and starting at `head` visits the sentinel\'s meaningless data.',
             how: { code: [
                 { file: 'examples/list_macros.c', macro: 'list_for_each' },
                 `list_for_each(pos, head)
@@ -266,55 +257,55 @@ b = ((struct book *)((char *)(ptr) - __builtin_offsetof(struct book, borrowed)))
 
         { kind: 'concept', title: '`list_for_each_safe()`', ratio: 0.42,
             what: '`list_for_each_safe(pos, n, head)` is the traversal loop with one extra pointer: before the body runs, it saves `pos->next` in `n`, and the next step continues from `n`. The body may therefore unlink and free `pos`.',
-            why: 'The plain loop advances with `pos = pos->next`, reading `pos` after the body freed it: a use-after-free. It is the "save next first" rule of Weeks 04 and 06, as a macro.',
+            why: 'The plain loop advances with `pos = pos->next`, reading `pos` after the body freed it: a use-after-free. It is the "save next first" rule of Weeks 03 and 04, as a macro.',
             how: { code: { file: 'examples/list_macros.c', lines: [107, 115] }, label: 'list_macros.c' },
             notes: 'The demo deletes every book published before 2000 inside list_for_each_safe(), then prints: since2000: [2 2005] [4 2010]. Use the plain macro when only reading, the _safe one whenever the body may remove pos.' },
 
         { kind: 'content', title: 'Which loop to use',
             a: { cards: [
                 { n: 1, h: 'Only reading', body: 'Use `list_for_each()`.' },
-                { n: 2, h: 'Removing pos', body: 'Use `list_for_each_safe()`. The plain loop would read `pos->next` after `free(pos)`: the Week 04 and Week 06 "save next first" rule, as a macro.' },
+                { n: 2, h: 'Removing pos', body: 'Use `list_for_each_safe()`. The plain loop would read `pos->next` after `free(pos)`: the Week 03 and Week 04 "save next first" rule, as a macro.' },
                 { n: 3, h: 'Not in C11', body: '`list_for_each_entry()` iterates over objects directly, but needs `typeof`: a GNU extension, standard only in C23.' },
             ] } },
 
-        { kind: 'content', title: 'Reading the real thing', ratio: 0.55,
+        { kind: 'content', title: 'Further reading: Linux\'s list.h', tag: 'OPTIONAL', ratio: 0.55,
             a: { bullets: [
                 { t: 'In `include/linux/list.h` you can now read:', sub: ['`INIT_LIST_HEAD`, `__list_add`, `list_add`, `list_add_tail`', '`list_del`, `list_empty`, `list_for_each`, `list_for_each_safe`'] },
                 { t: '`include/linux/container_of.h` holds the type-checked `container_of()`.' },
             ] },
             b: { callout: [
-                'The kernel\'s `list_del()` writes `LIST_POISON1/2` into the removed entry (Week 06, §2.4).',
-                'The kernel\'s `__list_add()` is our `insert_between()`.',
+                'Its `list_del()` writes `LIST_POISON1/2` into the removed entry (Week 04, §4.4).',
+                'Its `__list_add()` is our `insert_between()`.',
             ] },
-            notes: 'Both files are on GitHub under torvalds/linux. You can now read most of the kernel\'s list implementation.' },
+            notes: 'Both files are on GitHub under torvalds/linux. You can now read most of that list implementation.' },
 
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 08 assignment + port Week 07', sub: 'Lab A: the assignment (15 min)\nLab B: port Week 07 to container_of() (30 min)\nLab C: get ready for the final project (15 min)' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB', title: 'Week 06 assignment + port Week 05', sub: 'Lab A: the assignment\nLab B: port Week 05 to container_of()\nLab C: get ready for the final project' },
 
-        { kind: 'content', title: 'Lab A — Week 08 assignment', tag: '15 MIN', ratio: 0.5,
+        { kind: 'content', title: 'Lab A — Week 06 assignment', ratio: 0.5,
             a: { steps: [
                 'Use `container_of(list, struct student, list)` to recover the student from `list`',
                 'Print `id` and `score` through the recovered pointer',
                 'Also print `&student`, `list`, and `offsetof(struct student, list)`; check that the arithmetic adds up',
             ], size: 18, rowH: 1.15 },
-            b: { code: { file: '/assignments/week08-container-of/starter/assignment_08.c', lines: [19, 26] }, label: 'starter/assignment_08.c' },
-            notes: 'Task: assignments/week08-container-of/README.md' },
+            b: { code: { file: '/assignments/week06-container-of/starter/assignment_06.c', lines: [19, 26] }, label: 'starter/assignment_06.c' },
+            notes: 'Task: assignments/week06-container-of/README.md' },
 
-        { kind: 'content', title: 'Lab B — port Week 07 to `container_of()`', tag: '30 MIN',
+        { kind: 'content', title: 'Lab B — port Week 05 to `container_of()`',
             a: { steps: [
-                'Copy your Week 07 solution into a scratch directory',
+                'Copy your Week 05 solution into a scratch directory',
                 'Delete `student_from_list()` and use `container_of()` (or `list_entry()`) everywhere instead',
                 'Add `list_for_each()` and `list_for_each_safe()`; rewrite your print and free loops with them',
                 'Delete every student whose score is below 60, inside a `list_for_each_safe()` loop',
             ], size: 19, rowH: 1.0 } },
 
-        { kind: 'content', title: 'Lab C — get ready for the final project', tag: '15 MIN', ratio: 0.42,
+        { kind: 'content', title: 'Lab C — get ready for the final project', ratio: 0.42,
             a: { steps: [
                 'Open the final project\'s `starter/list.h`: `struct list_head`, `container_of()`, three prototypes. You can explain every line',
-                'Implement `list_init()`, `list_add()`, and `list_del()` in `starter/list.c` from your Week 06–07 code',
+                'Implement `list_init()`, `list_add()`, and `list_del()` in `starter/list.c` from your Weeks 04–05 code',
                 '`list_add()` inserts **right after** `head`; `list_del()` **never frees**',
             ], size: 17, rowH: 1.35 },
-            b: { code: { file: '/assignments/week10-final-project/starter/list.h', from: /^struct list_head/, to: /offsetof\(type, member\)/ }, label: 'starter/list.h' } },
+            b: { code: { file: '/assignments/week08-final-project/starter/list.h', from: /^struct list_head/, to: /offsetof\(type, member\)/ }, label: 'starter/list.h' } },
 
         { kind: 'content', title: 'Stretch goals',
             a: { cards: [
@@ -348,6 +339,6 @@ b = ((struct book *)((char *)(ptr) - __builtin_offsetof(struct book, borrowed)))
             'When the body may unlink or free `pos`: the increment step would read `pos->next` from freed memory',
         ] },
 
-        { kind: 'next', title: 'Week 09 — File I/O', sub: 'The list is complete, but it disappears when the program exits. How do we save it and rebuild it next time, and why not just write the structs to disk?' },
+        { kind: 'next', title: 'Week 07 — File I/O', sub: 'The list is complete, but it disappears when the program exits. How do we save it and rebuild it next time, and why not just write the structs to disk?' },
     ],
 };

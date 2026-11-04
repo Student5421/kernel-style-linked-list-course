@@ -1,7 +1,7 @@
-// Week 07 — Intrusive Linked List
+// Week 05 — Intrusive Linked List
 module.exports = {
-    week: 7,
-    dirName: 'week07-intrusive-list',
+    week: 5,
+    dirName: 'week05-intrusive-list',
     title: 'Intrusive Linked List',
     short: 'Intrusive Linked List',
     subtitle: 'Put the links inside the data: one list implementation for every type',
@@ -18,16 +18,8 @@ struct book {
     int year;
     struct list_head list;
 };`,
-            notes: 'Today the node disappears. The links move into the data itself, exactly as in the Linux kernel and in our final project.' },
+            notes: 'Today the node disappears. The links move into the data itself, exactly as in our final project.' },
 
-        { kind: 'agenda', plan: [
-            ['0:00', '0:10', 'Review of Week 06', 'review', 'Review'],
-            ['0:10', '0:55', 'Part 1 — Put the links inside the data', 'lecture', 'Part 1'],
-            ['0:55', '1:05', 'Break', 'break', 'Break'],
-            ['1:05', '1:50', 'Part 2 — From `list_head *` back to the object; one object in two lists', 'lecture', 'Part 2'],
-            ['1:50', '2:50', 'Lab — Week 07 assignment', 'lab', 'Lab'],
-            ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
-        ] },
 
         { kind: 'objectives', items: [
             'Explain the limits of a node that *contains* the data',
@@ -38,7 +30,7 @@ struct book {
             'Put one object in two lists at once, and free it safely',
         ] },
 
-        { kind: 'review', title: 'Review of Week 06', questions: [
+        { kind: 'review', title: 'Review of Week 04', questions: [
             'What are `head.next` and `head.prev` in an empty circular list?',
             'Write `insert_back()` using `insert_between()`',
             'What does `-DNDEBUG` do to `assert()`?',
@@ -46,10 +38,10 @@ struct book {
             notes: 'Answers: both are &head; insert_between(n, head->prev, head); it turns every assert into nothing.' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — Links inside', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Put the links inside the data', sub: '`struct list_head` and a list API that knows nothing about books' },
+        { newSection: 'Part 1 — Links inside', kind: 'section', num: 1, label: 'PART 1', title: 'Put the links inside the data', sub: '`struct list_head` and a list API that knows nothing about books' },
 
         { kind: 'concept', title: 'A node that contains the data', layout: 'tb', ratio: 0.5,
-            what: 'In Weeks 04–06 every list element is a `struct node` that **contains** a `struct book` plus the links. The list code works on nodes, so it is written for one payload type.',
+            what: 'In Weeks 03–04 every list element is a `struct node` that **contains** a `struct book` plus the links. The list code works on nodes, so it is written for one payload type.',
             why: ['A list of students needs a `struct student_node` and a second copy of every list function.', 'The sentinel wastes a whole `struct book`, and a book can be in only one list without a second node, a second allocation, or a copy.'],
             how: { code: `struct node {
     struct book data;      /* the node CONTAINS the data */
@@ -67,11 +59,11 @@ struct book {
     int year;
     struct list_head list;   /* links INSIDE */
 };`], label: 'intrusive_book.c' },
-            notes: 'struct list_head has no data, only links. Any struct becomes listable by embedding one. This is how the Linux kernel builds nearly all of its lists.' },
+            notes: 'struct list_head has no data, only links. Any struct becomes listable by embedding one.' },
 
         { kind: 'concept', title: 'An intrusive list', layout: 'tb', ratio: 0.395,
             what: 'In an **intrusive** list each object embeds its own `list_head`. Every `next` and `prev` points to the `list` member **inside** the next object, not to its start.',
-            why: 'Nothing is allocated or copied for the list, and an object joins several lists by embedding one `list_head` per list. The Linux kernel works this way.',
+            why: 'Nothing is allocated or copied for the list, and an object joins several lists by embedding one `list_head` per list.',
             how: { art: `  library (sentinel)        book 1                        book 2
   +-------------+         +----------------+            +----------------+
   | next  *-----+--+      | id             |            | id             |
@@ -86,22 +78,22 @@ struct book {
         { kind: 'content', title: 'The ring, seen from the list code', layout: 'tb', ratio: 0.6,
             a: { diagram: { type: 'chain', kind: 'circular', nodes: ['book 1', 'book 2', 'book 3'], sentinel: 'library', nodeW: 1.4 } },
             b: { bullets: [
-                'The same circular ring as Week 06: `library.next` is the first book, `library.prev` the last',
+                'The same circular ring as Week 04: `library.next` is the first book, `library.prev` the last',
                 'But every box the arrows touch is a `struct list_head`, embedded in a book',
             ] },
             notes: 'From the list code\'s point of view, there are only list_head objects. It never sees a struct book.' },
 
         { kind: 'concept', title: 'A generic list API', layout: 'tb', ratio: 0.36,
-            what: 'The list functions see only `struct list_head *`. They use the Linux names and argument order: the new entry first, the head second.',
+            what: 'The list functions see only `struct list_head *`. They use the `list.h` names and argument order: the new entry first, the head second.',
             why: 'With nodes that contain the data, each payload type needs its own copy of every function. This API is written once, in `list.c`.',
-            how: { table: { head: ['Week 06', 'Week 07 (Linux name)', 'Meaning'], colW: [3.4, 4.6, 4], size: 15, rows: [
-                ['`list_init(head)`', '`list_init(head)` (kernel: `INIT_LIST_HEAD`)', 'Make an empty ring'],
+            how: { table: { head: ['Week 04', 'Week 05', 'Meaning'], colW: [3.4, 4.6, 4], size: 15, rows: [
+                ['`list_init(head)`', '`list_init(head)` (Linux: `INIT_LIST_HEAD`)', 'Make an empty ring'],
                 ['`list_is_empty(head)`', '`list_empty(head)`', '`head->next == head`'],
                 ['`insert_front(head, n)`', '`list_add(new, head)`', 'Insert right after `head`'],
                 ['`insert_back(head, n)`', '`list_add_tail(new, head)`', 'Insert right before `head`'],
                 ['`unlink_node(entry)`', '`list_del(entry)`', 'Unlink. **Never frees**'],
             ] } },
-            notes: 'The operations are Week 06\'s, with struct node replaced by struct list_head. Note the argument order: list_add(new, head). Nothing in these functions mentions books.' },
+            notes: 'The operations are Week 04\'s, with struct node replaced by struct list_head. Note the argument order: list_add(new, head). Nothing in these functions mentions books.' },
 
         { kind: 'content', title: 'Nothing here mentions books', layout: 'tb', ratio: 0.72,
             a: { code: [
@@ -110,9 +102,9 @@ struct book {
             ] },
             b: { bullets: [
                 'Same code links students, tasks, or network packets. In the final project it lives in `list.c`',
-                'The kernel calls the helper `__list_add()`; names starting with `__` are reserved in standard C, so we use `list_insert_between()`',
+                'Linux\'s `list.h` calls this helper `__list_add()`; names starting with `__` are reserved in standard C, so we use `list_insert_between()`',
             ], size: 18 },
-            notes: 'The bodies are Week 06\'s insert_between() and unlink code with the type changed. See examples/intrusive_book.c for list_insert_between.' },
+            notes: 'The bodies are Week 04\'s insert_between() and unlink code with the type changed. See examples/intrusive_book.c for list_insert_between.' },
 
         { kind: 'content', title: 'Creating and inserting', layout: 'tb', ratio: 0.45,
             a: { code: `struct book *b = book_create(1, "The C Programming Language", 1978);
@@ -122,7 +114,7 @@ list_add_tail(&b->list, &library);   /* link the EMBEDDED list_head */`, label: 
             b: { callout: 'You pass `&b->list`, the address of the member, **not** `b`. The list never sees a `struct book *`.' } },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — Back to the object', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'From `list_head *` back to the object', sub: 'First-member casts, stepping back by an offset, one object in two lists' },
+        { newSection: 'Part 2 — Back to the object', kind: 'section', num: 2, label: 'PART 2', title: 'From `list_head *` back to the object', sub: 'First-member casts, stepping back by an offset, one object in two lists' },
 
         { kind: 'concept', title: 'From `list_head *` back to the object', layout: 'tb', ratio: 0.46,
             what: 'Traversal hands you `struct list_head *pos`, a pointer to the `list` member inside some book. To read `id` or `title`, you need a pointer to the **book that contains** that member.',
@@ -226,7 +218,7 @@ after free_all: all empty = yes, borrowed empty = yes`, label: './multi_list' },
                 { file: 'examples/multi_list.c', fn: 'book_from_all' },
                 { file: 'examples/multi_list.c', fn: 'book_from_borrowed' },
             ] },
-            b: { callout: 'They differ only in the **member name**; a student version would differ only in the **type**. One helper per (type, member) pair does not scale: Week 08 replaces them all with **one macro**.' } },
+            b: { callout: 'They differ only in the **member name**; a student version would differ only in the **type**. One helper per (type, member) pair does not scale: Week 06 replaces them all with **one macro**.' } },
 
         { kind: 'content', title: 'In the real world', ratio: 0.6,
             a: { code: `struct task_struct {   /* Linux, simplified */
@@ -238,17 +230,17 @@ after free_all: all empty = yes, borrowed empty = yes`, label: './multi_list' },
     ...
 };`, label: null },
             b: { bullets: [
-                'The kernel\'s process descriptor holds many `struct list_head` members',
+                'A process descriptor holds many `struct list_head` members',
                 'One process is in several lists at once',
                 'The same pattern appears in file systems, device drivers, and the network stack',
             ] } },
 
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 07 assignment', sub: 'An intrusive circular list of students: no `struct node`' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB', title: 'Week 05 assignment', sub: 'An intrusive circular list of students: no `struct node`' },
 
         { kind: 'content', title: 'Lab — steps', ratio: 0.64,
             a: { steps: [
-                'Port your Week 06 list operations to `struct list_head`, Linux argument order',
+                'Port your Week 04 circular list operations (Assignment 04B) to `struct list_head`; keep the argument order',
                 '`student_create(id, name, score)`: `malloc()`, fill in, `list_init(&s->list)`; no insert',
                 '`student_from_list(pos)` by analogy with `book_from_list()`',
                 'Insert three students with `list_add_tail(&s->list, &head)`',
@@ -256,12 +248,12 @@ after free_all: all empty = yes, borrowed empty = yes`, label: './multi_list' },
                 'Free every student at exit: the **student**, not the `list_head`',
             ], size: 17, rowH: 0.86 },
             b: { cards: [
-                { h: 'Task', body: '`assignments/week07-intrusive-list/README.md`', size: 15 },
+                { h: 'Task', body: '`assignments/week05-intrusive-list/README.md`', size: 15 },
                 { h: 'Helper', body: 'You may use `student_from_list()` this week. Next week it becomes `container_of()`.', size: 15 },
             ], cols: 1 } },
 
         { kind: 'content', title: 'Lab — self-check', layout: 'tb', ratio: 0.25,
-            a: { term: [{ cmd: 'grep -nE "struct node *\\{" assignment_07.c  # must print nothing' }] },
+            a: { term: [{ cmd: 'grep -nE "struct node *\\{" assignment_05.c  # must print nothing' }] },
             b: { steps: [
                 'The sentinel is a `struct list_head`, not a `struct student`',
                 'No list function mentions `struct student`',
@@ -299,6 +291,6 @@ after free_all: all empty = yes, borrowed empty = yes`, label: './multi_list' },
             'The member name passed to `offsetof()`: `all` vs. `borrowed`',
         ] },
 
-        { kind: 'next', title: 'Week 08 — `offsetof()` and `container_of()`', sub: 'What exactly is `offsetof()`, why the `char *` cast, and how do we write the helper **once** for every type and member?' },
+        { kind: 'next', title: 'Week 06 — `offsetof()` and `container_of()`', sub: 'What exactly is `offsetof()`, why the `char *` cast, and how do we write the helper **once** for every type and member?' },
     ],
 };

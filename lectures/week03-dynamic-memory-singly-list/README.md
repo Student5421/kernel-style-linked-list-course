@@ -1,22 +1,13 @@
-# Week 03 — Dynamic Memory
+# Week 03 — Dynamic Memory and Singly Linked List
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
-| **Assignment** | [Week 03 — Dynamic Memory](../../assignments/week03-dynamic-memory/) |
+| **Session** | Lecture + live coding + lab |
+| **Assignment** | [Week 03 — Assignment 03A (Dynamic Memory) and Assignment 03B (Singly Linked List)](../../assignments/week03-dynamic-memory-singly-list/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous / Next** | [Week 02](../week02-operators/) · [Week 04](../week04-singly-linked-list/) |
+| **Previous / Next** | [Week 02](../week02-operators/) · [Week 04](../week04-doubly-circular-list/) |
 
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review of Week 02 | Quiz + discussion |
-| 0:10 – 0:55 | Part 1 — Where do variables live? | Lecture + live demo |
-| 0:55 – 1:05 | Break | |
-| 1:05 – 1:50 | Part 2 — `malloc()`, `free()`, and ownership | Lecture + live coding |
-| 1:50 – 2:50 | Lab — Week 03 assignment + bug hunt | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
+This session has two halves. Parts 1 and 2 look at where variables live and move objects onto the heap with `malloc()` and `free()`, under a clear ownership rule. Parts 3 and 4 use those heap objects to build the course's first data structure, a singly linked list: nodes, traversal, insertion, freeing the whole list, and the design of delete.
 
 ## Learning Objectives
 
@@ -27,10 +18,16 @@ By the end of this session you can:
 3. Allocate a struct with `malloc()`, check for failure, and release it with `free()`.
 4. Recognize the four classic heap bugs: leak, use-after-free, double free, missing `NULL` check.
 5. Write a `create` / `destroy` function pair and state who *owns* the object.
+6. Compare arrays and linked lists in terms of memory layout and the cost of insert, delete, and indexing.
+7. Define a self-referential `struct node` and draw a list as boxes and arrows.
+8. Traverse a list with a cursor pointer, and handle the empty list (`head == NULL`).
+9. Explain why `push_front()` needs `struct node **` (or must return the new head).
+10. Free an entire list without a use-after-free.
+11. Identify every case that `delete` must handle.
 
 ---
 
-## 0. Review of Week 02 (10 min)
+## 0. Review of Week 02
 
 Warm-up questions:
 
@@ -43,7 +40,7 @@ Today's question: **So far every struct has been a local variable. What happens 
 
 ---
 
-## 1. Where Do Variables Live? (45 min)
+## 1. Where Do Variables Live?
 
 ### 1.1 The memory layout of a process
 
@@ -79,7 +76,7 @@ The exact addresses differ from machine to machine and from run to run. What is 
 **Live demo** — [`examples/memory_map.c`](examples/memory_map.c):
 
 ```bash
-cd lectures/week03-dynamic-memory/examples
+cd lectures/week03-dynamic-memory-singly-list/examples
 make
 ./memory_map
 ```
@@ -148,11 +145,11 @@ The stack cannot help in two situations:
 1. **An object must outlive the function that creates it.** A `book_create()` function has to return something that still exists after it returns.
 2. **We do not know how many objects we need** until the program runs. A user may add 3 students or 3,000.
 
-Both are exactly what a linked list needs (Week 04). The heap gives us memory whose lifetime **we** control.
+Both are exactly what a linked list needs (Part 3, later today). The heap gives us memory whose lifetime **we** control.
 
 ---
 
-## 2. `malloc()`, `free()`, and Ownership (45 min)
+## 2. `malloc()`, `free()`, and Ownership
 
 ### 2.1 The API
 
@@ -283,13 +280,341 @@ live books at exit: 0
 
 ---
 
-## 3. Lab (60 min)
+## 3. Nodes, Links, and Traversal
 
-### Lab A — Week 03 assignment (30 min)
+We can now create as many objects as we like at run time. But how do we **keep track** of an unknown number of them without an array? The answer: every object holds a pointer to the next one.
 
-Task: [assignments/week03-dynamic-memory/README.md](../../assignments/week03-dynamic-memory/README.md)
+### 3.1 Arrays vs. linked lists
 
-1. `cd assignments/week03-dynamic-memory/starter && make && ./week03`
+```text
+Array: one contiguous block
++------+------+------+------+------+
+|  b0  |  b1  |  b2  |  b3  |  b4  |
++------+------+------+------+------+
+
+Linked list: nodes anywhere on the heap, each one knows the next
+head ──► +----+---+     +----+---+     +----+------+
+         | b0 | ●─┼───► | b1 | ●─┼───► | b2 | NULL |
+         +----+---+     +----+---+     +----+------+
+```
+
+| Operation | Array | Singly linked list |
+|---|---|---|
+| Access the *i*-th element | O(1), `a[i]` | O(n), walk from `head` |
+| Insert / delete at the front | O(n), shift everything | **O(1)** |
+| Insert / delete in the middle (position known) | O(n), shift | **O(1)** once you have the previous node |
+| Size | Fixed, or `realloc()` + copy | Grows one node at a time |
+| Extra memory | None | One pointer per node |
+
+A list trades fast indexing for cheap insertion and deletion and unlimited growth. That is the right trade when objects are added and removed often but rarely looked up by position.
+
+### 3.2 The node: a self-referential struct
+
+```c
+struct book {
+    int id;
+    char title[32];
+    int year;
+};
+
+struct node {
+    struct book data;     /* the payload             */
+    struct node *next;    /* the link: NULL at the end */
+};
+```
+
+- A struct cannot contain *itself* (its size would be infinite), but it can contain a **pointer** to its own type.
+- The Assignment 03B starter uses the same shape with `struct student data;`.
+- A pointer called **`head`** points to the first node, and `head == NULL` means the list is empty. The last node (the **tail**) has `next == NULL`.
+
+### 3.3 Building a list by hand
+
+**Live demo** — [`examples/sll_manual.c`](examples/sll_manual.c). There is no `malloc()` yet, so we can focus on the links:
+
+```c
+struct node c = { .data = { 3, "Linux Device Drivers", 2005 },           .next = NULL };
+struct node b = { .data = { 2, "Understanding the Linux Kernel", 2005 }, .next = &c   };
+struct node a = { .data = { 1, "The C Programming Language", 1978 },     .next = &b   };
+struct node *head = &a;
+```
+
+```text
+node at 0x16f75e4c8: [1] The C Programming Language       next = 0x16f75e4f8
+node at 0x16f75e4f8: [2] Understanding the Linux Kernel   next = 0x16f75e528
+node at 0x16f75e528: [3] Linux Device Drivers             next = 0x0
+```
+
+Ask the class to draw this output as boxes and arrows, using the printed addresses.
+
+### 3.4 The traversal pattern
+
+```c
+struct node *cur;
+
+for (cur = head; cur != NULL; cur = cur->next) {
+    /* use cur->data */
+}
+```
+
+```text
+step 1: cur = head        cur ──► [1] ──► [2] ──► [3] ──► NULL
+step 2: cur = cur->next           [1] ──► [2] ◄── cur
+step 3: cur = cur->next                   ... ──► [3] ◄── cur
+step 4: cur = cur->next   cur == NULL → loop ends
+```
+
+- Use a **separate cursor**. Writing `head = head->next` in a loop loses the list.
+- For the empty list, `head == NULL` makes the loop run zero times. Traversal needs no special case.
+- The loop condition is `cur != NULL`, not `cur->next != NULL`. The second form skips the last node, and it crashes on an empty list.
+
+Counting nodes uses the same loop:
+
+```c
+static int count_list(const struct node *head)
+{
+    int count = 0;
+
+    for (; head != NULL; head = head->next)   /* head is our own copy here */
+        count++;
+    return count;
+}
+```
+
+Here moving `head` is fine, because the parameter is a **copy** of the caller's pointer (Week 01, pass by value).
+
+---
+
+## 4. Insert, Free, and the Design of Delete
+
+### 4.1 Creating a node
+
+```c
+/* Returns a new unlinked node, or NULL if out of memory. */
+static struct node *node_create(int id, const char *title, int year)
+{
+    struct node *n = malloc(sizeof(*n));
+
+    if (n == NULL)
+        return NULL;
+
+    n->data.id = id;
+    snprintf(n->data.title, sizeof(n->data.title), "%s", title);
+    n->data.year = year;
+    n->next = NULL;          /* not linked yet */
+    return n;
+}
+```
+
+Creating a node and linking it are **separate steps**. Keep them separate. The final project does the same with `student_create()` and `list_add()`.
+
+### 4.2 Insert at the front: two steps, in this order
+
+```text
+before:              head ──► [A] ──► [B] ──► NULL
+                     n    ──► [N]
+
+1. n->next = head;   head ──► [A] ──► [B] ──► NULL
+                              ▲
+                     n ──► [N]┘
+
+2. head = n;         head ──► [N] ──► [A] ──► [B] ──► NULL
+```
+
+If you swap the steps, `head = n` runs first and the old list is lost.
+
+### 4.3 The head problem
+
+The natural first attempt:
+
+```c
+void push_front_wrong(struct node *head, struct node *n)
+{
+    n->next = head;
+    head = n;           /* changes the LOCAL copy of head only */
+}
+
+struct node *head = NULL;
+push_front_wrong(head, n);   /* head is still NULL in main() */
+```
+
+This is `set_year_by_value()` from Week 01 again: the function received a **copy** of `head`. There are two standard fixes.
+
+**Fix A — return the new head:**
+
+```c
+struct node *push_front(struct node *head, struct node *n)
+{
+    n->next = head;
+    return n;
+}
+
+head = push_front(head, n);
+```
+
+**Fix B — pass a pointer to the head (pointer to pointer):**
+
+```c
+static void push_front(struct node **headp, struct node *n)
+{
+    n->next = *headp;
+    *headp = n;
+}
+
+push_front(&head, n);
+```
+
+```text
+ main()                          push_front()
+ +----------------+              +----------------+
+ | head  ●────────┼──► [A] ...   | headp ●        |
+ +--------▲-------+              +-------|--------+
+          └──────────────────────────────┘
+          *headp IS main's head variable
+```
+
+We use Fix B in the demo. It scales to any function that may change `head`, including delete.
+
+### 4.4 Insert at the back
+
+The straightforward version needs a special case:
+
+```c
+if (*headp == NULL) {            /* empty list: the new node becomes head */
+    *headp = n;
+} else {
+    struct node *cur = *headp;
+    while (cur->next != NULL)    /* stop AT the last node */
+        cur = cur->next;
+    cur->next = n;
+}
+```
+
+**A cleaner version:** walk the **links** instead of the nodes, and the special case disappears. (`&(*link)->next` parses as `&((*link)->next)`, as in Week 02, §2.1.)
+
+```c
+static void push_back(struct node **headp, struct node *n)
+{
+    struct node **link = headp;      /* address of the pointer we may overwrite */
+
+    while (*link != NULL)
+        link = &(*link)->next;       /* move to the next node's 'next' field */
+    *link = n;                       /* either main's head, or the last node's next */
+}
+```
+
+```text
+link = &head   →   link = &A.next   →   link = &B.next    (now *link == NULL)
+
+the three values link takes in turn. At the end it points at the NULL slot,
+so *link = n writes into B's next field (or into head, if the list was empty).
+```
+
+### 4.5 Freeing the whole list
+
+**Wrong** (use after free):
+
+```c
+for (cur = head; cur != NULL; cur = cur->next)
+    free(cur);              /* cur->next is read AFTER cur was freed */
+```
+
+**Right:** save `next` first.
+
+```c
+static void free_list(struct node **headp)
+{
+    struct node *cur = *headp;
+    struct node *next;
+
+    while (cur != NULL) {
+        next = cur->next;   /* save it BEFORE free() */
+        free(cur);
+        cur = next;
+    }
+    *headp = NULL;          /* the caller's head no longer dangles */
+}
+```
+
+**Live demo** — [`examples/sll_book.c`](examples/sll_book.c):
+
+```text
+(empty)
+[1] The C Programming Language (1978)
+[2] Understanding the Linux Kernel (2005)
+[3] Linux Device Drivers (2005)
+count = 3
+(empty)
+```
+
+> The demo uses `goto out_of_memory;` for error handling. A single cleanup label at the end of a function is a common and accepted C idiom. It keeps the cleanup code in one place.
+
+### 4.6 Search by ID: a design exercise
+
+Write the function on paper before the lab:
+
+```c
+/* Returns the node whose data.id == id, or NULL if there is none. */
+struct node *find_by_id(struct node *head, int id);
+```
+
+Questions to settle first:
+
+- What does it return for an empty list?
+- Why return a `struct node *` and not a copy of the `struct book`?
+
+### 4.7 Delete by ID: a design exercise
+
+Deleting means **unlinking** a node from its predecessor and then **freeing** it. A singly linked node does not know its predecessor, so you track it while you search:
+
+```text
+Delete [B]:
+
+prev     cur
+ ▼        ▼
+[A] ───► [B] ───► [C] ───► NULL
+
+prev->next = cur->next;      [A] ─────────────► [C] ───► NULL
+free(cur);                         [B] (freed)
+```
+
+Every case delete must handle:
+
+| Case | What changes |
+|---|---|
+| List is empty | Nothing. Report "not found". |
+| ID is not in the list | Nothing. Report "not found". |
+| Target is the **first** node | `head` itself must change. There is no `prev`. |
+| Target is in the middle | `prev->next = cur->next` |
+| Target is the last node | Same as the middle case: `prev->next` becomes `NULL`. |
+| Target is the **only** node | `head` becomes `NULL`. |
+
+Rules of thumb:
+
+1. **Unlink first, then free.** After `free(cur)`, you may not read `cur->next`.
+2. Because the first-node case changes `head`, delete needs `struct node **headp`, just like `push_front()`.
+3. **Stretch:** the `struct node **link` trick from `push_back()` removes the first-node special case from delete too. Try it after your two-pointer version works.
+
+### 4.8 Makefile corner: flags are not prerequisites
+
+`make` compares **file timestamps** only. If you change *how* you compile, it does not notice:
+
+```bash
+make                                         # builds with the Makefile's CFLAGS
+make CFLAGS="-Wall -Wextra -std=c11 -g"      # "Nothing to be done for 'all'": no rebuild!
+make -B CFLAGS="-Wall -Wextra -std=c11 -g"   # -B forces the rebuild
+```
+
+`-g` adds debugging information for a debugger (`gdb` on Linux, `lldb` on macOS). Remember the rule: **after changing flags, `make clean && make` (or `make -B`).**
+
+---
+
+## 5. Lab
+
+Task: [assignments/week03-dynamic-memory-singly-list/README.md](../../assignments/week03-dynamic-memory-singly-list/README.md). `make` in `starter/` builds both executables, `week03a` and `week03b`.
+
+### 5.1 Lab A — Assignment 03A (Dynamic Memory)
+
+1. `cd assignments/week03-dynamic-memory-singly-list/starter && make && ./week03a`
 2. Allocate **one** `struct student` with `malloc()`.
 3. Check the result for `NULL`, and print an error and return a non-zero status on failure.
 4. Store ID, name, and score through the pointer (`->`). Copy the name with a bounded copy (at most 19 characters).
@@ -297,7 +622,7 @@ Task: [assignments/week03-dynamic-memory/README.md](../../assignments/week03-dyn
 6. `free()` it before `main()` returns. Optionally set the pointer to `NULL`.
 7. Build with zero warnings.
 
-### Lab B — Bug hunt (20 min)
+### 5.2 Lab B — Bug hunt
 
 The program below compiles, but it contains **six** memory bugs. Your compiler may even warn about one or two of them. Find each one, name it (use §2.2 and the table in §2.6), and fix it. Do it on paper first, then type it in and test.
 
@@ -343,15 +668,48 @@ int main(void)
 
 </details>
 
-### Lab C — Stretch goals (10 min, optional)
+### 5.3 Lab C — Assignment 03B (Singly Linked List)
+
+Build and run: `cd assignments/week03-dynamic-memory-singly-list/starter && make && ./week03b`
+
+Suggested order. Build after **every** step:
+
+1. `node_create()`, which allocates a node holding one student, plus a `NULL` check.
+2. Insert, either `push_front()` or `push_back()`, and print. Insert three students and print them.
+3. `free_list()`. Call it at the end of `main()` from now on.
+4. Search by ID. Print the found student, or `Not found`.
+5. Delete by ID: find, unlink, free. Handle every case in the table in §4.7.
+
+Test plan. Put these calls in `main()` and check the printed list after each one:
+
+| # | Action | Expected |
+|---|---|---|
+| 1 | Print the empty list | an "empty" message, no crash |
+| 2 | Delete ID 1 from the empty list | "not found", no crash |
+| 3 | Insert 1, 2, 3, then print | three students |
+| 4 | Search for 2, then for 99 | found / not found |
+| 5 | Delete the first node, then print | two students, `head` updated |
+| 6 | Delete the last node, then print | one student |
+| 7 | Delete the only node, then print | empty list, `head == NULL` |
+| 8 | Free the list at exit | no use-after-free |
+
+### 5.4 Stretch goals (optional)
+
+Dynamic memory (after Lab A):
 
 1. Write `student_create(int id, const char *name, int score)` and `student_destroy()` for your `struct student`, following `book_create()`. You will reuse the idea in the final project.
 2. Add a live-object counter, create two students, and confirm the counter is `0` at exit.
 3. Make `student_create()` return `NULL` for invalid input (for example, a score outside 0–100), and handle that in `main()`.
 
+Singly linked list (after Lab C):
+
+- Delete with `struct node **link` and no special case for the first node.
+- `insert_sorted()`: keep the list ordered by ID.
+- `reverse_list()`: reverse the list in place by changing only `next` pointers.
+
 ---
 
-## 4. Wrap-up (10 min)
+## 6. Wrap-up
 
 ### Key takeaways
 
@@ -360,6 +718,11 @@ int main(void)
 - `malloc(sizeof(*p))`, check for `NULL`, initialize every member, and `free()` exactly once.
 - Every heap object has one **owner**. Write the ownership contract in a comment.
 - `free()` does not reset your pointer. Set it to `NULL` yourself.
+- A list is nodes connected by `next` pointers. `head == NULL` means empty, and the last node's `next` is `NULL`.
+- Traverse with a separate cursor: `for (cur = head; cur != NULL; cur = cur->next)`.
+- A function that may change `head` needs `struct node **` (or must return the new head).
+- When freeing, save `next` **before** `free()`.
+- Delete must handle empty, not-found, first, middle, last, and only-node cases. Next week you will first see how many of these get *worse* with two pointers per node, and then how the first, last, and only-node cases disappear.
 
 ### Exit quiz
 
@@ -368,6 +731,11 @@ int main(void)
 3. Is `free(NULL)` an error?
 4. After `free(p);`, what value does `p` hold?
 5. Why is it fine for `book_create()` to return a pointer, but not fine for `make_book_bad()`?
+6. What is the time cost of reaching the 1000th node of a list?
+7. Why does `push_front_wrong(head, n)` leave `main()`'s `head` unchanged?
+8. What is wrong with `for (cur = head; cur != NULL; cur = cur->next) free(cur);`?
+9. Which delete cases change `head`?
+10. In `push_back()` with `struct node **link`, what does `link` point to when the list is empty?
 
 <details>
 <summary>Answers</summary>
@@ -377,9 +745,14 @@ int main(void)
 3. No. `free(NULL)` does nothing.
 4. The same address as before. It is now a *dangling* pointer, so set it to `NULL`.
 5. `book_create()` returns heap memory, which lives until `free()`. `make_book_bad()` returns the address of a stack variable that died when the function returned.
+6. O(n): you must follow 999 `next` pointers from `head`.
+7. The function received a copy of `head` and changed only the copy.
+8. `cur = cur->next` reads from `cur` after it was freed (use after free).
+9. Deleting the first node, which includes deleting the only node.
+10. To `main()`'s `head` variable itself, so `*link = n` sets `head`.
 
 </details>
 
 ### Next week
 
-We can now create as many objects as we like at run time. But how do we **keep track** of them without an array? → **Week 04 — Singly Linked List**: every object holds a pointer to the next one.
+A singly linked list can only go forward, and deleting a node requires finding its predecessor. What if every node also knew the node **before** it? And what if the list **never** had a `NULL` in it at all? → **Week 04 — Doubly Linked and Circular Lists**.

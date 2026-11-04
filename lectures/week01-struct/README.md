@@ -2,23 +2,10 @@
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
+| **Session** | Lecture + live coding + lab |
 | **Assignment** | [Week 01 — Struct](../../assignments/week01-struct/) |
 | **Demo code** | [`examples/`](examples/) |
 | **Next week** | [Week 02 — Operators and Precedence](../week02-operators/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:15 | Course introduction and roadmap | Lecture |
-| 0:15 – 0:35 | Part 1 — From source code to a running program | Lecture + live demo |
-| 0:35 – 1:15 | Part 2 — `make` and Makefiles | Lecture + live demo |
-| 1:15 – 1:25 | Break | |
-| 1:25 – 1:50 | Part 3 — Grouping data with `struct` | Lecture + live demo |
-| 1:50 – 2:05 | Part 4 — Pointers and structs | Lecture + live demo |
-| 2:05 – 2:50 | Lab — Makefile mini-lab + Week 01 assignment | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
 
 ## Learning Objectives
 
@@ -34,11 +21,11 @@ By the end of this session you can:
 
 ---
 
-## 0. Course Introduction (15 min)
+## 0. Course Introduction
 
 ### 0.1 Where we are going
 
-In ten weeks you will build a **Student Management System** on top of the same linked list design that the Linux kernel uses for thousands of lists:
+In eight weeks you will build a **Student Management System** on top of this linked list design:
 
 ```c
 struct list_head {
@@ -54,7 +41,7 @@ struct student {
 };
 ```
 
-Today almost nothing in this snippet will make sense. By Week 08 you will be able to explain every line, and why there is no `struct node` anywhere.
+Today almost nothing in this snippet will make sense. By Week 06 you will be able to explain every line, and why there is no `struct node` anywhere.
 
 ### 0.2 Roadmap
 
@@ -62,24 +49,27 @@ Today almost nothing in this snippet will make sense. By Week 08 you will be abl
 |---|---|---|
 | 1 | Build tools, `struct`, pointers | How do I build a program, and how do I group data? |
 | 2 | Operators and precedence | What does `*p->next` or `flags & MASK == 0` really mean? |
-| 3 | Dynamic memory | How do I create objects at run time? |
-| 4 | Singly linked list | How do I chain objects together? |
-| 5 | Doubly linked list | How do I walk backwards and delete in O(1)? |
-| 6 | Circular doubly linked list | How do I get rid of every `NULL` special case? |
-| 7 | Intrusive linked list | Why put the links *inside* the data? |
-| 8 | `offsetof()` and `container_of()` | How do I get the object back from its links? |
-| 9 | File I/O | How do I save the list and load it again? |
-| 10 | Final project | Putting it all together |
+| 3 | Dynamic memory and singly linked list | How do I create objects at run time, and how do I chain them together? |
+| 4 | Doubly linked list and circular list with a sentinel | How do I walk backwards, delete in O(1), and get rid of every `NULL` special case? |
+| 5 | Intrusive linked list | Why put the links *inside* the data? |
+| 6 | `offsetof()` and `container_of()` | How do I get the object back from its links? |
+| 7 | File I/O | How do I save the list and load it again? |
+| 8 | Final project | Putting it all together |
 
 ### 0.3 How the repository is organized
 
 ```text
-assignments/weekNN-<topic>/README.md   the task for the week
-assignments/weekNN-<topic>/starter/    where you write code (assignment_NN.c + Makefile)
-lectures/weekNN-<topic>/README.md      these lecture notes
-lectures/weekNN-<topic>/examples/      the code shown in class
-docs/                                  grading and submission rules
+README.md                                   course overview and weekly plan
+assignments/weekNN-<topic>/README.md        the task for the week
+assignments/weekNN-<topic>/starter/         where you write code (assignment_NN.c + Makefile)
+lectures/weekNN-<topic>/README.md           these lecture notes
+lectures/weekNN-<topic>/weekNN-slides.pptx  the slides
+lectures/weekNN-<topic>/examples/           the code shown in class
+lectures/slides/                            the sources the slides are generated from
+docs/                                       project overview, grading, and submission rules
 ```
+
+Weeks 03 and 04 have two parts, A and B, so their starter directories hold `assignment_NNa.c` and `assignment_NNb.c`. The final project's starter holds several files (`main.c`, `list.c`, `list.h`, `student.c`, `student.h`) instead of one `assignment_NN.c`.
 
 ### 0.4 Ground rules
 
@@ -89,7 +79,7 @@ docs/                                  grading and submission rules
 
 ---
 
-## 1. From Source Code to a Running Program (20 min)
+## 1. From Source Code to a Running Program
 
 ### 1.1 Setting up a toolchain
 
@@ -116,7 +106,7 @@ One `gcc` command runs four stages:
              #define
 ```
 
-> Later you will stop `gcc` after single stages: `-E` in Week 08, to see what a macro expands to, and `-c` in Week 10, to compile several `.c` files separately.
+> Later you will stop `gcc` after single stages: `-E` in Week 06, to see what a macro expands to, and `-c` in Week 08, to compile several `.c` files separately.
 
 ### 1.3 The command we use in this course
 
@@ -182,12 +172,12 @@ warnings.c : 16 : 28 : warning : format specifies type ...   [-Wformat]
 
 ---
 
-## 2. `make` and Makefiles (40 min)
+## 2. `make` and Makefiles
 
 ### 2.1 Why `make`?
 
 - Typing `gcc -Wall -Wextra -std=c11 assignment_01.c -o week01` every time is slow and error-prone.
-- In Week 10 the project has `main.c`, `list.c`, and `student.c`. You only want to recompile what changed.
+- In Week 08 the project has `main.c`, `list.c`, and `student.c`. You only want to recompile what changed.
 - A Makefile *documents* how to build the project. Anyone can clone the repository and type `make`.
 
 Every starter directory in this course already contains a Makefile. Today you learn to read it, use it, and write one yourself.
@@ -305,7 +295,7 @@ $ make -n
 gcc -Wall -Wextra -std=c11 assignment_01.c -o week01
 ```
 
-The starter Makefiles for Weeks 02–09 have exactly this shape. Only the executable name (`TARGET = week02`, …) and the source file (`assignment_02.c`, …) change. Read one and you have read them all.
+The starter Makefiles for Weeks 02, 05, 06, and 07 have exactly this shape. Only the executable name (`TARGET = week02`, …) and the source file (`assignment_02.c`, …) change. Read one and you have read them all. Weeks 03 and 04 have two parts, A and B, so their Makefiles build two programs: for example `TARGETS = week03a week03b`, `all: $(TARGETS)`, and one rule per program. `make` builds both, and `make clean` removes both.
 
 ### 2.6 Step 4 — `.PHONY` and a `run` target
 
@@ -346,7 +336,7 @@ clean:
 ```
 
 - `make run` first makes sure `hello` is up to date, then runs it, so it is build-and-run in one command.
-- The Week 01–09 starter Makefiles do **not** declare `.PHONY`. They work fine as long as you never create a file named `all` or `clean`. The Week 10 starter Makefile does declare it. You may add `.PHONY` (and `run`) to your own Makefiles.
+- The Week 01–07 starter Makefiles do **not** declare `.PHONY`. They work fine as long as you never create a file named `all` or `clean`. The Week 08 starter Makefile does declare it. You may add `.PHONY` (and `run`) to your own Makefiles.
 
 ### 2.7 Common errors
 
@@ -389,11 +379,11 @@ make -C assignments/week01-struct/starter
 | `make -C dir` | Run `make` as if you were in `dir`. |
 | `make -f file` | Use `file` instead of `Makefile`. |
 
-`make -B` and overriding variables (`make CFLAGS=...`) come in Week 04.
+`make -B` and overriding variables (`make CFLAGS=...`) come in Week 03.
 
 ---
 
-## 3. Grouping Data with `struct` (25 min)
+## 3. Grouping Data with `struct`
 
 ### 3.1 Why `struct`?
 
@@ -420,7 +410,7 @@ struct book {
 
 - The type name is the two words `struct book`.
 - The definition creates **no variable**. It only describes a layout.
-- We do **not** `typedef` structs in this course. The Linux kernel coding style keeps the word `struct` visible so you always know you are dealing with a structure. We follow it.
+- We do **not** `typedef` structs in this course. Keeping the word `struct` visible means you always know you are dealing with a structure.
 
 ### 3.3 Creating and initializing variables
 
@@ -473,7 +463,7 @@ offset   0        4                                   36       40
          +--------+-----------------------------------+--------+
 ```
 
-Members are stored **in declaration order**. The compiler may insert unused *padding* bytes between members. We study offsets and padding in Week 08, because they are the key to `container_of()`.
+Members are stored **in declaration order**. The compiler may insert unused *padding* bytes between members. We study offsets and padding in Week 06, because they are the key to `container_of()`.
 
 **Live demo** — [`examples/struct_basics.c`](examples/struct_basics.c):
 
@@ -496,7 +486,7 @@ strlen(b1.title)    = 26 characters
 
 ---
 
-## 4. Pointers and Structs (15 min)
+## 4. Pointers and Structs
 
 ### 4.1 Pointer recap
 
@@ -587,7 +577,7 @@ after set_year_by_pointer: [1] Operating Systems (2024)
 &book.year  = 0x16b886564
 ```
 
-Look at the last four lines. `&book` and `&book.id` are the **same address**, and each member sits at a fixed distance from the start. Remember this for Week 08.
+Look at the last four lines. `&book` and `&book.id` are the **same address**, and each member sits at a fixed distance from the start. Remember this for Week 06.
 
 ### 4.4 Looking ahead
 
@@ -600,13 +590,13 @@ struct node {
 };
 ```
 
-That one idea is the whole linked list. We get there in Week 04.
+That one idea is the whole linked list. We get there in Week 03.
 
 ---
 
-## 5. Lab (45 min)
+## 5. Lab
 
-### Lab A — Write a Makefile from scratch (15 min)
+### Lab A — Write a Makefile from scratch
 
 1. Create a scratch directory **outside** the repository and a `hello.c` that prints your name.
 2. Without copying, write a `Makefile` that has:
@@ -629,7 +619,7 @@ That one idea is the whole linked list. We get there in Week 04.
 
 **Checkpoint:** show `make run` output to the instructor or TA.
 
-### Lab B — Week 01 assignment (30 min)
+### Lab B — Week 01 assignment
 
 Task: [assignments/week01-struct/README.md](../../assignments/week01-struct/README.md)
 
@@ -655,7 +645,7 @@ Self-check:
 
 ---
 
-## 6. Wrap-up (10 min)
+## 6. Wrap-up
 
 ### Key takeaways
 

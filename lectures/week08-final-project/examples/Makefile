@@ -1,4 +1,4 @@
-# Week 10 demo: the same shape as the final project's starter Makefile.
+# Week 08 demo: the same shape as the final project's starter Makefile.
 
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11

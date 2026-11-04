@@ -1,5 +1,5 @@
 /*
- * Week 09 demo: saving an intrusive list of books to a text file
+ * Week 07 demo: saving an intrusive list of books to a text file
  * and loading it back.
  *
  *   ./library_io books.txt saved.txt

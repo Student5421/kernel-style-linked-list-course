@@ -10,14 +10,6 @@ module.exports = {
             code: { file: 'examples/macro_parens.c', from: /^#define SQUARE_BAD/, to: /^#define DOUBLE\(x\)/ },
             notes: 'Last week *p.year did not compile. Today: how C decides what an expression means, and which mistakes like that one compile without any error at all.' },
 
-        { kind: 'agenda', plan: [
-            ['0:00', '0:10', 'Review of Week 01', 'review', 'Review'],
-            ['0:10', '0:55', 'Part 1 — Precedence, arithmetic, comparisons, and logic', 'lecture', 'Part 1'],
-            ['0:55', '1:05', 'Break', 'break', 'Break'],
-            ['1:05', '1:50', 'Part 2 — Pointer expressions, side effects, bit flags, and macros', 'lecture', 'Part 2'],
-            ['1:50', '2:50', 'Lab — Week 02 assignment', 'lab', 'Lab'],
-            ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
-        ] },
 
         { kind: 'objectives', items: [
             'Tell apart *precedence*, *associativity*, and *order of evaluation*',
@@ -36,7 +28,7 @@ module.exports = {
         ], today: 'Today\'s question: last week `*p.year` did not compile. **How does C decide what an expression means**, and which mistakes like this one compile *without* an error?' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — precedence', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Precedence, arithmetic, comparisons, and logic', sub: 'Grouping rules, integer division, chained comparisons, short-circuit, assignment' },
+        { newSection: 'Part 1 — precedence', kind: 'section', num: 1, label: 'PART 1', title: 'Precedence, arithmetic, comparisons, and logic', sub: 'Grouping rules, integer division, chained comparisons, short-circuit, assignment' },
 
         { kind: 'concept', title: 'Precedence and associativity', layout: 'tb', ratio: 0.56,
             what: '**Precedence** decides which operator takes its operands first: `a + b * c` is `a + (b * c)`. **Associativity** decides how operators of the same level group: `a - b - c` is `(a - b) - c`, but `a = b = 0` is `a = (b = 0)`. Together they fix how an expression is **grouped**.',
@@ -130,7 +122,7 @@ printf("%d %d\\n", !5, !!5);       /* prints 0 1: !! gives 0/1 */`, label: null 
 
 if (found != NULL && found->year > 2000)   /* SAFE: right side skipped   */
     printf("found a recent book\\n");`, label: null },
-            notes: 'This guard pattern — check the pointer, then use it, in one condition — appears in every list search from Week 04 to Week 10. The arith_logic demo prints "no book (and no crash)" because found is NULL.' },
+            notes: 'This guard pattern — check the pointer, then use it, in one condition — appears in every list search from Week 03 to Week 08. The arith_logic demo prints "no book (and no crash)" because found is NULL.' },
 
         { kind: 'demo', title: 'Live demo: arith_logic.c, the rest', ratio: 0.55,
             a: { out: `score in range? 0
@@ -153,16 +145,16 @@ a += b * 2;         /* a = a + (b * 2)                  */`, label: null },
             notes: 'An assignment has a value: the value that was assigned. When you want an assignment inside a condition, add parentheses, because = has lower precedence than !=.' },
 
         { kind: 'compare', title: 'An assignment inside a condition',
-            intro: 'When you *do* want it, add parentheses: `=` has lower precedence than `!=`. You will use the right form in Week 09 to read files.',
+            intro: 'When you *do* want it, add parentheses: `=` has lower precedence than `!=`. You will use the right form in Week 07 to read files.',
             left: { label: 'RIGHT', kind: 'good', note: 'Assign, then compare', body: { code: 'while ((c = getchar()) != EOF)', label: null, maxFont: 22 } },
             right: { label: 'WRONG', kind: 'bad', note: '`c = (getchar() != EOF)`: `c` is 0 or 1', body: { code: 'while (c = getchar() != EOF)', label: null, maxFont: 22 } } },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — pointers, flags, macros', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'Pointer expressions, side effects, bit flags, and macros', sub: 'Postfix first, then unary, right to left' },
+        { newSection: 'Part 2 — pointers, flags, macros', kind: 'section', num: 2, label: 'PART 2', title: 'Pointer expressions, side effects, bit flags, and macros', sub: 'Postfix first, then unary, right to left' },
 
         { kind: 'concept', title: 'Reading pointer expressions', layout: 'tb', ratio: 0.5,
             what: 'Pointer code mixes `*`, `&`, `.`, `->`, `[]`, and `++`. Two rules settle all of it: **postfix** operators (`.` `->` `[]` `()` `x++`) bind tightest, and **unary** operators (`*` `&` `!` casts) come next, grouping right to left.',
-            why: ['Misread one and the code means something else or does not compile: with `struct book **pp`, `*pp->year` is `*(pp->year)`, an error.', 'Linked-list code is full of these: `&(*link)->next` (Week 04), `&s->list` (Week 07), `(char *)ptr - off` (Week 08).'],
+            why: ['Misread one and the code means something else or does not compile: with `struct book **pp`, `*pp->year` is `*(pp->year)`, an error.', 'Linked-list code is full of these: `&(*link)->next` (Week 03), `&s->list` (Week 05), `(char *)ptr - off` (Week 06).'],
             how: { code: `*pp->year      /* *(pp->year): does not compile with struct book **pp */
 (*pp)->year    /* follow pp, then -> : the year                       */
 *q++           /* *(q++): reads *q, then moves the POINTER q          */
@@ -174,11 +166,11 @@ a += b * 2;         /* a = a + (b * 2)                  */`, label: null },
                 ['`p->year`', '`(*p).year`', 'every week'],
                 ['`*p->title`', '`*(p->title)`: the first character of the title', ''],
                 ['`p->title[1]`', '`(p->title)[1]`', ''],
-                ['`&p->year`', '`&(p->year)`: the address of a member', '`&s->list` (Week 07)'],
-                ['`(*pp)->year`', 'follow `pp`, then `->`', '`(*link)->next` (Week 04)'],
-                ['`&(*link)->next`', 'the address of the `next` field of `*link`', 'Week 04'],
-                ['`n->prev->next`', '`(n->prev)->next`, left to right', 'Weeks 05–07'],
-                ['`(char *)ptr - off`', '`((char *)ptr) - off`: the cast first', '`container_of()` (Week 08)'],
+                ['`&p->year`', '`&(p->year)`: the address of a member', '`&s->list` (Week 05)'],
+                ['`(*pp)->year`', 'follow `pp`, then `->`', '`(*link)->next` (Week 03)'],
+                ['`&(*link)->next`', 'the address of the `next` field of `*link`', 'Week 03'],
+                ['`n->prev->next`', '`(n->prev)->next`, left to right', 'Weeks 04–05'],
+                ['`(char *)ptr - off`', '`((char *)ptr) - off`: the cast first', '`container_of()` (Week 06)'],
             ] } } },
 
         { kind: 'demo', title: 'Live demo: pointer_exprs.c', layout: 'tb', ratio: 0.55,
@@ -244,11 +236,11 @@ i = i + 2;                   /* fine      */`, label: null },
                 ['`~a`', 'NOT', 'invert every bit: a "clear" mask'],
                 ['`a << n`, `a >> n`', 'shift', 'build a flag: `1u << n`'],
             ] } },
-            notes: 'Use 1u, not 1: shifting a signed 1 into the sign bit is undefined behavior. The next slide turns these operators into the flag-set pattern used throughout the kernel.' },
+            notes: 'Use 1u, not 1: shifting a signed 1 into the sign bit is undefined behavior. The next slide turns these operators into the flag-set pattern.' },
 
         { kind: 'concept', title: 'Bit flags', layout: 'tb', ratio: 0.46,
             what: 'A **flag set** is an unsigned integer in which each bit is one yes/no property, named by a macro. **Set** a flag with `|=`, **clear** it with `&= ~`, **toggle** it with `^=`, and **test** it with `&`.',
-            why: ['`flags & BOOK_DAMAGED == 0` means `flags & (BOOK_DAMAGED == 0)`, always 0: `==` binds tighter than `&`.', 'The Linux kernel and POSIX use it everywhere: `O_RDONLY | O_CREAT`.'],
+            why: ['`flags & BOOK_DAMAGED == 0` means `flags & (BOOK_DAMAGED == 0)`, always 0: `==` binds tighter than `&`.', 'System APIs such as POSIX `open()` use it everywhere: `O_RDONLY | O_CREAT`.'],
             how: { code: `#define BOOK_BORROWED (1u << 0)
 #define BOOK_DAMAGED  (1u << 1)
 flags |= BOOK_BORROWED;              /* set    */
@@ -273,7 +265,7 @@ damaged
 
         { kind: 'concept', title: 'The conditional and comma operators', layout: 'tb', ratio: 0.52,
             what: '`c ? a : b` is an expression that yields `a` if `c` is non-zero and `b` otherwise. The **comma operator** `x, y` evaluates `x`, then `y`, and yields `y`; you mostly meet it in `for` loops.',
-            why: ['Without `?:`, choosing between two values needs an `if`/`else` and a temporary.', 'Without the comma operator a `for` loop cannot update two variables at once; `list_for_each_safe()` (Week 08) relies on it.'],
+            why: ['Without `?:`, choosing between two values needs an `if`/`else` and a temporary.', 'Without the comma operator a `for` loop cannot update two variables at once; `list_for_each_safe()` (Week 06) relies on it.'],
             how: { code: `max = a > b ? a : b;   /* comparison, then ?:, then = */
 
 for (i = 0, j = n - 1; i < j; i++, j--)
@@ -292,7 +284,7 @@ for (i = 0, j = n - 1; i < j; i++, j--)
                 { n: 2, h: 'Parenthesize the whole body', body: '`((x) * (x))`, so the macro is one expression wherever it lands.' },
                 { n: 3, h: 'Beware side effects', body: 'The argument is pasted once per use: `SQUARE(i++)` increments `i` twice (undefined behavior).' },
             ] },
-            foot: 'In Week 08, `container_of()` follows both rules.' },
+            foot: 'In Week 06, `container_of()` follows both rules.' },
 
         { kind: 'demo', title: 'Let the compiler check you', layout: 'tb', ratio: 0.7,
             a: { term: [{ cmd: 'gcc -Wall -Wextra -std=c11 precedence_traps.c -o precedence_traps', out: `:24:15: warning: & has lower precedence than ==       [-Wparentheses]
@@ -317,9 +309,9 @@ for (i = 0, j = n - 1; i < j; i++, j--)
             foot: 'Trap 6 printed `average = 3.00`. `-Wall -Wextra` catch most precedence bugs, not all: test your results too.' },
 
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 02 assignment', sub: 'Fix the starter\'s deliberate warnings, then the bugs no warning catches' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB', title: 'Week 02 assignment', sub: 'Fix the starter\'s deliberate warnings, then the bugs no warning catches' },
 
-        { kind: 'content', title: 'Lab — Week 02 assignment', tag: '60 MIN',
+        { kind: 'content', title: 'Lab — Week 02 assignment',
             a: { steps: [
                 'Build the starter **first** and read its three warnings. They are deliberate',
                 '`is_valid_score()`: test it with -1, 0, 100, and 101',
@@ -364,6 +356,6 @@ for (i = 0, j = n - 1; i < j; i++, j--)
             '`==` binds tighter than `&`: it is `flags & 0`, always 0. Write `(flags & BOOK_DAMAGED) == 0`',
         ] },
 
-        { kind: 'next', title: 'Week 03 — Dynamic Memory', sub: 'Every struct so far disappears when its function returns. How do we create objects that outlive their creator, in numbers we do not know in advance?' },
+        { kind: 'next', title: 'Week 03 — Dynamic Memory and Singly Linked List', sub: 'Every struct so far disappears when its function returns. How do we create objects that outlive their creator, in numbers we do not know in advance, and chain them into a list?' },
     ],
 };

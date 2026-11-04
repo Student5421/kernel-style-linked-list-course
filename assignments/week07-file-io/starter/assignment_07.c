@@ -18,7 +18,7 @@ struct student {
     struct list_head list;
 };
 
-/* TODO: Copy in the list functions you wrote in Weeks 07-08. */
+/* TODO: Copy in the list functions you wrote in Weeks 05-06. */
 void list_init(struct list_head *head)
 {
     (void)head;

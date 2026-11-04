@@ -18,23 +18,21 @@ memory_map
 malloc_basics
 book_factory
 dangling_local
-# week04
 sll_manual
 sll_book
-# week05
+# week04
 dll_book
-# week06
 clist_book
-# week07
+# week05
 first_member
 intrusive_book
 multi_list
-# week08
+# week06
 layout
 pointer_arith
 container_of_demo
 list_macros
-# week09
+# week07
 stdio_streams
 count_chars
 library_io
@@ -44,6 +42,6 @@ saved.txt
 saved2.txt
 out.txt
 err.txt
-# week10
+# week08
 stats_demo
 broken

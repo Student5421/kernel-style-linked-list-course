@@ -2,21 +2,10 @@
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
+| **Session** | Lecture + live coding + lab |
 | **Assignment** | [Week 02 — Operators and Precedence](../../assignments/week02-operators/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous / Next** | [Week 01](../week01-struct/) · [Week 03](../week03-dynamic-memory/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review of Week 01 | Quiz + discussion |
-| 0:10 – 0:55 | Part 1 — Precedence, arithmetic, comparisons, and logic | Lecture + live demo |
-| 0:55 – 1:05 | Break | |
-| 1:05 – 1:50 | Part 2 — Pointer expressions, side effects, bit flags, and macros | Lecture + live demo |
-| 1:50 – 2:50 | Lab — Week 02 assignment | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
+| **Previous / Next** | [Week 01](../week01-struct/) · [Week 03](../week03-dynamic-memory-singly-list/) |
 
 ## Learning Objectives
 
@@ -31,7 +20,7 @@ By the end of this session you can:
 
 ---
 
-## 0. Review of Week 01 (10 min)
+## 0. Review of Week 01
 
 1. What does `make` do when the target is newer than all of its prerequisites?
 2. Why does a Makefile recipe line need a TAB?
@@ -42,7 +31,7 @@ Today's question: **Last week `*p.year` did not compile. How does C decide what 
 
 ---
 
-## 1. Precedence, Arithmetic, Comparisons, and Logic (45 min)
+## 1. Precedence, Arithmetic, Comparisons, and Logic
 
 ### 1.1 Three different rules
 
@@ -131,7 +120,7 @@ if (found != NULL && found->year > 2000)    /* safe: found->year is read only if
 if (found->year > 2000 && found != NULL)    /* crash: dereferences NULL before checking */
 ```
 
-This guard pattern, *check the pointer, then use it, in one condition*, appears in every list search from Week 04 to Week 10.
+This guard pattern, *check the pointer, then use it, in one condition*, appears in every list search from Week 03 to Week 08.
 
 ### 1.5 Assignment is an expression
 
@@ -149,13 +138,13 @@ while ((c = getchar()) != EOF)   /* right: assign, then compare            */
 while (c = getchar() != EOF)     /* wrong: c = (getchar() != EOF), so 0 or 1 */
 ```
 
-You will use the correct form in Week 09 to read files character by character.
+You will use the correct form in Week 07 to read files character by character.
 
 Compound assignment applies the whole right side first: `a += b * 2` is `a = a + (b * 2)`.
 
 ---
 
-## 2. Pointer Expressions, Side Effects, Bit Flags, and Macros (45 min)
+## 2. Pointer Expressions, Side Effects, Bit Flags, and Macros
 
 ### 2.1 Reading pointer expressions
 
@@ -168,11 +157,11 @@ The rule from §1.2 settles all of these: **postfix first, then unary, right to 
 | `p->year` | `(*p).year` | every week |
 | `*p->title` | `*(p->title)`: the first character of the title | |
 | `p->title[1]` | `(p->title)[1]` | |
-| `&p->year` | `&(p->year)`: the address of a member | `&s->list` (Week 07) |
-| `(*pp)->year` | follow `pp`, then `->` | `(*link)->next` (Week 04) |
-| `&(*link)->next` | the address of the `next` field of `*link` | Week 04 |
-| `n->prev->next` | `(n->prev)->next` (left to right) | Weeks 05–07 |
-| `(char *)ptr - off` | `((char *)ptr) - off`: the cast first | `container_of()` (Week 08) |
+| `&p->year` | `&(p->year)`: the address of a member | `&s->list` (Week 05) |
+| `(*pp)->year` | follow `pp`, then `->` | `(*link)->next` (Week 03) |
+| `&(*link)->next` | the address of the `next` field of `*link` | Week 03 |
+| `n->prev->next` | `(n->prev)->next` (left to right) | Weeks 04–05 |
+| `(char *)ptr - off` | `((char *)ptr) - off`: the cast first | `container_of()` (Week 06) |
 
 ```text
 p->year     = 2010
@@ -236,7 +225,7 @@ Four operators do guarantee left-to-right order: `&&`, `||`, `?:`, and the comma
 | `~a` | NOT | invert every bit, to build a "clear" mask |
 | `a << n`, `a >> n` | shift | build a flag: `1u << n` |
 
-The flag-set pattern, used all over the Linux kernel (for example in file-open flags like `O_RDONLY | O_CREAT`):
+The flag-set pattern, used throughout C system interfaces (for example in file-open flags like `O_RDONLY | O_CREAT`):
 
 ```c
 #define BOOK_BORROWED (1u << 0)
@@ -277,7 +266,7 @@ The comma operator evaluates its left operand, then its right one, and yields th
 for (i = 0, j = n - 1; i < j; i++, j--)
 ```
 
-`list_for_each_safe()` in Week 08 uses exactly this. Note that the commas between function arguments are separators, not the comma operator.
+`list_for_each_safe()` in Week 06 uses exactly this. Note that the commas between function arguments are separators, not the comma operator.
 
 ### 2.6 Macros and precedence
 
@@ -304,7 +293,7 @@ Two rules for every macro you write:
 1. Parenthesize **each parameter** where it is used.
 2. Parenthesize the **whole body**.
 
-A third caution: the argument is pasted in once per use, so `SQUARE(i++)` increments `i` twice, which is undefined behavior. In Week 08, `container_of()` follows both rules.
+A third caution: the argument is pasted in once per use, so `SQUARE(i++)` increments `i` twice, which is undefined behavior. In Week 06, `container_of()` follows both rules.
 
 ### 2.7 Let the compiler check you
 
@@ -347,7 +336,7 @@ The output shows trap 6 printing `average = 3.00`. `-Wall -Wextra` catches most 
 
 ---
 
-## 3. Lab (60 min)
+## 3. Lab
 
 Task: [assignments/week02-operators/README.md](../../assignments/week02-operators/README.md)
 
@@ -367,7 +356,7 @@ Task: [assignments/week02-operators/README.md](../../assignments/week02-operator
 
 ---
 
-## 4. Wrap-up (10 min)
+## 4. Wrap-up
 
 ### Key takeaways
 
@@ -400,4 +389,4 @@ Task: [assignments/week02-operators/README.md](../../assignments/week02-operator
 
 ### Next week
 
-Every struct so far has been a local variable that disappears when its function returns. What if a function needs to **create** an object that outlives it, or we do not know in advance how many objects we need? → **Week 03 — Dynamic Memory** (`malloc()`, `free()`, the heap).
+Every struct so far has been a local variable that disappears when its function returns. What if a function needs to **create** an object that outlives it, or we do not know in advance how many objects we need? → **Week 03 — Dynamic Memory and Singly Linked List** (`malloc()`, `free()`, the heap, and our first linked list).

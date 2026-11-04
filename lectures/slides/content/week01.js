@@ -18,18 +18,8 @@ struct student {
     int score;
     struct list_head list;
 };`,
-            notes: 'Welcome. In ten weeks you will build a Student Management System on the same linked-list design the Linux kernel uses. Today almost nothing in this snippet makes sense; by Week 08 you will be able to explain every line.' },
+            notes: 'Welcome. In eight weeks you will build a Student Management System on an intrusive circular doubly linked list. Today almost nothing in this snippet makes sense; by Week 06 you will be able to explain every line.' },
 
-        { kind: 'agenda', plan: [
-            ['0:00', '0:15', 'Course introduction and roadmap', 'review', 'Intro'],
-            ['0:15', '0:35', 'Part 1 — From source code to a running program', 'lecture', 'gcc'],
-            ['0:35', '1:15', 'Part 2 — `make` and Makefiles', 'lecture', 'make'],
-            ['1:15', '1:25', 'Break', 'break', 'Break'],
-            ['1:25', '1:50', 'Part 3 — Grouping data with `struct`', 'lecture', 'struct'],
-            ['1:50', '2:05', 'Part 4 — Pointers and structs', 'lecture', 'ptr'],
-            ['2:05', '2:50', 'Lab — Makefile mini-lab + Week 01 assignment', 'lab', 'Lab'],
-            ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
-        ] },
 
         { kind: 'objectives', items: [
             'Compile and run a C program with `gcc -Wall -Wextra -std=c11`',
@@ -44,41 +34,41 @@ struct student {
 
         { kind: 'content', title: 'Where we are going', ratio: 0.5,
             a: { bullets: [
-                'A **Student Management System** built on a kernel-style linked list',
+                'A **Student Management System** built on a linked list',
                 'The links live **inside** each object: no `struct node` anywhere',
-                'The same design holds thousands of lists in the Linux kernel',
-                'By Week 08 you can explain every line on the right',
+                'By Week 06 you can explain every line on the right',
             ] },
-            b: { code: { file: '/assignments/week10-final-project/starter/student.h', struct: 'student' }, label: 'student.h' },
-            notes: 'Show the final structure. Point out struct list_head inside struct student. Promise: by Week 08 every line is explained.' },
+            b: { code: { file: '/assignments/week08-final-project/starter/student.h', struct: 'student' }, label: 'student.h' },
+            notes: 'Show the final structure. Point out struct list_head inside struct student. Promise: by Week 06 every line is explained.' },
 
-        { kind: 'content', title: 'Roadmap: ten weeks, one question each',
+        { kind: 'content', title: 'Roadmap: eight weeks, one question each',
             a: { table: { head: ['Week', 'Topic', 'The question we answer'], colW: [1, 4, 8], size: 14, rows: [
                 ['1', 'Build tools, `struct`, pointers', 'How do I build a program, and how do I group data?'],
                 ['2', 'Operators and precedence', 'What does `*p->next` or `flags & MASK == 0` really mean?'],
-                ['3', 'Dynamic memory', 'How do I create objects at run time?'],
-                ['4', 'Singly linked list', 'How do I chain objects together?'],
-                ['5', 'Doubly linked list', 'How do I walk backwards and delete in O(1)?'],
-                ['6', 'Circular doubly linked list', 'How do I get rid of every `NULL` special case?'],
-                ['7', 'Intrusive linked list', 'Why put the links *inside* the data?'],
-                ['8', '`offsetof()` and `container_of()`', 'How do I get the object back from its links?'],
-                ['9', 'File I/O', 'How do I save the list and load it again?'],
-                ['10', 'Final project', 'Putting it all together'],
+                ['3', 'Dynamic memory, singly linked list', 'How do I create objects at run time and chain them?'],
+                ['4', 'Doubly linked list, circular list with a sentinel', 'How do I walk backwards, delete in O(1), and drop every `NULL` special case?'],
+                ['5', 'Intrusive linked list', 'Why put the links *inside* the data?'],
+                ['6', '`offsetof()` and `container_of()`', 'How do I get the object back from its links?'],
+                ['7', 'File I/O', 'How do I save the list and load it again?'],
+                ['8', 'Final project', 'Putting it all together'],
             ] } }, 
             notes: 'Each week answers one question, and each answer is needed by the next week. The final project uses all of them.' },
 
         { kind: 'content', title: 'How the repository is organized', layout: 'tb', ratio: 0.5,
-            a: { code: `assignments/weekNN-<topic>/README.md   the task
-assignments/weekNN-<topic>/starter/    your code + Makefile
-lectures/weekNN-<topic>/README.md      lecture notes
-lectures/weekNN-<topic>/examples/      code shown in class
-docs/                                  grading, submission`, lang: 'text', label: 'repository' },
+            a: { code: `README.md                                   course overview, weekly plan
+assignments/weekNN-<topic>/README.md        the task
+assignments/weekNN-<topic>/starter/         your code + Makefile
+lectures/weekNN-<topic>/README.md           lecture notes
+lectures/weekNN-<topic>/weekNN-slides.pptx  these slides
+lectures/weekNN-<topic>/examples/           code shown in class
+lectures/slides/                            slide sources (instructors)
+docs/                                       project overview, grading, submission`, lang: 'text', label: 'repository' },
             b: { cards: [
                 { n: 1, h: 'Read first', body: 'Each week starts with the assignment `README.md`.' },
                 { n: 2, h: 'Write here', body: 'All your code goes into `starter/`.' },
                 { n: 3, h: 'Watch here', body: 'Every demo is in `lectures/.../examples/`.' },
             ] }, 
-            notes: 'Walk through the tree. Assignments are what students hand in; lectures hold these notes and the demo code. Every demo shown in class is in the week\'s examples directory.' },
+            notes: 'Walk through the tree. Assignments are what students hand in; lectures hold the notes, the slides, and the demo code. Every demo shown in class is in the week\'s examples directory. Weeks 03 and 04 have two starter files, A and B; the final project starter has several .c and .h files.' },
 
         { kind: 'content', title: 'Ground rules',
             a: { cards: [
@@ -89,7 +79,7 @@ docs/                                  grading, submission`, lang: 'text', label
             notes: 'Warnings count as bugs from day one. malloc/free starts in Week 03. Demos use struct book so that students have to translate the idea to struct student themselves in the lab.' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — gcc', kind: 'section', num: 1, label: 'PART 1 · 20 MIN', title: 'From source code to a running program', sub: 'Toolchain, compiler flags, running, reading warnings' },
+        { newSection: 'Part 1 — gcc', kind: 'section', num: 1, label: 'PART 1', title: 'From source code to a running program', sub: 'Toolchain, compiler flags, running, reading warnings' },
 
         { kind: 'content', title: 'Setting up a toolchain', ratio: 0.62,
             a: { table: { head: ['Platform', 'Install', 'Notes'], colW: [2.2, 3.6, 4], size: 15, rows: [
@@ -102,7 +92,7 @@ docs/                                  grading, submission`, lang: 'text', label
 
         { kind: 'concept', title: 'The compilation pipeline', layout: 'tb', ratio: 0.55,
             what: 'Compiling turns a `.c` source file into an executable in four stages. The **preprocessor** expands `#include` and `#define`, the **compiler** translates C into assembly, the **assembler** produces an object file (`.o`), and the **linker** joins it with the C library. One `gcc` command runs all four.',
-            why: ['When a build fails, the message tells you **which stage** failed: a compile error points to a line of your code, a link error means a definition is missing.', 'Later weeks stop `gcc` early on purpose: `-E` in Week 08, `-c` in Week 10.'],
+            why: ['When a build fails, the message tells you **which stage** failed: a compile error points to a line of your code, a link error means a definition is missing.', 'Later weeks stop `gcc` early on purpose: `-E` in Week 06, `-c` in Week 08.'],
             how: { diagram: { type: 'flow', boxH: 1.2, steps: [
                 { t: 'hello.c', sub: 'source', kind: 'file', code: true },
                 { t: 'preprocessor', sub: '#include, #define' },
@@ -111,7 +101,7 @@ docs/                                  grading, submission`, lang: 'text', label
                 { t: 'linker', sub: '+ C library' },
                 { t: 'hello', sub: 'executable', kind: 'file', code: true },
             ] } },
-            notes: 'One gcc command runs the preprocessor, compiler, assembler and linker. Knowing the stages lets students read error messages: compile errors have a file and line, link errors talk about missing symbols. We stop gcc after one stage in Week 08 (-E) and Week 10 (-c).' },
+            notes: 'One gcc command runs the preprocessor, compiler, assembler and linker. Knowing the stages lets students read error messages: compile errors have a file and line, link errors talk about missing symbols. We stop gcc after one stage in Week 06 (-E) and Week 08 (-c).' },
 
         { kind: 'content', title: 'The command we use in this course', layout: 'tb', ratio: 0.22,
             a: { sh: '$ gcc -Wall -Wextra -std=c11 assignment_01.c -o week01', label: null, maxFont: 26 },
@@ -129,7 +119,7 @@ docs/                                  grading, submission`, lang: 'text', label
             what: 'The shell runs an executable when you give its path: `./week01` means "the file `week01` in this directory". When the program ends, the value returned by `main()` becomes its **exit status**, and `0` means success.',
             why: ['Without `./`, the shell searches only the directories listed in `PATH`, and reports *command not found*.', 'Tools read the exit status to decide what happens next: `make` stops the build when a command exits with a non-zero status.'],
             how: { term: [{ cmd: 'make', out: 'gcc -Wall -Wextra -std=c11 assignment_01.c -o week01' }, { cmd: './week01' }, { cmd: 'echo $?', out: '0' }] },
-            notes: 'The current directory is not in PATH, so ./ is required. echo $? prints the exit status of the last command. We use the exit status again in Week 09, where a failing diff makes make stop.' },
+            notes: 'The current directory is not in PATH, so ./ is required. echo $? prints the exit status of the last command. We use the exit status again in Week 07, where a failing diff makes make stop.' },
 
         { kind: 'concept', title: 'Compiler warnings', layout: 'tb', ratio: 0.56,
             what: '`-Wall -Wextra` turn on the useful warnings. A **warning** is the compiler telling you that code is legal C but probably wrong: a `printf` format that does not match its argument, or a variable that is never used.',
@@ -168,11 +158,11 @@ warnings.c:14:9: warning: unused variable 'unused' [-Wunused-variable]
             notes: 'The starter files contain lines like (void)student;. That uses the variable without doing anything, which silences the unused-variable warning. Delete it once the variable is really used.' },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — make', kind: 'section', num: 2, label: 'PART 2 · 40 MIN', title: '`make` and Makefiles', sub: 'Rules, timestamps, variables, clean, .PHONY' },
+        { newSection: 'Part 2 — make', kind: 'section', num: 2, label: 'PART 2', title: '`make` and Makefiles', sub: 'Rules, timestamps, variables, clean, .PHONY' },
 
         { kind: 'concept', title: '`make` and the Makefile', layout: 'tb', ratio: 0.5,
             what: '`make` is a build tool. It reads a file named `Makefile` that lists **what** to build, **from what**, and **with which commands**, and then runs only the commands that are needed.',
-            why: ['Without it you retype the whole `gcc` command after every edit, and one typo builds the wrong thing.', 'In Week 10 the project has three `.c` files: rebuilding all of them every time wastes time, and nobody else knows the right commands.'],
+            why: ['Without it you retype the whole `gcc` command after every edit, and one typo builds the wrong thing.', 'In Week 08 the project has three `.c` files: rebuilding all of them every time wastes time, and nobody else knows the right commands.'],
             how: { term: [{ cmd: 'cd assignments/week01-struct/starter' }, { cmd: 'make', out: 'gcc -Wall -Wextra -std=c11 assignment_01.c -o week01' }, { cmd: 'make', out: "make: Nothing to be done for `all'." }] },
             notes: 'Every starter directory already contains a Makefile. Today students learn to read it, use it, and write one. Note the second make: nothing changed, so nothing is rebuilt.' },
 
@@ -194,7 +184,7 @@ warnings.c:14:9: warning: unused variable 'unused' [-Wunused-variable]
 
         { kind: 'concept', title: 'Incremental builds: timestamps', ratio: 0.5,
             what: 'make compares file **modification times**. It rebuilds a target only if the target does not exist or one of its prerequisites is **newer** than it. Otherwise it reports that the target is *up to date*.',
-            why: ['Recompiling every file after every edit is slow; in Week 10 only the `.c` file you edited is recompiled.', 'It also explains a surprise: when nothing changed, `make` builds nothing.'],
+            why: ['Recompiling every file after every edit is slow; in Week 08 only the `.c` file you edited is recompiled.', 'It also explains a surprise: when nothing changed, `make` builds nothing.'],
             how: { art: `hello.c  modified 10:05
 hello    built    10:03
 → prerequisite is newer: rebuild
@@ -202,7 +192,7 @@ hello    built    10:03
 hello.c  modified 10:05
 hello    built    10:06
 → target is newer: "up to date"` },
-            notes: 'touch hello.c updates its modification time, which is why the third make in the demo rebuilt. Changing compiler flags is not a file change; Week 04 shows the consequence.' },
+            notes: 'touch hello.c updates its modification time, which is why the third make in the demo rebuilt. Changing compiler flags is not a file change; Week 03 shows the consequence.' },
 
         { kind: 'concept', title: 'The default goal and action targets', layout: 'tb', ratio: 0.48,
             what: '`make` with no arguments builds the **first** target in the file, the *default goal*, by convention named `all`. Some targets name **actions** rather than files: `make clean` runs the `clean` recipe, which deletes the build results.',
@@ -218,8 +208,8 @@ hello    built    10:06
 
         { kind: 'content', title: '`make -n`: print, don\'t run', ratio: 0.55,
             a: { term: [{ cmd: 'cd assignments/week01-struct/starter' }, { cmd: 'make clean', out: 'rm -f week01' }, { cmd: 'make -n', out: 'gcc -Wall -Wextra -std=c11 assignment_01.c -o week01' }] },
-            b: { callout: 'The starter Makefiles for Weeks 02–09 have the same shape: only `TARGET` (`week02`, …) and the source file (`assignment_02.c`, …) change. Read one and you have read them all.' }, 
-            notes: 'make -n prints the commands without running them, which is the quickest way to see what a Makefile does. The starters for Weeks 02 to 09 differ only in TARGET.' },
+            b: { callout: 'The starter Makefiles for Weeks 02–07 have the same shape: only `TARGET` (`week02`, …) and the source file (`assignment_02.c`, …) change. Weeks 03 and 04 build two programs, A and B. Read one and you have read them all.' }, 
+            notes: 'make -n prints the commands without running them, which is the quickest way to see what a Makefile does. The starters for Weeks 02 to 07 differ only in TARGET; Weeks 03 and 04 list two targets (week03a and week03b, week04a and week04b).' },
 
         { kind: 'demo', title: 'Step 4 — a file named "clean"', ratio: 0.6,
             a: { term: [{ cmd: 'cd lectures/week01-struct/examples/makefile-steps' }, { cmd: 'touch clean' }, { cmd: 'make -f Makefile.step3 clean', out: "make: `clean' is up to date." }, { cmd: 'rm clean  # tidy up' }] },
@@ -234,7 +224,7 @@ hello    built    10:06
             what: '`.PHONY: all run clean` tells make that these targets are **actions, not files**, so their recipes always run. A `run` target can depend on the program: `make run` builds it if needed, then runs it.',
             why: 'Without `.PHONY`, a file that happens to be named `clean` makes `make clean` report *up to date* and delete nothing, as on the previous slide.',
             how: { make: { file: 'examples/makefile-steps/Makefile.step4', from: /^CC =/ }, label: 'Makefile.step4' },
-            notes: 'The Week 01 to 09 starters do not declare .PHONY; they work as long as nobody creates a file named all or clean. The Week 10 starter declares it. Students may add .PHONY and run to their own Makefiles.' },
+            notes: 'The Week 01 to 07 starters do not declare .PHONY; they work as long as nobody creates a file named all or clean. The Week 08 starter declares it. Students may add .PHONY and run to their own Makefiles.' },
 
         { kind: 'content', title: 'Common make errors',
             a: { table: { head: ['What you see', 'Cause', 'Fix'], colW: [5.2, 3.6, 3.6], size: 14, rows: [
@@ -264,7 +254,7 @@ hello    built    10:06
             notes: 'cd into the starter directory, make, run, edit, make again, and make clean before committing. From the repository root, make -C does the same without cd.' },
 
         /* ---------------- Part 3 ---------------- */
-        { newSection: 'Part 3 — struct', kind: 'section', num: 3, label: 'PART 3 · 25 MIN', title: 'Grouping data with `struct`', sub: 'Definition, initialization, strings, copies, layout' },
+        { newSection: 'Part 3 — struct', kind: 'section', num: 3, label: 'PART 3', title: 'Grouping data with `struct`', sub: 'Definition, initialization, strings, copies, layout' },
 
         { kind: 'concept', title: '`struct`: grouping related data', layout: 'tb', ratio: 0.5,
             what: 'A `struct` groups related variables, its **members**, into one object with a type of its own, here `struct book`. The definition only describes the layout; it creates no variable.',
@@ -284,9 +274,9 @@ struct book b1 = { 1, "The C Programming Language", 1978 };`, label: 'struct_bas
                 'The type name is the two words `struct book`',
                 'A definition creates **no variable**; it describes a layout',
                 'The closing `};` needs its semicolon',
-                'No `typedef`: kernel style keeps the word `struct` visible',
+                'No `typedef`: the word `struct` stays visible in every declaration',
             ] }, 
-            notes: 'The type name is the two words struct book. The definition creates no variable; it only describes a layout. We do not typedef structs: the Linux kernel style keeps the word struct visible.' },
+            notes: 'The type name is the two words struct book. The definition creates no variable; it only describes a layout. We do not typedef structs in this course, so the word struct stays visible.' },
 
         { kind: 'concept', title: 'Initializing a struct', layout: 'tb', ratio: 0.54,
             what: 'An initializer gives the members their first values when the variable is created: **positional** (`{ 1, "…", 1978 }`, in member order) or **designated** (`{ .id = 2, .year = 2010 }`, by name). Members you leave out become zero, so `{0}` zeroes everything.',
@@ -316,7 +306,7 @@ snprintf(b1.title, sizeof(b1.title),
 
         { kind: 'concept', title: 'Members live at fixed offsets', layout: 'tb', ratio: 0.5,
             what: 'The members of a struct are stored one after another **in declaration order**, each at a fixed distance from the start of the struct: its **offset**. `sizeof(struct book)` is the total size in bytes: 4 + 32 + 4 = 40.',
-            why: 'You need this picture to predict `sizeof`. In Week 08, `container_of()` uses a member\'s offset to get from that member back to the whole struct. (The compiler may add padding between members; that is also Week 08.)',
+            why: 'You need this picture to predict `sizeof`. In Week 06, `container_of()` uses a member\'s offset to get from that member back to the whole struct. (The compiler may add padding between members; that is also Week 06.)',
             how: { diagram: { type: 'layout', title: 'struct book   (sizeof == 40)', fields: [
                 { name: 'id', size: 4 }, { name: 'title[32]', size: 32 }, { name: 'year', size: 4 },
             ] } },
@@ -335,7 +325,7 @@ strlen(b1.title)    = 26 characters`, label: 'output' },
             notes: 'Run make, then ./struct_basics. Point out the zero-initialized b3, the copy, the truncation-safe title copy, and sizeof(struct book) = 40.' },
 
         /* ---------------- Part 4 ---------------- */
-        { newSection: 'Part 4 — pointers', kind: 'section', num: 4, label: 'PART 4 · 15 MIN', title: 'Pointers and structs', sub: '`&`, `*`, `->`, and passing structs to functions' },
+        { newSection: 'Part 4 — pointers', kind: 'section', num: 4, label: 'PART 4', title: 'Pointers and structs', sub: '`&`, `*`, `->`, and passing structs to functions' },
 
         { kind: 'concept', title: 'Pointers',
             what: 'A **pointer** is a variable that holds the address of another object. `&x` gives the address of `x`, and `*p` is the object that `p` points to. `NULL` is a pointer that points to no object at all.',
@@ -388,19 +378,19 @@ after set_year_by_pointer: [1] Operating Systems (2024)
             b: { callout: [
                 '`&book` and `&book.id` are the **same address**',
                 'Every member sits at a fixed distance from the start',
-                'Remember this for Week 08: `container_of()`',
+                'Remember this for Week 06: `container_of()`',
             ] } },
 
         { kind: 'concept', title: 'A self-referential struct', layout: 'tb', ratio: 0.5,
             what: 'A struct cannot contain a copy of itself, but it can contain a **pointer to its own type**: `struct node { struct book data; struct node *next; };`. Each object can then point to the next one, and the last one points to `NULL`.',
-            why: 'An array needs its size in advance and must shift elements to insert in the middle. A chain of objects that point to each other grows one object at a time: that is the whole idea of a linked list, which we build in Week 04.',
+            why: 'An array needs its size in advance and must shift elements to insert in the middle. A chain of objects that point to each other grows one object at a time: that is the whole idea of a linked list, which we build in Week 03.',
             how: { diagram: { type: 'chain', kind: 'singly', nodes: ['[1]', '[2]', '[3]'] } },
-            notes: 'This is only a preview; Week 03 adds malloc so the nodes can be created at run time, and Week 04 builds the list.' },
+            notes: 'This is only a preview; Week 03 adds malloc so the nodes can be created at run time, and then builds the list.' },
 
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 45 MIN', title: 'Makefile mini-lab + Week 01 assignment', sub: 'Lab A: write a Makefile from scratch (15 min)\nLab B: the Week 01 assignment (30 min)' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB', title: 'Makefile mini-lab + Week 01 assignment', sub: 'Lab A: write a Makefile from scratch\nLab B: the Week 01 assignment' },
 
-        { kind: 'content', title: 'Lab A — write a Makefile from scratch', tag: '15 MIN', ratio: 0.5,
+        { kind: 'content', title: 'Lab A — write a Makefile from scratch', ratio: 0.5,
             a: { steps: [
                 'Outside the repository: create `hello.c` that prints your name',
                 'Without copying, write a `Makefile` with `CC`, `CFLAGS`, `TARGET`, `all`, `run`, `clean`, `.PHONY`',
@@ -415,7 +405,7 @@ after set_year_by_pointer: [1] Operating Systems (2024)
             ] },
             notes: 'Checkpoint: students show make run output to the instructor or TA.' },
 
-        { kind: 'content', title: 'Lab B — Week 01 assignment', tag: '30 MIN', ratio: 0.58,
+        { kind: 'content', title: 'Lab B — Week 01 assignment', ratio: 0.58,
             a: { steps: [
                 'Build the untouched starter: `make && ./week01` (prints nothing yet)',
                 'Store one student\'s ID, name, and score, then print them',

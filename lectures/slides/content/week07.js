@@ -1,7 +1,7 @@
-// Week 09 — File I/O
+// Week 07 — File I/O
 module.exports = {
-    week: 9,
-    dirName: 'week09-file-io',
+    week: 7,
+    dirName: 'week07-file-io',
     title: 'File I/O',
     short: 'File I/O',
     subtitle: 'Streams, files, and saving a linked list so it survives the end of the program',
@@ -13,14 +13,6 @@ module.exports = {
             ],
             notes: 'Every program so far forgets everything when it exits. Today: streams, files, and saving the list of books so that it can be rebuilt next time.' },
 
-        { kind: 'agenda', plan: [
-            ['0:00', '0:10', 'Review of Week 08', 'review', 'Review'],
-            ['0:10', '0:55', 'Part 1 — Streams, opening and closing files, reading characters and lines', 'lecture', 'Streams'],
-            ['0:55', '1:05', 'Break', 'break', 'Break'],
-            ['1:05', '1:50', 'Part 2 — Saving and loading a list, robust input, testing with files', 'lecture', 'Save & load'],
-            ['1:50', '2:50', 'Lab — Week 09 assignment', 'lab', 'Lab'],
-            ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
-        ] },
 
         { kind: 'objectives', items: [
             'Explain `FILE *`, the three standard streams, and shell redirection (`<`, `>`, `2>`)',
@@ -31,14 +23,14 @@ module.exports = {
             'Read keyboard input robustly with `scanf()`, and test programs with input files and `diff`',
         ], size: 16 },
 
-        { kind: 'review', title: 'Review of Week 08', questions: [
+        { kind: 'review', title: 'Review of Week 06', questions: [
             'On a 64-bit machine, what is `offsetof(struct student, list)`, and why is it not 28?',
             'Expand by hand: `container_of(pos, struct student, list)`',
             'When must you use `list_for_each_safe()` instead of `list_for_each()`?',
         ], today: 'Today\'s question: **every program so far forgets everything when it exits.** How do we keep the list of students until next time?' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — Streams', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Streams and files', sub: 'Standard streams, redirection, fopen/fclose, reading characters and lines' },
+        { newSection: 'Part 1 — Streams', kind: 'section', num: 1, label: 'PART 1', title: 'Streams and files', sub: 'Standard streams, redirection, fopen/fclose, reading characters and lines' },
 
         { kind: 'concept', title: 'Streams and `FILE *`', layout: 'tb', ratio: 0.52,
             what: 'A C program reads and writes through **streams**, represented by `FILE *`. Three are open before `main()` starts: `stdin` (the keyboard), `stdout` (the terminal), and `stderr` (also the terminal, for error messages).',
@@ -164,7 +156,7 @@ if (fclose(fp) != 0) {    /* buffered data is written here */
             notes: 'This is the end of library_save(): the checked fclose is where buffered data is actually written.' },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — Save and load', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'Saving and loading a list', sub: 'A text format, fgets + sscanf, robust keyboard input, testing with files' },
+        { newSection: 'Part 2 — Save and load', kind: 'section', num: 2, label: 'PART 2', title: 'Saving and loading a list', sub: 'A text format, fgets + sscanf, robust keyboard input, testing with files' },
 
         { kind: 'concept', title: 'A text file format', ratio: 0.5,
             what: 'A **file format** is the agreement on how records are written: here one book per line as `id,year,title`, with comment lines starting with `#`. The free-text field goes last so it may contain spaces and commas.',
@@ -174,7 +166,7 @@ if (fclose(fp) != 0) {    /* buffered data is written here */
 
         { kind: 'content', title: 'Saving: traverse and print',
             a: { code: { file: 'examples/library_io.c', fn: 'library_save', drop: [/^\s*$/] } },
-            notes: 'Everything from Weeks 07 and 08 is here: traverse the list_heads, and use container_of() to reach each book. The checked fclose() is where buffered data is written.' },
+            notes: 'Everything from Weeks 05 and 06 is here: traverse the list_heads, and use container_of() to reach each book. The checked fclose() is where buffered data is written.' },
 
         { kind: 'concept', title: 'Parsing a line: `fgets()` + `sscanf()`', layout: 'tb', ratio: 0.52,
             what: '`sscanf()` parses a string the way `scanf()` parses input. The loader reads each line with `fgets()`, parses it with `sscanf()`, and checks that `sscanf()` returned the number of fields it asked for.',
@@ -262,18 +254,18 @@ ID (0 to quit): bye` }] },
             notes: 'expected.txt is output you checked once by hand. A leading @ stops make from printing the command.' },
 
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 09 assignment', sub: 'Load students from a file, print them, save them, and check the round trip' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB', title: 'Week 07 assignment', sub: 'Load students from a file, print them, save them, and check the round trip' },
 
         { kind: 'content', title: 'Lab — load, print, save', ratio: 0.62,
             a: { steps: [
-                'Copy your list functions and `student_create()` from Weeks 07–08 into the starter',
+                'Copy your list functions and `student_create()` from Weeks 05–06 into the starter',
                 '`student_load()`: `fopen()` + `perror()`, a `fgets()` loop, `sscanf(line, "%d %19s %d", ...)`, range checks, errors with line numbers on `stderr`',
                 '`student_print_all()` and `student_free_all()`',
                 '`student_save()`: `fopen(path, "w")`, `fprintf()`, and a checked `fclose()`',
                 'Round trip: load `students.txt`, save, load the saved file, `diff` the two',
             ], size: 16, rowH: 1.05 },
-            b: { code: { file: '/assignments/week09-file-io/starter/students.txt', lines: [1, 7] }, lang: 'text', label: 'starter/students.txt' },
-            notes: 'Task: assignments/week09-file-io/README.md. The provided students.txt has two bad lines on purpose; three students must be loaded.' },
+            b: { code: { file: '/assignments/week07-file-io/starter/students.txt', lines: [1, 7] }, lang: 'text', label: 'starter/students.txt' },
+            notes: 'Task: assignments/week07-file-io/README.md. The provided students.txt has two bad lines on purpose; three students must be loaded.' },
 
         { kind: 'content', title: 'Test plan',
             a: { table: { head: ['#', 'Input', 'Expected'], colW: [0.6, 4.4, 7], size: 17, rows: [
@@ -288,7 +280,7 @@ ID (0 to quit): bye` }] },
             a: { cards: [
                 { n: 1, h: 'Duplicate IDs', body: 'Reject a line whose ID already appeared earlier in the file.' },
                 { n: 2, h: 'make test', body: 'Add a `test` target to your starter Makefile that runs the round trip and the `diff`.' },
-                { n: 3, h: 'Save and Load menus', body: 'Optional, not part of the final project spec: add them to your Week 10 program.' },
+                { n: 3, h: 'Save and Load menus', body: 'Optional, not part of the final project spec: add them to your Week 08 program.' },
             ] } },
 
         /* ---------------- Wrap-up ---------------- */
@@ -317,6 +309,6 @@ ID (0 to quit): bye` }] },
             'It writes `list.next`/`list.prev`: heap addresses that mean nothing in the next run. Padding and layout differ too',
         ] },
 
-        { kind: 'next', title: 'Week 10 — Final Project', sub: 'Everything is in place: structs, operators, the heap, circular lists, list_head, container_of(), and file I/O. Plus: building a program from several .c files.' },
+        { kind: 'next', title: 'Week 08 — Final Project', sub: 'Everything is in place: structs, operators, the heap, circular lists, list_head, container_of(), and file I/O. Plus: building a program from several .c files.' },
     ],
 };

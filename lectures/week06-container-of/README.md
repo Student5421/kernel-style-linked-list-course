@@ -1,22 +1,11 @@
-# Week 08 — `offsetof()` and `container_of()`
+# Week 06 — `offsetof()` and `container_of()`
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
-| **Assignment** | [Week 08 — `container_of()`](../../assignments/week08-container-of/) |
+| **Session** | Lecture + live coding + lab |
+| **Assignment** | [Week 06 — `container_of()`](../../assignments/week06-container-of/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous / Next** | [Week 07](../week07-intrusive-list/) · [Week 09](../week09-file-io/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review of Week 07 | Quiz + discussion |
-| 0:10 – 0:55 | Part 1 — Struct layout, `offsetof()`, and pointer arithmetic | Lecture + live demo |
-| 0:55 – 1:05 | Break | |
-| 1:05 – 1:50 | Part 2 — Deriving `container_of()`; kernel-style iteration macros | Lecture + live coding |
-| 1:50 – 2:50 | Lab — Week 08 assignment + port Week 07 to `container_of()` | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
+| **Previous / Next** | [Week 05](../week05-intrusive-list/) · [Week 07](../week07-file-io/) |
 
 ## Learning Objectives
 
@@ -27,11 +16,11 @@ By the end of this session you can:
 3. Derive `container_of()` from first principles and explain every token of the macro.
 4. Explain why `container_of()` must be a macro, and why each parameter is parenthesized.
 5. Use and write `list_entry()`, `list_for_each()`, and `list_for_each_safe()`.
-6. Read the corresponding parts of the Linux kernel's `include/linux/list.h`.
+6. Read the corresponding parts of a real list implementation, `include/linux/list.h`.
 
 ---
 
-## 0. Review of Week 07 (10 min)
+## 0. Review of Week 05
 
 1. In an intrusive list, what does `pos->next` point to: the next object, or something inside it?
 2. Why can't the assignment's `struct student` use a first-member cast?
@@ -50,7 +39,7 @@ Today we open it: **what is `offsetof`, why `char *`, and how do we write it onc
 
 ---
 
-## 1. Struct Layout, `offsetof()`, and Pointer Arithmetic (45 min)
+## 1. Struct Layout, `offsetof()`, and Pointer Arithmetic
 
 ### 1.1 Members have fixed offsets
 
@@ -97,7 +86,7 @@ The rules, informally:
 
 1. Each member starts at a multiple of its own alignment.
 2. The struct's total size is a multiple of its largest member alignment, so that arrays of the struct stay aligned.
-3. There is **never** padding before the first member (Week 07, §2.2).
+3. There is **never** padding before the first member (Week 05, §2.2).
 
 **Exercise (3 min):** predict the offsets in the final project's struct on a 64-bit machine, then check them with `printf`.
 
@@ -156,7 +145,7 @@ lp              = 0x16b382538
 
 ---
 
-## 2. Deriving `container_of()` (45 min)
+## 2. Deriving `container_of()`
 
 ### 2.1 From first principles
 
@@ -216,7 +205,7 @@ Usage:
 struct student *s = container_of(pos, struct student, list);
 ```
 
-This is **exactly** the macro in your Week 08 starter and in the final project's `list.h`.
+This is **exactly** the macro in your Week 06 starter and in the final project's `list.h`.
 
 ### 2.3 Why a macro, not a function?
 
@@ -224,7 +213,7 @@ A function cannot take a **type** (`struct student`) or a **member name** (`list
 
 ### 2.4 Makefile corner: see the expansion with `gcc -E`
 
-The Week 08 examples Makefile has a rule that stops after preprocessing (Week 01, §1.2):
+The Week 06 examples Makefile has a rule that stops after preprocessing (Week 01, §1.2):
 
 ```make
 container_of_demo.i: container_of_demo.c
@@ -261,11 +250,11 @@ WRONG member : 0x16ee06520  (off by 16 bytes)
 
 There is no error and no warning, just a pointer 16 bytes into the middle of the book. Reading `b->id` now reads garbage. Always double-check that the `type` and `member` match the list the pointer came from.
 
-The Linux kernel's version (`include/linux/container_of.h`) adds a **compile-time check** that `ptr` really has the member's type. It relies on GNU extensions, so it is not portable C11. We use the plain version, and you are the type checker.
+For reference, the version in `include/linux/container_of.h` adds a **compile-time check** that `ptr` really has the member's type. It relies on GNU extensions, so it is not portable C11. We use the plain version, and you are the type checker.
 
-### 2.7 Kernel-style iteration macros
+### 2.7 Iteration macros
 
-Once `container_of()` exists, the kernel builds a small family of macros on it.
+Once `container_of()` exists, a small family of list macros can be built on top of it.
 
 **Live demo** — [`examples/list_macros.c`](examples/list_macros.c):
 
@@ -304,42 +293,42 @@ at exit  :
 ```
 
 - Use `list_for_each()` when you only **read**.
-- Use `list_for_each_safe()` when the loop body may **unlink or free** `pos`. The plain version would read `pos->next` after `free(pos)`. This is the Week 04 and Week 06 "save next first" rule, packaged as a macro.
+- Use `list_for_each_safe()` when the loop body may **unlink or free** `pos`. The plain version would read `pos->next` after `free(pos)`. This is the Week 03 and Week 04 "save next first" rule, packaged as a macro.
 
-> The kernel also has `list_for_each_entry(pos, head, member)`, which iterates directly over containing objects. It needs `typeof`, a GNU extension (standardized only in C23), so we do not use it in C11 code.
+> `include/linux/list.h` also has `list_for_each_entry(pos, head, member)`, which iterates directly over containing objects. It needs `typeof`, a GNU extension (standardized only in C23), so we do not use it in C11 code.
 
 ### 2.8 Reading the real thing
 
-You can now read most of the Linux kernel's list implementation:
+For reference, you can now read most of a real-world implementation of the same list:
 
 - [`include/linux/list.h`](https://github.com/torvalds/linux/blob/master/include/linux/list.h): find `INIT_LIST_HEAD`, `__list_add`, `list_add`, `list_add_tail`, `list_del`, `list_empty`, `list_for_each`, `list_for_each_safe`.
 - [`include/linux/container_of.h`](https://github.com/torvalds/linux/blob/master/include/linux/container_of.h): the type-checked `container_of()`.
 
-Things you will notice: `list_del()` writes `LIST_POISON1/2` into the removed entry (Week 06, §2.4), and `__list_add()` is our `insert_between()`.
+Things you will notice: `list_del()` writes `LIST_POISON1/2` into the removed entry (Week 04, §4.4), and `__list_add()` is our `insert_between()`.
 
 ---
 
-## 3. Lab (60 min)
+## 3. Lab
 
-### Lab A — Week 08 assignment (15 min)
+### Lab A — Week 06 assignment
 
-Task: [assignments/week08-container-of/README.md](../../assignments/week08-container-of/README.md)
+Task: [assignments/week06-container-of/README.md](../../assignments/week06-container-of/README.md)
 
 1. Use `container_of(list, struct student, list)` to recover the student from `list`.
 2. Print `id` and `score` through the recovered pointer.
 3. Also print `&student`, `list`, and `offsetof(struct student, list)`, and check that the arithmetic adds up.
 
-### Lab B — Port Week 07 to `container_of()` (30 min)
+### Lab B — Port Week 05 to `container_of()`
 
-1. Copy your Week 07 solution into a scratch directory.
+1. Copy your Week 05 solution into a scratch directory.
 2. Delete `student_from_list()` and use `container_of()` (or `list_entry()`) everywhere instead.
 3. Add `list_for_each()` and `list_for_each_safe()`, and rewrite your print and free loops with them.
 4. Delete every student whose score is below 60, inside a `list_for_each_safe()` loop.
 
-### Lab C — Get ready for the final project (15 min)
+### Lab C — Get ready for the final project
 
-1. Open [`assignments/week10-final-project/starter/list.h`](../../assignments/week10-final-project/starter/list.h): `struct list_head`, `container_of()`, and three prototypes. You can now explain every line.
-2. Implement `list_init()`, `list_add()`, and `list_del()` in `starter/list.c` from your Week 06/07 code. Remember: `list_add()` inserts **right after** `head`, and `list_del()` **never frees**.
+1. Open [`assignments/week08-final-project/starter/list.h`](../../assignments/week08-final-project/starter/list.h): `struct list_head`, `container_of()`, and three prototypes. You can now explain every line.
+2. Implement `list_init()`, `list_add()`, and `list_del()` in `starter/list.c` from your Week 04/05 code. Remember: `list_add()` inserts **right after** `head`, and `list_del()` **never frees**.
 
 **Stretch goals:**
 
@@ -348,7 +337,7 @@ Task: [assignments/week08-container-of/README.md](../../assignments/week08-conta
 
 ---
 
-## 4. Wrap-up (10 min)
+## 4. Wrap-up
 
 ### Key takeaways
 
@@ -380,4 +369,4 @@ Task: [assignments/week08-container-of/README.md](../../assignments/week08-conta
 
 ### Next week
 
-The list is complete, but it disappears when the program exits. How do we save it to a file and rebuild it next time, and why can't we just write the structs to disk? → **Week 09 — File I/O**.
+The list is complete, but it disappears when the program exits. How do we save it to a file and rebuild it next time, and why can't we just write the structs to disk? → **Week 07 — File I/O**.

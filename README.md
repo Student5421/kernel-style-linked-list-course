@@ -1,6 +1,6 @@
-# C Programming — Kernel-style Linked List
+# C Programming — Linked Lists
 
-Learn the core ideas of C step by step. At the end, you build a **Student Management System** with a **kernel-style linked list**.
+Learn the core ideas of C step by step. At the end, you build a **Student Management System** on an **intrusive circular doubly linked list**.
 
 ## Learning Path
 
@@ -36,33 +36,29 @@ Student Management System
 |---|---|---|
 | 1 | Struct | `struct`, pointer |
 | 2 | Operators & Precedence | precedence, short-circuit, bit flags |
-| 3 | Dynamic Memory | `malloc()`, `free()`, heap |
-| 4 | Singly Linked List | `next`, traversal |
-| 5 | Doubly Linked List | `prev`, `next` |
-| 6 | Circular Doubly Linked List | sentinel, circular invariant |
-| 7 | Intrusive Linked List | embedded `list_head` |
-| 8 | `container_of()` | `offsetof()`, pointer arithmetic |
-| 9 | File I/O | `fopen()`, `fgets()`, `fprintf()` |
-| 10 | Final Project | Student Management System |
+| 3 | Dynamic Memory and Singly Linked List | `malloc()`, `free()`, heap, `next`, traversal |
+| 4 | Doubly Linked and Circular Lists | `prev`, `next`, sentinel, circular invariant |
+| 5 | Intrusive Linked List | embedded `list_head` |
+| 6 | `container_of()` | `offsetof()`, pointer arithmetic |
+| 7 | File I/O | `fopen()`, `fgets()`, `fprintf()` |
+| 8 | Final Project | Student Management System |
 
-Read each week's `README.md` first, then start the assignment in `starter/`.
+Read each week's `README.md` first, then start the assignment in `starter/`. Weeks 03 and 04 each have two assignments, A and B.
 
 ## Start Here
 
 - [Week 01 — Struct](assignments/week01-struct/)
 - [Week 02 — Operators and Precedence](assignments/week02-operators/)
-- [Week 03 — Dynamic Memory](assignments/week03-dynamic-memory/)
-- [Week 04 — Singly Linked List](assignments/week04-singly-linked-list/)
-- [Week 05 — Doubly Linked List](assignments/week05-doubly-linked-list/)
-- [Week 06 — Circular Doubly Linked List](assignments/week06-circular-list/)
-- [Week 07 — Intrusive Linked List](assignments/week07-intrusive-list/)
-- [Week 08 — `container_of()`](assignments/week08-container-of/)
-- [Week 09 — File I/O](assignments/week09-file-io/)
-- [Week 10 — Final Project](assignments/week10-final-project/)
+- [Week 03 — Dynamic Memory and Singly Linked List](assignments/week03-dynamic-memory-singly-list/)
+- [Week 04 — Doubly Linked and Circular Lists](assignments/week04-doubly-circular-list/)
+- [Week 05 — Intrusive Linked List](assignments/week05-intrusive-list/)
+- [Week 06 — `container_of()`](assignments/week06-container-of/)
+- [Week 07 — File I/O](assignments/week07-file-io/)
+- [Week 08 — Final Project](assignments/week08-final-project/)
 
 ## Lecture Notes
 
-The lecture notes for each week (a 3-hour session, including the lab) are in [`lectures/`](lectures/). You can build each week's demo code with `make` in `lectures/weekNN-*/examples/`. The slides are `weekNN-slides.pptx` in each week's folder.
+The lecture notes for each week, including the lab, are in [`lectures/`](lectures/). You can build each week's demo code with `make` in `lectures/weekNN-*/examples/`. The slides are `weekNN-slides.pptx` in each week's folder.
 
 ## General Rules
 
@@ -77,7 +73,7 @@ The lecture notes for each week (a 3-hour session, including the lab) are in [`l
 
 ## Final Project
 
-All requirements for the final project are in `assignments/week10-final-project/README.md`.
+All requirements for the final project are in `assignments/week08-final-project/README.md`.
 
 ```bash
 gcc -Wall -Wextra -std=c11 main.c list.c student.c -o student_manager

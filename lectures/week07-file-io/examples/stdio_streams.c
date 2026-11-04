@@ -1,5 +1,5 @@
 /*
- * Week 09 demo: the three standard streams.
+ * Week 07 demo: the three standard streams.
  *
  *   ./stdio_streams                 both lines appear on the terminal
  *   ./stdio_streams > out.txt       only the stderr line stays on the terminal

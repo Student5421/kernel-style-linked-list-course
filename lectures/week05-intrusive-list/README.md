@@ -1,22 +1,11 @@
-# Week 07 — Intrusive Linked List
+# Week 05 — Intrusive Linked List
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
-| **Assignment** | [Week 07 — Intrusive Linked List](../../assignments/week07-intrusive-list/) |
+| **Session** | Lecture + live coding + lab |
+| **Assignment** | [Week 05 — Intrusive Linked List](../../assignments/week05-intrusive-list/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous / Next** | [Week 06](../week06-circular-list/) · [Week 08](../week08-container-of/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review of Week 06 | Quiz + discussion |
-| 0:10 – 0:55 | Part 1 — Put the links inside the data | Lecture + live coding |
-| 0:55 – 1:05 | Break | |
-| 1:05 – 1:50 | Part 2 — From `list_head *` back to the object; one object in two lists | Lecture + live demo |
-| 1:50 – 2:50 | Lab — Week 07 assignment | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
+| **Previous / Next** | [Week 04](../week04-doubly-circular-list/) · [Week 06](../week06-container-of/) |
 
 ## Learning Objectives
 
@@ -31,7 +20,7 @@ By the end of this session you can:
 
 ---
 
-## 0. Review of Week 06 (10 min)
+## 0. Review of Week 04
 
 1. What are `head.next` and `head.prev` in an empty circular list?
 2. Write `insert_back()` using `insert_between()`.
@@ -41,7 +30,7 @@ Today's question: **Our sentinel wastes a whole `struct book`, and our list only
 
 ---
 
-## 1. Put the Links Inside the Data (45 min)
+## 1. Put the Links Inside the Data
 
 ### 1.1 What is wrong with `struct node`?
 
@@ -80,7 +69,7 @@ struct book {
 - Any struct becomes "listable" by embedding a `struct list_head`.
 - The sentinel is just a `struct list_head` (16 bytes on a 64-bit machine), with no wasted payload.
 
-This is an **intrusive** list: the list "intrudes" into the object's definition. The Linux kernel builds nearly all of its lists this way.
+This is an **intrusive** list: the list "intrudes" into the object's definition.
 
 ### 1.3 The picture: links point at links
 
@@ -100,17 +89,17 @@ This is an **intrusive** list: the list "intrudes" into the object's definition.
 
 ### 1.4 A generic list API
 
-The operations are Week 06's, with `struct node` replaced by `struct list_head`. We also adopt the Linux names:
+The operations are those of the circular list (Week 04, §3–4), with `struct node` replaced by `struct list_head`. We also switch to the names used in `include/linux/list.h`:
 
-| Week 06 | Week 07 (Linux name) | Meaning |
+| Week 04 | Week 05 | Meaning |
 |---|---|---|
-| `list_init(head)` | `list_init(head)` (kernel: `INIT_LIST_HEAD`) | Make an empty ring. |
+| `list_init(head)` | `list_init(head)` (Linux: `INIT_LIST_HEAD`) | Make an empty ring. |
 | `list_is_empty(head)` | `list_empty(head)` | `head->next == head` |
 | `insert_front(head, n)` | `list_add(new, head)` | Insert right after `head`. |
 | `insert_back(head, n)` | `list_add_tail(new, head)` | Insert right before `head`. |
 | `unlink_node(entry)` | `list_del(entry)` | Unlink. **Never frees.** |
 
-Note the **argument order**. The Linux functions take the *new entry first* and the *head second*: `list_add(new, head)`.
+Note the **argument order**. These functions take the *new entry first* and the *head second*: `list_add(new, head)`.
 
 ```c
 void list_init(struct list_head *head);
@@ -120,11 +109,11 @@ void list_add_tail(struct list_head *new, struct list_head *head);
 void list_del(struct list_head *entry);
 ```
 
-The bodies are Week 06's `insert_between()` and unlink code with the type changed. See `list_insert_between()`, `list_add()`, and `list_add_tail()` in [`examples/intrusive_book.c`](examples/intrusive_book.c), and the unlink in `list_del_init()` in [`examples/multi_list.c`](examples/multi_list.c).
+The bodies are the `insert_between()` and unlink code from Week 04 (§4.1 and §4.3) with the type changed. See `list_insert_between()`, `list_add()`, and `list_add_tail()` in [`examples/intrusive_book.c`](examples/intrusive_book.c), and the unlink in `list_del_init()` in [`examples/multi_list.c`](examples/multi_list.c).
 
 Notice that **nothing in these functions mentions books.** The same code links students, tasks, or network packets. In the final project they live in their own file, `list.c`.
 
-> The Linux kernel calls the helper `__list_add()`. We avoid the leading double underscore, because in standard C, identifiers that begin with `__` are reserved for the compiler and the C library.
+> For reference, `include/linux/list.h` calls this helper `__list_add()`. We avoid the leading double underscore, because in standard C, identifiers that begin with `__` are reserved for the compiler and the C library.
 
 ### 1.5 Creating and inserting
 
@@ -137,7 +126,7 @@ You pass `&b->list`, the address of the member, **not** `b`. The list never sees
 
 ---
 
-## 2. From `list_head *` Back to the Object (45 min)
+## 2. From `list_head *` Back to the Object
 
 ### 2.1 The problem
 
@@ -198,7 +187,7 @@ The `list` member sits at a **fixed distance** from the start of every book. If 
 ```c
 #include <stddef.h>
 
-/* Explained in Week 08: get the book that contains this list_head. */
+/* Explained in Week 06: get the book that contains this list_head. */
 static struct book *book_from_list(struct list_head *pos)
 {
     return (struct book *)((char *)pos - offsetof(struct book, list));
@@ -280,19 +269,19 @@ static struct book *book_from_borrowed(struct list_head *pos)
 }
 ```
 
-They differ only in the **member name**, and a student version would differ only in the **type**. Writing one helper per (type, member) pair does not scale. Week 08 replaces all of them with **one macro**.
+They differ only in the **member name**, and a student version would differ only in the **type**. Writing one helper per (type, member) pair does not scale. Week 06 replaces all of them with **one macro**.
 
 ### 2.6 In the real world
 
-The Linux kernel's process descriptor, `struct task_struct`, contains many `struct list_head` members (for example `tasks`, `children`, and `sibling`), so one process is in several lists at once. The same pattern appears in file systems, device drivers, and the network stack.
+For reference, the Linux process descriptor, `struct task_struct`, embeds several `struct list_head` members (for example `tasks`, `children`, and `sibling`), so one process is in several lists at once.
 
 ---
 
-## 3. Lab (60 min)
+## 3. Lab
 
-Task: [assignments/week07-intrusive-list/README.md](../../assignments/week07-intrusive-list/README.md)
+Task: [assignments/week05-intrusive-list/README.md](../../assignments/week05-intrusive-list/README.md)
 
-1. Port your Week 06 list operations to `struct list_head`: `list_init()`, `list_add()` and/or `list_add_tail()`, `list_del()`. Keep the Linux argument order (`new`, then `head`).
+1. Port your Week 04 circular list operations (Assignment 04B) to `struct list_head`: `list_init()`, `list_add()` and/or `list_add_tail()`, `list_del()`. Keep the argument order: `new`, then `head`.
 2. Write `student_create(id, name, score)`: `malloc()`, fill in the fields, `list_init(&s->list)`. It does **not** insert.
 3. Write `student_from_list(struct list_head *pos)` by analogy with `book_from_list()`. (You may use this helper this week. Next week it becomes `container_of()`.)
 4. Insert three students with `list_add_tail(&s->list, &head)`.
@@ -302,7 +291,7 @@ Task: [assignments/week07-intrusive-list/README.md](../../assignments/week07-int
 Self-check:
 
 ```bash
-grep -nE "struct node *\{" assignment_07.c   # must print nothing
+grep -nE "struct node *\{" assignment_05.c   # must print nothing
 ```
 
 - [ ] The sentinel is a `struct list_head`, not a `struct student`.
@@ -316,7 +305,7 @@ grep -nE "struct node *\{" assignment_07.c   # must print nothing
 
 ---
 
-## 4. Wrap-up (10 min)
+## 4. Wrap-up
 
 ### Key takeaways
 
@@ -347,4 +336,4 @@ grep -nE "struct node *\{" assignment_07.c   # must print nothing
 
 ### Next week
 
-What exactly is `offsetof()`, why the `char *` cast, and how do we write the helper **once** for every type and member? → **Week 08 — `offsetof()` and `container_of()`**.
+What exactly is `offsetof()`, why the `char *` cast, and how do we write the helper **once** for every type and member? → **Week 06 — `offsetof()` and `container_of()`**.

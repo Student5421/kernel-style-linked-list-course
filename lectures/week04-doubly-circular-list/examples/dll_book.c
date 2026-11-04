@@ -1,5 +1,5 @@
 /*
- * Week 05 demo: a doubly linked list of books with head and tail pointers.
+ * Week 04 demo: a doubly linked list of books with head and tail pointers.
  *
  * Shown in class: create, push_front, push_back, forward print,
  *                 an invariant checker, a link dump, free.

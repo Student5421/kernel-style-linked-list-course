@@ -4,53 +4,53 @@ Every new concept in the lecture decks has a **concept slide** with three parts:
 
 ## Week 01 — Build Tools, Makefile, and struct
 
-[`week01-slides.pptx`](../week01-struct/week01-slides.pptx): 49 slides, 18 concepts.
+[`week01-slides.pptx`](../week01-struct/week01-slides.pptx): 48 slides, 18 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
-| 10 | The compilation pipeline | When a build fails, the message tells you which stage failed: a compile error points to a line of your code, a link error means a definition is missing. | diagram (flow) |
-| 12 | Running a program: ./ and the exit status | Without ./, the shell searches only the directories listed in PATH, and reports command not found. | terminal |
-| 13 | Compiler warnings | A warning does not stop the build: the executable is still produced, and it runs. | terminal |
-| 17 | make and the Makefile | Without it you retype the whole gcc command after every edit, and one typo builds the wrong thing. | terminal |
-| 18 | A Makefile rule | make must know what each file is built from: that is how it decides whether the target is out of date. | make |
-| 20 | Incremental builds: timestamps | Recompiling every file after every edit is slow; in Week 10 only the .c file you edited is recompiled. | art |
-| 21 | The default goal and action targets | Without all first, make builds whichever rule happens to come first in the file. | make |
-| 22 | Make variables | Without variables the same flags are copied into every rule. | make |
-| 25 | .PHONY targets | Without .PHONY, a file that happens to be named clean makes make clean report up to date and delete nothing, as on the previous slide. | make |
-| 29 | struct: grouping related data | Without it, one book is three unrelated variables (book1_id, book1_title, book1_year). | code |
-| 31 | Initializing a struct | A local struct without an initializer holds whatever bytes were already in memory: reading it gives garbage. | code |
-| 32 | Strings inside a struct | Arrays cannot be assigned: b1.title = "New"; does not compile. | code |
-| 33 | Struct assignment copies everything | Knowing that = copies explains why changing b3 never changes b1, and why a function that receives a struct gets its own copy (Part 4). | code (struct_basics.c) |
-| 34 | Members live at fixed offsets | You need this picture to predict sizeof. | diagram (layout) |
-| 37 | Pointers | Without pointers a function only ever receives copies, so it cannot change the caller's variables. | code (pointer_basics.c) |
-| 38 | Pointer to a struct: -> | The member operator . binds tighter than *, so the natural-looking *p.year means *(p.year) and does not compile. | code |
-| 39 | Passing a struct to a function | set_year_by_value() changes only its own copy, which vanishes on return. | code |
-| 42 | A self-referential struct | An array needs its size in advance and must shift elements to insert in the middle. | diagram (chain) |
+| 9 | The compilation pipeline | When a build fails, the message tells you which stage failed: a compile error points to a line of your code, a link error means a definition is missing. | diagram (flow) |
+| 11 | Running a program: ./ and the exit status | Without ./, the shell searches only the directories listed in PATH, and reports command not found. | terminal |
+| 12 | Compiler warnings | A warning does not stop the build: the executable is still produced, and it runs. | terminal |
+| 16 | make and the Makefile | Without it you retype the whole gcc command after every edit, and one typo builds the wrong thing. | terminal |
+| 17 | A Makefile rule | make must know what each file is built from: that is how it decides whether the target is out of date. | make |
+| 19 | Incremental builds: timestamps | Recompiling every file after every edit is slow; in Week 08 only the .c file you edited is recompiled. | art |
+| 20 | The default goal and action targets | Without all first, make builds whichever rule happens to come first in the file. | make |
+| 21 | Make variables | Without variables the same flags are copied into every rule. | make |
+| 24 | .PHONY targets | Without .PHONY, a file that happens to be named clean makes make clean report up to date and delete nothing, as on the previous slide. | make |
+| 28 | struct: grouping related data | Without it, one book is three unrelated variables (book1_id, book1_title, book1_year). | code |
+| 30 | Initializing a struct | A local struct without an initializer holds whatever bytes were already in memory: reading it gives garbage. | code |
+| 31 | Strings inside a struct | Arrays cannot be assigned: b1.title = "New"; does not compile. | code |
+| 32 | Struct assignment copies everything | Knowing that = copies explains why changing b3 never changes b1, and why a function that receives a struct gets its own copy (Part 4). | code (struct_basics.c) |
+| 33 | Members live at fixed offsets | You need this picture to predict sizeof. | diagram (layout) |
+| 36 | Pointers | Without pointers a function only ever receives copies, so it cannot change the caller's variables. | code (pointer_basics.c) |
+| 37 | Pointer to a struct: -> | The member operator . binds tighter than *, so the natural-looking *p.year means *(p.year) and does not compile. | code |
+| 38 | Passing a struct to a function | set_year_by_value() changes only its own copy, which vanishes on return. | code |
+| 41 | A self-referential struct | An array needs its size in advance and must shift elements to insert in the middle. | diagram (chain) |
 
 ## Week 02 — Operators and Precedence
 
-[`week02-slides.pptx`](../week02-operators/week02-slides.pptx): 41 slides, 14 concepts.
+[`week02-slides.pptx`](../week02-operators/week02-slides.pptx): 40 slides, 14 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
-| 6 | Precedence and associativity | The compiler groups by these rules, not by spacing: *p.year is *(p.year), and flags & MASK == 0 is flags & (MASK == 0). | table |
-| 9 | Integer division and casts | Put the cast in the wrong place and an average silently loses its fraction: (double)(sum / count) divides in int first and gives 3.00, not 3.50. | stat |
-| 11 | Undefined behavior | Such a program may print the expected result in testing and then misbehave with another compiler, other flags, or other input. | code |
-| 12 | Mixing signed and unsigned | Without knowing this rule, n < sizeof(int) with n = -1 looks true but is false, and a loop that compares a signed counter with sizeof runs the wrong number of times. | code |
-| 13 | Comparisons produce 0 or 1 | 0 <= score <= 100 reads like math but means (0 <= score) <= 100: the left part is 0 or 1, both are <= 100, so it is always true. | code |
-| 14 | Short-circuit evaluation | Without short-circuiting, found != NULL && found->year > 2000 would still read found->year when found is NULL, and crash. | code |
-| 16 | Assignment is an expression | The typo if (year = 2024) compiles: it assigns 2024, which is non-zero, so the condition is always true. | code |
-| 19 | Reading pointer expressions | Misread one and the code means something else or does not compile: with struct book **pp, *pp->year is *(pp->year), an error. | code |
-| 24 | Prefix and postfix ++ and -- | *q++; written to increment the value moves the pointer instead; the value never changes. | table |
-| 26 | Order of evaluation and side effects | Modifying a variable twice in one expression, or modifying it and also reading it for another purpose, is undefined: i = i++ + 1;, a[i] = i++;. | code |
-| 27 | Bitwise operators | One unsigned int can hold many yes/no facts, one per bit, instead of one variable each. | table |
-| 28 | Bit flags | flags & BOOK_DAMAGED == 0 means flags & (BOOK_DAMAGED == 0), always 0: == binds tighter than &. | code |
-| 30 | The conditional and comma operators | Without ?:, choosing between two values needs an if/else and a temporary. | code |
-| 31 | Macros are text substitution | SQUARE_BAD(1 + 2) expands to 1 + 2 * 1 + 2, which is 5, not 9; 10 / DOUBLE_BAD(5) becomes 10 / (5) + (5), which is 7. | code (macro_parens.c) |
+| 5 | Precedence and associativity | The compiler groups by these rules, not by spacing: *p.year is *(p.year), and flags & MASK == 0 is flags & (MASK == 0). | table |
+| 8 | Integer division and casts | Put the cast in the wrong place and an average silently loses its fraction: (double)(sum / count) divides in int first and gives 3.00, not 3.50. | stat |
+| 10 | Undefined behavior | Such a program may print the expected result in testing and then misbehave with another compiler, other flags, or other input. | code |
+| 11 | Mixing signed and unsigned | Without knowing this rule, n < sizeof(int) with n = -1 looks true but is false, and a loop that compares a signed counter with sizeof runs the wrong number of times. | code |
+| 12 | Comparisons produce 0 or 1 | 0 <= score <= 100 reads like math but means (0 <= score) <= 100: the left part is 0 or 1, both are <= 100, so it is always true. | code |
+| 13 | Short-circuit evaluation | Without short-circuiting, found != NULL && found->year > 2000 would still read found->year when found is NULL, and crash. | code |
+| 15 | Assignment is an expression | The typo if (year = 2024) compiles: it assigns 2024, which is non-zero, so the condition is always true. | code |
+| 18 | Reading pointer expressions | Misread one and the code means something else or does not compile: with struct book **pp, *pp->year is *(pp->year), an error. | code |
+| 23 | Prefix and postfix ++ and -- | *q++; written to increment the value moves the pointer instead; the value never changes. | table |
+| 25 | Order of evaluation and side effects | Modifying a variable twice in one expression, or modifying it and also reading it for another purpose, is undefined: i = i++ + 1;, a[i] = i++;. | code |
+| 26 | Bitwise operators | One unsigned int can hold many yes/no facts, one per bit, instead of one variable each. | table |
+| 27 | Bit flags | flags & BOOK_DAMAGED == 0 means flags & (BOOK_DAMAGED == 0), always 0: == binds tighter than &. | code |
+| 29 | The conditional and comma operators | Without ?:, choosing between two values needs an if/else and a temporary. | code |
+| 30 | Macros are text substitution | SQUARE_BAD(1 + 2) expands to 1 + 2 * 1 + 2, which is 5, not 9; 10 / DOUBLE_BAD(5) becomes 10 / (5) + (5), which is 7. | code (macro_parens.c) |
 
-## Week 03 — Dynamic Memory
+## Week 03 — Dynamic Memory and Singly Linked List
 
-[`week03-slides.pptx`](../week03-dynamic-memory/week03-slides.pptx): 38 slides, 15 concepts.
+[`week03-slides.pptx`](../week03-dynamic-memory-singly-list/week03-slides.pptx): 68 slides, 24 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
@@ -69,26 +69,19 @@ Every new concept in the lecture decks has a **concept slide** with three parts:
 | 26 | Ownership: who calls free()? | Without a clear owner, either nobody frees the object (a leak) or two parts of the program both free it (a double free). | code |
 | 27 | A create / destroy pair | Without the pair, malloc() and free() calls are scattered through the program, and checking that each is matched is hard. | code |
 | 28 | Finding leaks with a live-object counter | Leaks are silent: the program prints the right output and exits normally, so a missing free() goes unnoticed. | out |
+| 30 | Linked list | An array has a fixed size (or must be realloc()ed and copied), and inserting at the front shifts every element: O(n). | diagram (chain) |
+| 32 | The node and the head pointer | A struct cannot contain itself (its size would be infinite), but it can contain a pointer to its own type. | code |
+| 35 | Traversal with a cursor | Moving head itself (head = head->next) loses the start of the list. | art |
+| 40 | Inserting at the front | If the steps are swapped, head = n runs first; n->next = head then makes n point to itself, and the rest of the list is lost (and leaked). | art |
+| 42 | Pointer to pointer: struct node ** | push_front_wrong(head, n) receives a copy of head and changes only the copy: the list in main() stays empty. | art |
+| 46 | Walking the links: struct node **link | A plain push_back() needs a special case for the empty list, where head itself must change. | code (sll_book.c) |
+| 47 | Freeing a whole list | The natural loop for (...; cur = cur->next) free(cur); reads cur->next after cur was freed: a use after free. | code |
+| 50 | Deleting a node: unlink, then free | After free(cur) you may no longer read cur->next, so unlinking must come first. | art |
+| 52 | Flags are not prerequisites: make -B | Without forcing the rebuild you keep running the old executable, built without the new flag, and the debugger cannot show your source lines. | terminal |
 
-## Week 04 — Singly Linked List
+## Week 04 — Doubly Linked and Circular Lists
 
-[`week04-slides.pptx`](../week04-singly-linked-list/week04-slides.pptx): 36 slides, 9 concepts.
-
-| Slide | Concept | Why it is needed | How it is shown |
-|---:|---|---|---|
-| 6 | Linked list | An array has a fixed size (or must be realloc()ed and copied), and inserting at the front shifts every element: O(n). | diagram (chain) |
-| 8 | The node and the head pointer | A struct cannot contain itself (its size would be infinite), but it can contain a pointer to its own type. | code |
-| 11 | Traversal with a cursor | Moving head itself (head = head->next) loses the start of the list. | art |
-| 16 | Inserting at the front | If the steps are swapped, head = n runs first; n->next = head then makes n point to itself, and the rest of the list is lost (and leaked). | art |
-| 18 | Pointer to pointer: struct node ** | push_front_wrong(head, n) receives a copy of head and changes only the copy: the list in main() stays empty. | art |
-| 22 | Walking the links: struct node **link | A plain push_back() needs a special case for the empty list, where head itself must change. | code (sll_book.c) |
-| 23 | Freeing a whole list | The natural loop for (...; cur = cur->next) free(cur); reads cur->next after cur was freed: a use after free. | code |
-| 26 | Deleting a node: unlink, then free | After free(cur) you may no longer read cur->next, so unlinking must come first. | art |
-| 28 | Flags are not prerequisites: make -B | Without forcing the rebuild you keep running the old executable, built without the new flag, and the debugger cannot show your source lines. | terminal |
-
-## Week 05 — Doubly Linked List
-
-[`week05-slides.pptx`](../week05-doubly-linked-list/week05-slides.pptx): 36 slides, 11 concepts.
+[`week04-slides.pptx`](../week04-doubly-circular-list/week04-slides.pptx): 66 slides, 23 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
@@ -103,96 +96,89 @@ Every new concept in the lecture decks has a **concept slide** with three parts:
 | 22 | Unlinking vs. freeing | If unlink also freed, you could not move a node from one list to another: unlink, then insert elsewhere, with no malloc() or free(). | diagram (flow) |
 | 24 | A link dump | Pointer bugs stay silent until a crash far away; the dump makes the links visible so you can check them. | code (dll_book.c) |
 | 26 | An invariant checker | A wrong prev crashes only later, somewhere unrelated. | code (dll_book.c) |
+| 30 | The sentinel node | In Parts 1 and 2 the end nodes had NULL neighbors: four NULL checks and four delete cases. | code |
+| 31 | A circular list | Without the ring the last node would still have next == NULL, and finding it would need a separate tail pointer. | diagram (chain) |
+| 32 | The empty list | Empty no longer means NULL, so no operation needs an "is it empty?" special case. | diagram (chain) |
+| 34 | The circular invariant | The doubly linked list needed four rules, two of them about NULL. | code |
+| 36 | Traversing a ring | A ring never contains NULL, so pos != NULL is an infinite loop: the most common circular-list bug. | code |
+| 39 | insert_between(): one insert for all | The doubly linked list needed a push for each end, each with an if for the empty list. | code (clist_book.c) |
+| 40 | Front and back: stack and queue order | The choice decides the order a print shows: front insertion gives stack (LIFO) order, back insertion queue (FIFO) order. | code |
+| 45 | Unlinking from a ring | Part 2's unlink needed two NULL checks and four cases. | code |
+| 48 | After unlinking: re-initialize or poison | Code that later follows the stale links walks into a list the entry no longer belongs to: silent corruption instead of an error. | code |
+| 49 | Deleting while traversing | The obvious loop for (...; pos = pos->next) free(pos); reads pos->next after free(pos): a use after free. | code (clist_book.c) |
+| 50 | assert() | Otherwise a broken link crashes later, somewhere unrelated. | code (clist_book.c) |
+| 52 | -DNDEBUG: turning asserts off | Release builds may drop the checks, so an assert must never have side effects: assert(n = malloc(...)) loses the malloc() too. | terminal |
 
-## Week 06 — Circular Doubly Linked List
+## Week 05 — Intrusive Linked List
 
-[`week06-slides.pptx`](../week06-circular-list/week06-slides.pptx): 36 slides, 12 concepts.
-
-| Slide | Concept | Why it is needed | How it is shown |
-|---:|---|---|---|
-| 6 | The sentinel node | In Week 05 the end nodes had NULL neighbors: four NULL checks and four delete cases. | code |
-| 7 | A circular list | Without the ring the last node would still have next == NULL, and finding it would need a separate tail pointer. | diagram (chain) |
-| 8 | The empty list | Empty no longer means NULL, so no operation needs an "is it empty?" special case. | diagram (chain) |
-| 10 | The circular invariant | Week 05 needed four rules, two of them about NULL. | code |
-| 12 | Traversing a ring | A ring never contains NULL, so pos != NULL is an infinite loop: the most common Week 06 bug. | code |
-| 15 | insert_between(): one insert for all | Week 05 needed a push for each end, each with an if for the empty list. | code (clist_book.c) |
-| 16 | Front and back: stack and queue order | The choice decides the order a print shows: front insertion gives stack (LIFO) order, back insertion queue (FIFO) order. | code |
-| 21 | Unlinking from a ring | Week 05's unlink needed two NULL checks and four cases. | code |
-| 24 | After unlinking: re-initialize or poison | Code that later follows the stale links walks into a list the entry no longer belongs to: silent corruption instead of an error. | code |
-| 25 | Deleting while traversing | The obvious loop for (...; pos = pos->next) free(pos); reads pos->next after free(pos): a use after free. | code (clist_book.c) |
-| 26 | assert() | Otherwise a broken link crashes later, somewhere unrelated. | code (clist_book.c) |
-| 28 | -DNDEBUG: turning asserts off | Release builds may drop the checks, so an assert must never have side effects: assert(n = malloc(...)) loses the malloc() too. | terminal |
-
-## Week 07 — Intrusive Linked List
-
-[`week07-slides.pptx`](../week07-intrusive-list/week07-slides.pptx): 35 slides, 10 concepts.
+[`week05-slides.pptx`](../week05-intrusive-list/week05-slides.pptx): 34 slides, 10 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
-| 6 | A node that contains the data | A list of students needs a struct student_node and a second copy of every list function. | code |
-| 7 | struct list_head | In struct node the links and the payload were glued together, so the sentinel wasted a struct book and the list code worked only for books. | code |
-| 8 | An intrusive list | Nothing is allocated or copied for the list, and an object joins several lists by embedding one list_head per list. | art |
-| 10 | A generic list API | With nodes that contain the data, each payload type needs its own copy of every function. | table |
-| 14 | From list_head * back to the object | Without a way back, an intrusive list is useless: you can walk the ring but never print a title. | code |
-| 15 | The first-member cast | It is the simplest way back, with no arithmetic, because there is never padding before the first member. | code |
-| 18 | Stepping back by the member's offset | This works wherever the member is: struct student with list last works, and so does an object with several list_head members. | diagram (layout) |
-| 21 | The free() trap | free(pos) hands the allocator an address it never gave out. | code |
-| 22 | One object, two lists | With struct node, one book in two lists needs a second node, a second allocation, or a copy that drifts out of date. | code (multi_list.c) |
-| 25 | One owner frees, after every unlink | If a borrowed book is freed while it is still in borrowed, that list keeps a pointer into freed memory, and its next traversal is a use after free. | code (multi_list.c) |
+| 5 | A node that contains the data | A list of students needs a struct student_node and a second copy of every list function. | code |
+| 6 | struct list_head | In struct node the links and the payload were glued together, so the sentinel wasted a struct book and the list code worked only for books. | code |
+| 7 | An intrusive list | Nothing is allocated or copied for the list, and an object joins several lists by embedding one list_head per list. | art |
+| 9 | A generic list API | With nodes that contain the data, each payload type needs its own copy of every function. | table |
+| 13 | From list_head * back to the object | Without a way back, an intrusive list is useless: you can walk the ring but never print a title. | code |
+| 14 | The first-member cast | It is the simplest way back, with no arithmetic, because there is never padding before the first member. | code |
+| 17 | Stepping back by the member's offset | This works wherever the member is: struct student with list last works, and so does an object with several list_head members. | diagram (layout) |
+| 20 | The free() trap | free(pos) hands the allocator an address it never gave out. | code |
+| 21 | One object, two lists | With struct node, one book in two lists needs a second node, a second allocation, or a copy that drifts out of date. | code (multi_list.c) |
+| 24 | One owner frees, after every unlink | If a borrowed book is freed while it is still in borrowed, that list keeps a pointer into freed memory, and its next traversal is a use after free. | code (multi_list.c) |
 
-## Week 08 — offsetof() and container_of()
+## Week 06 — offsetof() and container_of()
 
-[`week08-slides.pptx`](../week08-container-of/week08-slides.pptx): 41 slides, 11 concepts.
-
-| Slide | Concept | Why it is needed | How it is shown |
-|---:|---|---|---|
-| 8 | Member offsets | Traversal hands us a pointer to the list member, not to the book. | diagram (layout) |
-| 9 | Alignment and padding | Without knowing about padding you predict the wrong offsets and the wrong sizeof. | code |
-| 14 | offsetof() | Offsets depend on padding, so they change between machines: list is at 32 on a 64-bit machine and at 28 on a 32-bit one. | code |
-| 15 | Pointer arithmetic is scaled | It is what makes p[i] and p + i work on arrays of any type. | out |
-| 16 | Byte arithmetic with char * | offsetof() gives a number of bytes. | table |
-| 18 | container_of() | An intrusive list hands you struct list_head * pointers, but you need the book or student around them. | code |
-| 24 | Why container_of() is a macro | A C function receives only values. | code |
-| 25 | Seeing the expansion: gcc -E | Macros are invisible in the source: when container_of() gives a wrong pointer or does not compile, you cannot see what it turned into. | terminal |
-| 28 | list_entry() | Every traversal of an intrusive list needs this step, often more than once per loop. | code |
-| 29 | list_for_each() | Without it, every traversal is typed by hand, and the Week 06 mistakes come back: pos != NULL loops forever in a ring, and starting at head visits the sentinel's meaningless data. | code |
-| 30 | list_for_each_safe() | The plain loop advances with pos = pos->next, reading pos after the body freed it: a use-after-free. | code (list_macros.c) |
-
-## Week 09 — File I/O
-
-[`week09-slides.pptx`](../week09-file-io/week09-slides.pptx): 35 slides, 14 concepts.
+[`week06-slides.pptx`](../week06-container-of/week06-slides.pptx): 40 slides, 11 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
-| 6 | Streams and FILE * | One type for every source means one set of functions: fgets(buf, n, stdin) and fgets(buf, n, fp) are the same call. | table |
-| 7 | Redirection | Without redirection, testing means typing the same input again and again, and saving output means copying it off the screen. | table |
-| 9 | Opening and closing a file | A missing file makes fopen() return NULL; using that pointer crashes the program. | code |
-| 12 | Reading characters: fgetc() and EOF | With char c, 257 possible values do not fit in a char: a real byte looks like EOF, or EOF is never seen and the loop never ends. | code (count_chars.c) |
-| 13 | End of file: feof() | Used as a loop condition, while (!feof(fp)) runs the body one extra time: the last fgets() fails, but process(line) still runs on the stale data of the previous line. | code |
-| 14 | Reading lines: fgets() | Records in a text file are lines. | code |
-| 16 | Output buffering | If the program crashes before fclose(), the last part of the output is lost. | code |
-| 18 | A text file format | One record per line means a damaged line affects only one record. | code (books.txt) |
-| 20 | Parsing a line: fgets() + sscanf() | fscanf() treats newlines as ordinary whitespace: after one malformed line it loses track of where records start, and every following record is misread. | code |
-| 21 | Scansets: %31[^\n] | %s stops at the first space, so a title such as "Code Complete, 2nd Ed." would be cut to "Code". | code |
-| 23 | Binary I/O: why not fwrite() the structs | A struct book holds list.next and list.prev: heap addresses from this run, meaningless in the next one. | diagram (layout) |
-| 24 | Robust keyboard input | If the user types abc for a number, scanf("%d") returns 0, stores nothing, and leaves abc in the input. | code |
-| 26 | Testing with input files | Retyping inputs is slow, and typing mistakes hide bugs. | terminal |
-| 27 | A test target with diff | Without it, every change must be re-checked by eye. | make |
+| 7 | Member offsets | Traversal hands us a pointer to the list member, not to the book. | diagram (layout) |
+| 8 | Alignment and padding | Without knowing about padding you predict the wrong offsets and the wrong sizeof. | code |
+| 13 | offsetof() | Offsets depend on padding, so they change between machines: list is at 32 on a 64-bit machine and at 28 on a 32-bit one. | code |
+| 14 | Pointer arithmetic is scaled | It is what makes p[i] and p + i work on arrays of any type. | out |
+| 15 | Byte arithmetic with char * | offsetof() gives a number of bytes. | table |
+| 17 | container_of() | An intrusive list hands you struct list_head * pointers, but you need the book or student around them. | code |
+| 23 | Why container_of() is a macro | A C function receives only values. | code |
+| 24 | Seeing the expansion: gcc -E | Macros are invisible in the source: when container_of() gives a wrong pointer or does not compile, you cannot see what it turned into. | terminal |
+| 27 | list_entry() | Every traversal of an intrusive list needs this step, often more than once per loop. | code |
+| 28 | list_for_each() | Without it, every traversal is typed by hand, and the Week 04 mistakes come back: pos != NULL loops forever in a ring, and starting at head visits the sentinel's meaningless data. | code |
+| 29 | list_for_each_safe() | The plain loop advances with pos = pos->next, reading pos after the body freed it: a use-after-free. | code (list_macros.c) |
 
-## Week 10 — Multi-file Programs and the Final Project
+## Week 07 — File I/O
 
-[`week10-slides.pptx`](../week10-final-project/week10-slides.pptx): 39 slides, 11 concepts.
+[`week07-slides.pptx`](../week07-file-io/week07-slides.pptx): 34 slides, 14 concepts.
 
 | Slide | Concept | Why it is needed | How it is shown |
 |---:|---|---|---|
-| 6 | Modules: one program, several files | In one big main.c, every edit recompiles everything, nobody can read the whole file at once, and the list code cannot be reused. | art |
-| 8 | Header files: declarations vs. definitions | Without a shared header, every file that calls student_create() must declare it itself; the copies drift apart, and the compiler can no longer check the calls against the real parameter types. | code |
-| 10 | Include guards | main.c gets list.h through student.h, and may include it directly too. | code |
-| 11 | Separate compilation and object files | Compiling everything in one command recompiles every file after every edit. | art |
-| 14 | Linking and link errors | The compiler checks each file alone, so it accepts a call it has a prototype for. | terminal |
-| 15 | static functions are file-private | Without static, every helper is global: two files that each define print_menu() give a duplicate-symbol link error, and readers cannot tell which functions are meant to be used from outside. | code (main.c) |
-| 18 | Substitution references | Without it you maintain two lists by hand. | make |
-| 19 | Pattern rules | Without it, the Makefile needs one nearly identical rule per object file: three copies of the same recipe here, dozens in a larger project, and every flag change must be made in each copy. | make |
-| 20 | Automatic variables | A pattern rule has no fixed file names, so the recipe cannot say list.c or list.o. | table |
-| 23 | Header dependencies | Edit stats.h and make says Nothing to be done: the program keeps the old behavior. | terminal |
-| 27 | A layered design | If list.c mentions struct student, it no longer works for any other type, and a change to students can break the list. | diagram (flow) |
+| 5 | Streams and FILE * | One type for every source means one set of functions: fgets(buf, n, stdin) and fgets(buf, n, fp) are the same call. | table |
+| 6 | Redirection | Without redirection, testing means typing the same input again and again, and saving output means copying it off the screen. | table |
+| 8 | Opening and closing a file | A missing file makes fopen() return NULL; using that pointer crashes the program. | code |
+| 11 | Reading characters: fgetc() and EOF | With char c, 257 possible values do not fit in a char: a real byte looks like EOF, or EOF is never seen and the loop never ends. | code (count_chars.c) |
+| 12 | End of file: feof() | Used as a loop condition, while (!feof(fp)) runs the body one extra time: the last fgets() fails, but process(line) still runs on the stale data of the previous line. | code |
+| 13 | Reading lines: fgets() | Records in a text file are lines. | code |
+| 15 | Output buffering | If the program crashes before fclose(), the last part of the output is lost. | code |
+| 17 | A text file format | One record per line means a damaged line affects only one record. | code (books.txt) |
+| 19 | Parsing a line: fgets() + sscanf() | fscanf() treats newlines as ordinary whitespace: after one malformed line it loses track of where records start, and every following record is misread. | code |
+| 20 | Scansets: %31[^\n] | %s stops at the first space, so a title such as "Code Complete, 2nd Ed." would be cut to "Code". | code |
+| 22 | Binary I/O: why not fwrite() the structs | A struct book holds list.next and list.prev: heap addresses from this run, meaningless in the next one. | diagram (layout) |
+| 23 | Robust keyboard input | If the user types abc for a number, scanf("%d") returns 0, stores nothing, and leaves abc in the input. | code |
+| 25 | Testing with input files | Retyping inputs is slow, and typing mistakes hide bugs. | terminal |
+| 26 | A test target with diff | Without it, every change must be re-checked by eye. | make |
+
+## Week 08 — Multi-file Programs and the Final Project
+
+[`week08-slides.pptx`](../week08-final-project/week08-slides.pptx): 38 slides, 11 concepts.
+
+| Slide | Concept | Why it is needed | How it is shown |
+|---:|---|---|---|
+| 5 | Modules: one program, several files | In one big main.c, every edit recompiles everything, nobody can read the whole file at once, and the list code cannot be reused. | art |
+| 7 | Header files: declarations vs. definitions | Without a shared header, every file that calls student_create() must declare it itself; the copies drift apart, and the compiler can no longer check the calls against the real parameter types. | code |
+| 9 | Include guards | main.c gets list.h through student.h, and may include it directly too. | code |
+| 10 | Separate compilation and object files | Compiling everything in one command recompiles every file after every edit. | art |
+| 13 | Linking and link errors | The compiler checks each file alone, so it accepts a call it has a prototype for. | terminal |
+| 14 | static functions are file-private | Without static, every helper is global: two files that each define print_menu() give a duplicate-symbol link error, and readers cannot tell which functions are meant to be used from outside. | code (main.c) |
+| 17 | Substitution references | Without it you maintain two lists by hand. | make |
+| 18 | Pattern rules | Without it, the Makefile needs one nearly identical rule per object file: three copies of the same recipe here, dozens in a larger project, and every flag change must be made in each copy. | make |
+| 19 | Automatic variables | A pattern rule has no fixed file names, so the recipe cannot say list.c or list.o. | table |
+| 22 | Header dependencies | Edit stats.h and make says Nothing to be done: the program keeps the old behavior. | terminal |
+| 26 | A layered design | If list.c mentions struct student, it no longer works for any other type, and a change to students can break the list. | diagram (flow) |

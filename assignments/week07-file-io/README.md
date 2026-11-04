@@ -1,4 +1,4 @@
-# Week 09 — File I/O
+# Week 07 — File I/O
 
 ## Learning Objectives
 
@@ -10,9 +10,9 @@
 
 ## Assignment
 
-Complete `starter/assignment_09.c` so that it reads a list of students from a file, prints it, and saves it to a file again.
+Complete `starter/assignment_07.c` so that it reads a list of students from a file, prints it, and saves it to a file again.
 
-1. Copy in `list_init()`, `list_add_tail()`, `list_del()`, and `student_create()` from your Week 07–08 work.
+1. Copy in `list_init()`, `list_add_tail()`, `list_del()`, and `student_create()` from your Weeks 05–06 work.
 2. `student_load()`: read each line of the file, create a student, and add it to the list.
 3. `student_save()`: save every student in the list, in the same format.
 4. Complete `student_print_all()` and `student_free_all()`.
@@ -45,14 +45,14 @@ The given `students.txt` has 2 bad lines on purpose. Your program should read 3 
 
 ```bash
 cd starter
-gcc -Wall -Wextra -std=c11 assignment_09.c -o week09
-./week09 students.txt students_out.txt
+gcc -Wall -Wextra -std=c11 assignment_07.c -o week07
+./week07 students.txt students_out.txt
 ```
 
 Load the saved file again, and check that you get the same result:
 
 ```bash
-./week09 students_out.txt check.txt
+./week07 students_out.txt check.txt
 diff students_out.txt check.txt
 ```
 
@@ -71,6 +71,6 @@ diff students_out.txt check.txt
 ```bash
 cd starter
 make
-./week09
+./week07
 make clean
 ```

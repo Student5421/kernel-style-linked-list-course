@@ -1,0 +1,275 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CC	assignments/week01-struct/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week02-dynamic-memory/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week03-singly-linked-list/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week04-doubly-linked-list/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week05-circular-list/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week06-intrusive-list/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week07-container-of/starter/Makefile	/^CC = gcc$/;"	m
+CC	assignments/week08-final-project/starter/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week01-struct/examples/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week02-dynamic-memory/examples/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week03-singly-linked-list/examples/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week04-doubly-linked-list/examples/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week05-circular-list/examples/Makefile	/^CC = gcc$/;"	m
+CC	lectures/week06-intrusive-list/examples/Makefile	/^CC = gcc$/;"	m
+CFLAGS	assignments/week01-struct/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week02-dynamic-memory/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week03-singly-linked-list/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week04-doubly-linked-list/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week05-circular-list/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week06-intrusive-list/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week07-container-of/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	assignments/week08-final-project/starter/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week01-struct/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week02-dynamic-memory/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week03-singly-linked-list/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week04-doubly-linked-list/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week05-circular-list/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+CFLAGS	lectures/week06-intrusive-list/examples/Makefile	/^CFLAGS = -Wall -Wextra -std=c11$/;"	m
+LIST_H	assignments/week08-final-project/starter/list.h	/^#define LIST_H$/;"	d
+OBJS	assignments/week08-final-project/starter/Makefile	/^OBJS = $(SRCS:.c=.o)$/;"	m
+PROGRAMS	lectures/week01-struct/examples/Makefile	/^PROGRAMS = struct_basics pointer_basics struct_pointer$/;"	m
+PROGRAMS	lectures/week02-dynamic-memory/examples/Makefile	/^PROGRAMS = memory_map malloc_basics book_factory$/;"	m
+PROGRAMS	lectures/week03-singly-linked-list/examples/Makefile	/^PROGRAMS = sll_manual sll_book$/;"	m
+PROGRAMS	lectures/week04-doubly-linked-list/examples/Makefile	/^PROGRAMS = dll_book$/;"	m
+PROGRAMS	lectures/week05-circular-list/examples/Makefile	/^PROGRAMS = clist_book$/;"	m
+PROGRAMS	lectures/week06-intrusive-list/examples/Makefile	/^PROGRAMS = first_member intrusive_book multi_list$/;"	m
+SRCS	assignments/week08-final-project/starter/Makefile	/^SRCS = main.c list.c student.c$/;"	m
+STUDENT_H	assignments/week08-final-project/starter/student.h	/^#define STUDENT_H$/;"	d
+TARGET	assignments/week01-struct/starter/Makefile	/^TARGET = week01$/;"	m
+TARGET	assignments/week02-dynamic-memory/starter/Makefile	/^TARGET = week02$/;"	m
+TARGET	assignments/week03-singly-linked-list/starter/Makefile	/^TARGET = week03$/;"	m
+TARGET	assignments/week04-doubly-linked-list/starter/Makefile	/^TARGET = week04$/;"	m
+TARGET	assignments/week05-circular-list/starter/Makefile	/^TARGET = week05$/;"	m
+TARGET	assignments/week06-intrusive-list/starter/Makefile	/^TARGET = week06$/;"	m
+TARGET	assignments/week07-container-of/starter/Makefile	/^TARGET = week07$/;"	m
+TARGET	assignments/week08-final-project/starter/Makefile	/^TARGET = student_manager$/;"	m
+all	lectures/week06-intrusive-list/examples/multi_list.c	/^    struct list_head all;        \/* link in the list of every book     *\/$/;"	m	struct:book	typeref:struct:book::list_head	file:
+book	lectures/week01-struct/examples/struct_basics.c	/^struct book {$/;"	s	file:
+book	lectures/week01-struct/examples/struct_pointer.c	/^struct book {$/;"	s	file:
+book	lectures/week02-dynamic-memory/examples/book_factory.c	/^struct book {$/;"	s	file:
+book	lectures/week02-dynamic-memory/examples/dangling_local.c	/^struct book {$/;"	s	file:
+book	lectures/week02-dynamic-memory/examples/malloc_basics.c	/^struct book {$/;"	s	file:
+book	lectures/week03-singly-linked-list/examples/sll_book.c	/^struct book {$/;"	s	file:
+book	lectures/week03-singly-linked-list/examples/sll_manual.c	/^struct book {$/;"	s	file:
+book	lectures/week04-doubly-linked-list/examples/dll_book.c	/^struct book {$/;"	s	file:
+book	lectures/week05-circular-list/examples/clist_book.c	/^struct book {$/;"	s	file:
+book	lectures/week06-intrusive-list/examples/intrusive_book.c	/^struct book {$/;"	s	file:
+book	lectures/week06-intrusive-list/examples/multi_list.c	/^struct book {$/;"	s	file:
+book_create	lectures/week02-dynamic-memory/examples/book_factory.c	/^static struct book *book_create(int id, const char *title, int year)$/;"	f	file:
+book_create	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static struct book *book_create(int id, const char *title, int year)$/;"	f	file:
+book_destroy	lectures/week02-dynamic-memory/examples/book_factory.c	/^static void book_destroy(struct book *b)$/;"	f	file:
+book_from_all	lectures/week06-intrusive-list/examples/multi_list.c	/^static struct book *book_from_all(struct list_head *pos)$/;"	f	file:
+book_from_borrowed	lectures/week06-intrusive-list/examples/multi_list.c	/^static struct book *book_from_borrowed(struct list_head *pos)$/;"	f	file:
+book_from_list	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static struct book *book_from_list(struct list_head *pos)$/;"	f	file:
+book_print	lectures/week02-dynamic-memory/examples/book_factory.c	/^static void book_print(const struct book *b)$/;"	f	file:
+borrowed	lectures/week06-intrusive-list/examples/multi_list.c	/^    struct list_head borrowed;   \/* link in the list of borrowed books *\/$/;"	m	struct:book	typeref:struct:book::list_head	file:
+container_of	assignments/week07-container-of/starter/main.c	/^#define container_of(/;"	d	file:
+container_of	assignments/week08-final-project/starter/list.h	/^#define container_of(/;"	d
+count_list	lectures/week03-singly-linked-list/examples/sll_book.c	/^static int count_list(const struct node *head)$/;"	f	file:
+data	assignments/week03-singly-linked-list/starter/main.c	/^    struct student data;$/;"	m	struct:node	typeref:struct:node::student	file:
+data	assignments/week04-doubly-linked-list/starter/main.c	/^    struct student data;$/;"	m	struct:node	typeref:struct:node::student	file:
+data	assignments/week05-circular-list/starter/main.c	/^    struct student data;$/;"	m	struct:node	typeref:struct:node::student	file:
+data	lectures/week03-singly-linked-list/examples/sll_book.c	/^    struct book data;$/;"	m	struct:node	typeref:struct:node::book	file:
+data	lectures/week03-singly-linked-list/examples/sll_manual.c	/^    struct book data;$/;"	m	struct:node	typeref:struct:node::book	file:
+data	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    struct book data;$/;"	m	struct:node	typeref:struct:node::book	file:
+data	lectures/week05-circular-list/examples/clist_book.c	/^    struct book data;      \/* unused in the sentinel *\/$/;"	m	struct:node	typeref:struct:node::book	file:
+dlist	lectures/week04-doubly-linked-list/examples/dll_book.c	/^struct dlist {$/;"	s	file:
+dlist_check	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static int dlist_check(const struct dlist *list)$/;"	f	file:
+dlist_dump	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static void dlist_dump(const struct dlist *list)$/;"	f	file:
+dlist_free	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static void dlist_free(struct dlist *list)$/;"	f	file:
+dlist_print_forward	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static void dlist_print_forward(const struct dlist *list)$/;"	f	file:
+dlist_push_back	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static void dlist_push_back(struct dlist *list, struct node *n)$/;"	f	file:
+dlist_push_front	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static void dlist_push_front(struct dlist *list, struct node *n)$/;"	f	file:
+dump	lectures/week05-circular-list/examples/clist_book.c	/^static void dump(const struct node *head)$/;"	f	file:
+free_all	lectures/week05-circular-list/examples/clist_book.c	/^static void free_all(struct node *head)$/;"	f	file:
+free_all	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void free_all(struct list_head *head)$/;"	f	file:
+free_all	lectures/week06-intrusive-list/examples/multi_list.c	/^static void free_all(struct list_head *all)$/;"	f	file:
+free_list	lectures/week03-singly-linked-list/examples/sll_book.c	/^static void free_list(struct node **headp)$/;"	f	file:
+global_counter	lectures/week02-dynamic-memory/examples/memory_map.c	/^int global_counter = 1;            \/* data segment (initialized global) *\/$/;"	v
+global_zero	lectures/week02-dynamic-memory/examples/memory_map.c	/^int global_zero;                   \/* bss segment (zero-initialized)    *\/$/;"	v
+head	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    struct node *head;     \/* first node, or NULL *\/$/;"	m	struct:dlist	typeref:struct:dlist::node	file:
+id	assignments/week01-struct/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week02-dynamic-memory/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week03-singly-linked-list/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week04-doubly-linked-list/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week05-circular-list/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week06-intrusive-list/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week07-container-of/starter/main.c	/^    int id;$/;"	m	struct:student	file:
+id	assignments/week08-final-project/starter/student.h	/^    int id;$/;"	m	struct:student
+id	lectures/week01-struct/examples/struct_basics.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week01-struct/examples/struct_pointer.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week02-dynamic-memory/examples/book_factory.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week02-dynamic-memory/examples/dangling_local.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week02-dynamic-memory/examples/malloc_basics.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week03-singly-linked-list/examples/sll_book.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week03-singly-linked-list/examples/sll_manual.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week05-circular-list/examples/clist_book.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week06-intrusive-list/examples/first_member.c	/^    int id;$/;"	m	struct:tagged_book	file:
+id	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    int id;$/;"	m	struct:book	file:
+id	lectures/week06-intrusive-list/examples/multi_list.c	/^    int id;$/;"	m	struct:book	file:
+insert_back	lectures/week05-circular-list/examples/clist_book.c	/^static void insert_back(struct node *head, struct node *n)$/;"	f	file:
+insert_between	lectures/week05-circular-list/examples/clist_book.c	/^static void insert_between(struct node *n, struct node *prev, struct node *next)$/;"	f	file:
+insert_front	lectures/week05-circular-list/examples/clist_book.c	/^static void insert_front(struct node *head, struct node *n)$/;"	f	file:
+list	assignments/week06-intrusive-list/starter/main.c	/^    struct list_head list;$/;"	m	struct:student	typeref:struct:student::list_head	file:
+list	assignments/week07-container-of/starter/main.c	/^    struct list_head list;$/;"	m	struct:student	typeref:struct:student::list_head	file:
+list	assignments/week08-final-project/starter/student.h	/^    struct list_head list;$/;"	m	struct:student	typeref:struct:student::list_head
+list	lectures/week06-intrusive-list/examples/first_member.c	/^    struct list_head list;     \/* FIRST member *\/$/;"	m	struct:tagged_book	typeref:struct:tagged_book::list_head	file:
+list	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    struct list_head list;     \/* the links live INSIDE the book *\/$/;"	m	struct:book	typeref:struct:book::list_head	file:
+list_add	assignments/week08-final-project/starter/list.c	/^void list_add(struct list_head *new, struct list_head *head)$/;"	f
+list_add	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void list_add(struct list_head *new, struct list_head *head)$/;"	f	file:
+list_add_tail	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void list_add_tail(struct list_head *new, struct list_head *head)$/;"	f	file:
+list_add_tail	lectures/week06-intrusive-list/examples/multi_list.c	/^static void list_add_tail(struct list_head *new, struct list_head *head)$/;"	f	file:
+list_check	lectures/week05-circular-list/examples/clist_book.c	/^static int list_check(const struct node *head)$/;"	f	file:
+list_del	assignments/week08-final-project/starter/list.c	/^void list_del(struct list_head *entry)$/;"	f
+list_del_init	lectures/week06-intrusive-list/examples/multi_list.c	/^static void list_del_init(struct list_head *entry)$/;"	f	file:
+list_empty	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static int list_empty(const struct list_head *head)$/;"	f	file:
+list_empty	lectures/week06-intrusive-list/examples/multi_list.c	/^static int list_empty(const struct list_head *head)$/;"	f	file:
+list_head	assignments/week06-intrusive-list/starter/main.c	/^struct list_head {$/;"	s	file:
+list_head	assignments/week07-container-of/starter/main.c	/^struct list_head {$/;"	s	file:
+list_head	assignments/week08-final-project/starter/list.h	/^struct list_head {$/;"	s
+list_head	lectures/week06-intrusive-list/examples/first_member.c	/^struct list_head {$/;"	s	file:
+list_head	lectures/week06-intrusive-list/examples/intrusive_book.c	/^struct list_head {$/;"	s	file:
+list_head	lectures/week06-intrusive-list/examples/multi_list.c	/^struct list_head {$/;"	s	file:
+list_init	assignments/week08-final-project/starter/list.c	/^void list_init(struct list_head *head)$/;"	f
+list_init	lectures/week05-circular-list/examples/clist_book.c	/^static void list_init(struct node *head)$/;"	f	file:
+list_init	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void list_init(struct list_head *head)$/;"	f	file:
+list_init	lectures/week06-intrusive-list/examples/multi_list.c	/^static void list_init(struct list_head *head)$/;"	f	file:
+list_insert_between	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void list_insert_between(struct list_head *new,$/;"	f	file:
+list_insert_between	lectures/week06-intrusive-list/examples/multi_list.c	/^static void list_insert_between(struct list_head *new,$/;"	f	file:
+list_is_empty	lectures/week05-circular-list/examples/clist_book.c	/^static int list_is_empty(const struct node *head)$/;"	f	file:
+live_books	lectures/week02-dynamic-memory/examples/book_factory.c	/^static int live_books;$/;"	v	file:
+main	assignments/week01-struct/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week02-dynamic-memory/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week03-singly-linked-list/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week04-doubly-linked-list/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week05-circular-list/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week06-intrusive-list/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week07-container-of/starter/main.c	/^int main(void)$/;"	f
+main	assignments/week08-final-project/starter/main.c	/^int main(void)$/;"	f
+main	lectures/week01-struct/examples/makefile-steps/hello.c	/^int main(void)$/;"	f
+main	lectures/week01-struct/examples/pointer_basics.c	/^int main(void)$/;"	f
+main	lectures/week01-struct/examples/struct_basics.c	/^int main(void)$/;"	f
+main	lectures/week01-struct/examples/struct_pointer.c	/^int main(void)$/;"	f
+main	lectures/week01-struct/examples/warnings.c	/^int main(void)$/;"	f
+main	lectures/week02-dynamic-memory/examples/book_factory.c	/^int main(void)$/;"	f
+main	lectures/week02-dynamic-memory/examples/dangling_local.c	/^int main(void)$/;"	f
+main	lectures/week02-dynamic-memory/examples/malloc_basics.c	/^int main(void)$/;"	f
+main	lectures/week02-dynamic-memory/examples/memory_map.c	/^int main(void)$/;"	f
+main	lectures/week03-singly-linked-list/examples/sll_book.c	/^int main(void)$/;"	f
+main	lectures/week03-singly-linked-list/examples/sll_manual.c	/^int main(void)$/;"	f
+main	lectures/week04-doubly-linked-list/examples/dll_book.c	/^int main(void)$/;"	f
+main	lectures/week05-circular-list/examples/clist_book.c	/^int main(int argc, char *argv[])$/;"	f
+main	lectures/week06-intrusive-list/examples/first_member.c	/^int main(void)$/;"	f
+main	lectures/week06-intrusive-list/examples/intrusive_book.c	/^int main(void)$/;"	f
+main	lectures/week06-intrusive-list/examples/multi_list.c	/^int main(void)$/;"	f
+make_book_bad	lectures/week02-dynamic-memory/examples/dangling_local.c	/^static struct book *make_book_bad(void)$/;"	f	file:
+name	assignments/week01-struct/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week02-dynamic-memory/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week03-singly-linked-list/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week04-doubly-linked-list/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week05-circular-list/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week06-intrusive-list/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week07-container-of/starter/main.c	/^    char name[20];$/;"	m	struct:student	file:
+name	assignments/week08-final-project/starter/student.h	/^    char name[20];$/;"	m	struct:student
+next	assignments/week03-singly-linked-list/starter/main.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	assignments/week04-doubly-linked-list/starter/main.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	assignments/week05-circular-list/starter/main.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	assignments/week06-intrusive-list/starter/main.c	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+next	assignments/week07-container-of/starter/main.c	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+next	assignments/week08-final-project/starter/list.h	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
+next	lectures/week03-singly-linked-list/examples/sll_book.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	lectures/week03-singly-linked-list/examples/sll_manual.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	lectures/week05-circular-list/examples/clist_book.c	/^    struct node *next;$/;"	m	struct:node	typeref:struct:node::node	file:
+next	lectures/week06-intrusive-list/examples/first_member.c	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+next	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+next	lectures/week06-intrusive-list/examples/multi_list.c	/^    struct list_head *next;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+node	assignments/week03-singly-linked-list/starter/main.c	/^struct node {$/;"	s	file:
+node	assignments/week04-doubly-linked-list/starter/main.c	/^struct node {$/;"	s	file:
+node	assignments/week05-circular-list/starter/main.c	/^struct node {$/;"	s	file:
+node	lectures/week03-singly-linked-list/examples/sll_book.c	/^struct node {$/;"	s	file:
+node	lectures/week03-singly-linked-list/examples/sll_manual.c	/^struct node {$/;"	s	file:
+node	lectures/week04-doubly-linked-list/examples/dll_book.c	/^struct node {$/;"	s	file:
+node	lectures/week05-circular-list/examples/clist_book.c	/^struct node {$/;"	s	file:
+node_create	lectures/week03-singly-linked-list/examples/sll_book.c	/^static struct node *node_create(int id, const char *title, int year)$/;"	f	file:
+node_create	lectures/week04-doubly-linked-list/examples/dll_book.c	/^static struct node *node_create(int id, const char *title, int year)$/;"	f	file:
+node_create	lectures/week05-circular-list/examples/clist_book.c	/^static struct node *node_create(int id, const char *title, int year)$/;"	f	file:
+prev	assignments/week04-doubly-linked-list/starter/main.c	/^    struct node *prev;$/;"	m	struct:node	typeref:struct:node::node	file:
+prev	assignments/week05-circular-list/starter/main.c	/^    struct node *prev;$/;"	m	struct:node	typeref:struct:node::node	file:
+prev	assignments/week06-intrusive-list/starter/main.c	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+prev	assignments/week07-container-of/starter/main.c	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+prev	assignments/week08-final-project/starter/list.h	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
+prev	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    struct node *prev;$/;"	m	struct:node	typeref:struct:node::node	file:
+prev	lectures/week05-circular-list/examples/clist_book.c	/^    struct node *prev;$/;"	m	struct:node	typeref:struct:node::node	file:
+prev	lectures/week06-intrusive-list/examples/first_member.c	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+prev	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+prev	lectures/week06-intrusive-list/examples/multi_list.c	/^    struct list_head *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head	file:
+print_all	lectures/week06-intrusive-list/examples/multi_list.c	/^static void print_all(struct list_head *head)$/;"	f	file:
+print_backward	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void print_backward(struct list_head *head)$/;"	f	file:
+print_book	lectures/week01-struct/examples/struct_pointer.c	/^static void print_book(const struct book *b)$/;"	f	file:
+print_borrowed	lectures/week06-intrusive-list/examples/multi_list.c	/^static void print_borrowed(struct list_head *head)$/;"	f	file:
+print_forward	lectures/week05-circular-list/examples/clist_book.c	/^static void print_forward(const struct node *head)$/;"	f	file:
+print_forward	lectures/week06-intrusive-list/examples/intrusive_book.c	/^static void print_forward(struct list_head *head)$/;"	f	file:
+print_list	lectures/week03-singly-linked-list/examples/sll_book.c	/^static void print_list(const struct node *head)$/;"	f	file:
+print_menu	assignments/week08-final-project/starter/main.c	/^static void print_menu(void)$/;"	f	file:
+push_back	lectures/week03-singly-linked-list/examples/sll_book.c	/^static void push_back(struct node **headp, struct node *n)$/;"	f	file:
+push_front	lectures/week03-singly-linked-list/examples/sll_book.c	/^static void push_front(struct node **headp, struct node *n)$/;"	f	file:
+score	assignments/week01-struct/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week02-dynamic-memory/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week03-singly-linked-list/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week04-doubly-linked-list/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week05-circular-list/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week06-intrusive-list/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week07-container-of/starter/main.c	/^    int score;$/;"	m	struct:student	file:
+score	assignments/week08-final-project/starter/student.h	/^    int score;$/;"	m	struct:student
+set_year_by_pointer	lectures/week01-struct/examples/struct_pointer.c	/^static void set_year_by_pointer(struct book *b, int year)$/;"	f	file:
+set_year_by_value	lectures/week01-struct/examples/struct_pointer.c	/^static void set_year_by_value(struct book b, int year)$/;"	f	file:
+show_stack_frame	lectures/week02-dynamic-memory/examples/memory_map.c	/^static void show_stack_frame(int depth)$/;"	f	file:
+student	assignments/week01-struct/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week02-dynamic-memory/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week03-singly-linked-list/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week04-doubly-linked-list/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week05-circular-list/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week06-intrusive-list/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week07-container-of/starter/main.c	/^struct student {$/;"	s	file:
+student	assignments/week08-final-project/starter/student.h	/^struct student {$/;"	s
+student_count	assignments/week08-final-project/starter/student.c	/^int student_count(struct list_head *head)$/;"	f
+student_create	assignments/week08-final-project/starter/student.c	/^struct student *student_create(int id, const char *name, int score)$/;"	f
+student_delete	assignments/week08-final-project/starter/student.c	/^int student_delete(struct list_head *head, int id)$/;"	f
+student_find	assignments/week08-final-project/starter/student.c	/^struct student *student_find(struct list_head *head, int id)$/;"	f
+student_free_all	assignments/week08-final-project/starter/student.c	/^void student_free_all(struct list_head *head)$/;"	f
+student_print	assignments/week08-final-project/starter/student.c	/^void student_print(const struct student *student)$/;"	f
+student_print_all	assignments/week08-final-project/starter/student.c	/^void student_print_all(struct list_head *head)$/;"	f
+student_print_reverse	assignments/week08-final-project/starter/student.c	/^void student_print_reverse(struct list_head *head)$/;"	f
+tagged_book	lectures/week06-intrusive-list/examples/first_member.c	/^struct tagged_book {$/;"	s	file:
+tail	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    struct node *tail;     \/* last node, or NULL  *\/$/;"	m	struct:dlist	typeref:struct:dlist::node	file:
+title	lectures/week01-struct/examples/struct_basics.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week01-struct/examples/struct_pointer.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week02-dynamic-memory/examples/book_factory.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week02-dynamic-memory/examples/dangling_local.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week02-dynamic-memory/examples/malloc_basics.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week03-singly-linked-list/examples/sll_book.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week03-singly-linked-list/examples/sll_manual.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week05-circular-list/examples/clist_book.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week06-intrusive-list/examples/first_member.c	/^    char title[32];$/;"	m	struct:tagged_book	file:
+title	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    char title[32];$/;"	m	struct:book	file:
+title	lectures/week06-intrusive-list/examples/multi_list.c	/^    char title[32];$/;"	m	struct:book	file:
+year	lectures/week01-struct/examples/struct_basics.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week01-struct/examples/struct_pointer.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week02-dynamic-memory/examples/book_factory.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week02-dynamic-memory/examples/dangling_local.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week02-dynamic-memory/examples/malloc_basics.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week03-singly-linked-list/examples/sll_book.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week03-singly-linked-list/examples/sll_manual.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week04-doubly-linked-list/examples/dll_book.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week05-circular-list/examples/clist_book.c	/^    int year;$/;"	m	struct:book	file:
+year	lectures/week06-intrusive-list/examples/intrusive_book.c	/^    int year;$/;"	m	struct:book	file:

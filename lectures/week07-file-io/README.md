@@ -1,22 +1,11 @@
-# Week 09 — File I/O
+# Week 07 — File I/O
 
 | | |
 |---|---|
-| **Session** | 3 hours (lecture + live coding + lab) |
-| **Assignment** | [Week 09 — File I/O](../../assignments/week09-file-io/) |
+| **Session** | Lecture + live coding + lab |
+| **Assignment** | [Week 07 — File I/O](../../assignments/week07-file-io/) |
 | **Demo code** | [`examples/`](examples/) |
-| **Previous / Next** | [Week 08](../week08-container-of/) · [Week 10](../week10-final-project/) |
-
-## Session Plan
-
-| Time | Segment | Format |
-|---|---|---|
-| 0:00 – 0:10 | Review of Week 08 | Quiz + discussion |
-| 0:10 – 0:55 | Part 1 — Streams, opening and closing files, reading characters and lines | Lecture + live demo |
-| 0:55 – 1:05 | Break | |
-| 1:05 – 1:50 | Part 2 — Saving and loading a list, robust input, testing with files | Lecture + live coding |
-| 1:50 – 2:50 | Lab — Week 09 assignment | Hands-on |
-| 2:50 – 3:00 | Wrap-up and exit quiz | Discussion |
+| **Previous / Next** | [Week 06](../week06-container-of/) · [Week 08](../week08-final-project/) |
 
 ## Learning Objectives
 
@@ -31,7 +20,7 @@ By the end of this session you can:
 
 ---
 
-## 0. Review of Week 08 (10 min)
+## 0. Review of Week 06
 
 1. On a 64-bit machine, what is `offsetof(struct student, list)`, and why is it not 28?
 2. Expand by hand: `container_of(pos, struct student, list)`.
@@ -41,7 +30,7 @@ Today's question: **Every program so far forgets everything when it exits. How d
 
 ---
 
-## 1. Streams and Files (45 min)
+## 1. Streams and Files
 
 ### 1.1 Everything is a stream
 
@@ -172,7 +161,7 @@ if (line[len] != '\n' && !feof(fp)) {
 
 ---
 
-## 2. Saving and Loading a List (45 min)
+## 2. Saving and Loading a List
 
 ### 2.1 Designing a text format
 
@@ -219,7 +208,7 @@ static int library_save(struct list_head *head, const char *path)
 }
 ```
 
-Everything from Weeks 07–08 is here: traverse the `list_head`s, and use `container_of()` to reach each book.
+Everything from Weeks 05–06 is here: traverse the `list_head`s, and use `container_of()` to reach each book.
 
 ### 2.3 Loading: `fgets()` + `sscanf()`, one line at a time
 
@@ -272,7 +261,7 @@ The broken line was reported and skipped, the empty line and the comment were ig
 fwrite(b, sizeof(*b), 1, fp);     /* tempting, and wrong for our list */
 ```
 
-This writes the raw bytes of `struct book`, **including `list.next` and `list.prev`**. Those are heap addresses from *this* run of the program. In the next run they point to nothing. For other structs the bytes also include padding (`struct student` has 4 bytes before `list`, Week 08 §1.2), and the layout can differ between compilers and machines.
+This writes the raw bytes of `struct book`, **including `list.next` and `list.prev`**. Those are heap addresses from *this* run of the program. In the next run they point to nothing. For other structs the bytes also include padding (`struct student` has 4 bytes before `list`, Week 06 §1.2), and the layout can differ between compilers and machines.
 
 **Rule: save the data, and rebuild the links when loading.** `fread()`/`fwrite()` are fine for plain data without pointers, such as an array of numbers.
 
@@ -349,15 +338,15 @@ test: input_demo library_io
 
 ---
 
-## 3. Lab (60 min)
+## 3. Lab
 
-Task: [assignments/week09-file-io/README.md](../../assignments/week09-file-io/README.md)
+Task: [assignments/week07-file-io/README.md](../../assignments/week07-file-io/README.md)
 
-1. Copy your list functions and `student_create()` from Weeks 07–08 into the starter.
+1. Copy your list functions and `student_create()` from Weeks 05–06 into the starter.
 2. `student_load()`: `fopen()` + `perror()`, then a `fgets()` loop, `sscanf(line, "%d %19s %d", ...)`, range checks, and errors with line numbers on `stderr`.
 3. `student_print_all()` and `student_free_all()`.
 4. `student_save()`: `fopen(path, "w")`, `fprintf()`, and a checked `fclose()`.
-5. Round-trip: `./week09 students.txt students_out.txt`, then `./week09 students_out.txt check.txt`, then `diff students_out.txt check.txt`.
+5. Round-trip: `./week07 students.txt students_out.txt`, then `./week07 students_out.txt check.txt`, then `diff students_out.txt check.txt`.
 
 Test plan:
 
@@ -373,11 +362,11 @@ Test plan:
 
 - Reject a line whose ID already appears earlier in the file.
 - Add a `make test` target to your starter Makefile that runs the round trip and the `diff`.
-- *Optional, not part of the final project spec:* add "Save" and "Load" menu items to your Week 10 Student Management System.
+- *Optional, not part of the final project spec:* add "Save" and "Load" menu items to your Week 08 Student Management System.
 
 ---
 
-## 4. Wrap-up (10 min)
+## 4. Wrap-up
 
 ### Key takeaways
 
@@ -409,4 +398,4 @@ Test plan:
 
 ### Next week
 
-Everything is in place: structs, operators, the heap, circular doubly linked lists, intrusive `list_head`, `container_of()`, and file I/O. → **Week 10 — Final Project: Student Management System**, plus how to build a program from several `.c` files.
+Everything is in place: structs, operators, the heap, circular doubly linked lists, intrusive `list_head`, `container_of()`, and file I/O. → **Week 08 — Final Project: Student Management System**, plus how to build a program from several `.c` files.

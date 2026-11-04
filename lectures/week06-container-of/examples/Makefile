@@ -1,4 +1,4 @@
-# Week 08 lecture examples
+# Week 06 lecture examples
 #   make                     build every example
 #   make container_of_demo.i see the preprocessor output (macros expanded)
 #   make clean               remove the executables and .i files

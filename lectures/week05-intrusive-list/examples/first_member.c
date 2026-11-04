@@ -1,5 +1,5 @@
 /*
- * Week 07 demo: when list_head is the FIRST member, a cast is enough.
+ * Week 05 demo: when list_head is the FIRST member, a cast is enough.
  *
  * The C standard says a struct and its first member start at the same
  * address (C11 6.7.2.1p15). So here &t and &t.list are the same address.
