@@ -1,305 +1,304 @@
-// Week 04 — Singly Linked List
+// Week 05 — Doubly Linked List
 module.exports = {
-    week: 4,
-    dirName: 'week04-singly-linked-list',
-    title: 'Singly Linked List',
-    short: 'Singly Linked List',
-    subtitle: 'Nodes, links, traversal, insertion, freeing, and the design of delete',
+    week: 5,
+    dirName: 'week05-doubly-linked-list',
+    title: 'Doubly Linked List',
+    short: 'Doubly Linked List',
+    subtitle: 'Two links per node: walk both ways, delete in O(1), and keep every link consistent',
     slides: [
-        { newSection: 'Introduction', kind: 'title', label: 'sll_book.c',
-            code: [{ file: 'examples/sll_book.c', struct: 'book' }, { file: 'examples/sll_book.c', struct: 'node' }],
-            notes: 'We can create objects at run time. Today we chain them together: every node holds a pointer to the next one.' },
+        { newSection: 'Introduction', kind: 'title', label: 'dll_book.c',
+            code: { file: 'examples/dll_book.c', struct: 'node' },
+            notes: 'Today every node gets a second pointer, prev. That buys backward traversal and O(1) delete, and costs more pointers to keep consistent.' },
 
         { kind: 'agenda', plan: [
-            ['0:00', '0:10', 'Review of Week 03', 'review', 'Review'],
-            ['0:10', '0:55', 'Part 1 — Nodes, links, and traversal', 'lecture', 'Part 1'],
+            ['0:00', '0:10', 'Review of Week 04', 'review', 'Review'],
+            ['0:10', '0:55', 'Part 1 — Two links per node, and insertion', 'lecture', 'Part 1'],
             ['0:55', '1:05', 'Break', 'break', 'Break'],
-            ['1:05', '1:50', 'Part 2 — Insert, free, and the design of delete', 'lecture', 'Part 2'],
-            ['1:50', '2:50', 'Lab — Week 04 assignment', 'lab', 'Lab'],
+            ['1:05', '1:50', 'Part 2 — Delete in O(1), invariants, and debugging links', 'lecture', 'Part 2'],
+            ['1:50', '2:50', 'Lab — Week 05 assignment', 'lab', 'Lab'],
             ['2:50', '3:00', 'Wrap-up and exit quiz', 'wrap', 'Quiz'],
         ] },
 
         { kind: 'objectives', items: [
-            'Compare arrays and linked lists: memory layout, insert, delete, indexing',
-            'Define a self-referential `struct node` and draw a list as boxes and arrows',
-            'Traverse a list with a cursor and handle the empty list (`head == NULL`)',
-            'Explain why `push_front()` needs `struct node **` (or must return the new head)',
-            'Free an entire list without a use-after-free',
-            'Identify every case that `delete` must handle',
+            'Explain what a `prev` pointer buys (backward traversal, O(1) unlink) and what it costs',
+            'State the link invariants of a doubly linked list and check them in code',
+            'Insert at the front and the back while keeping `head`, `tail`, `next`, and `prev` consistent',
+            'List the four cases of deleting a node and which pointers change in each',
+            'Debug pointer bugs by dumping addresses and running an invariant checker',
         ] },
 
-        { kind: 'review', title: 'Review of Week 03', questions: [
-            'Where does `struct book *b = malloc(sizeof(*b));` put `b`, and where does it put the book?',
-            'Name the four classic heap bugs',
-            'After `free(p)`, what value does `p` hold?',
-        ], today: 'Today\'s question: we can create objects at run time. **How do we keep track of an unknown number of them without an array?**' },
+        { kind: 'review', title: 'Review of Week 04', questions: [
+            'Why does `push_front()` take `struct node **`?',
+            'What must you do *before* `free(cur)` when freeing a list?',
+            'Which cases of delete change `head`?',
+        ], today: 'Today\'s questions: **How do you print a singly linked list backwards? How do you delete a node when you only have a pointer to it?** Both are awkward with only `next`.',
+            notes: 'Answers: push_front must change the caller\'s head; save next before free; deleting the first node (including the only node) changes head.' },
 
         /* ---------------- Part 1 ---------------- */
-        { newSection: 'Part 1 — nodes', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Nodes, links, and traversal', sub: 'Arrays vs. lists, the self-referential struct, the traversal loop' },
+        { newSection: 'Part 1 — Two links', kind: 'section', num: 1, label: 'PART 1 · 45 MIN', title: 'Two links per node, and insertion', sub: 'What `prev` buys, the invariants, inserting at both ends' },
 
-        { kind: 'concept', title: 'Linked list', layout: 'tb', ratio: 0.55,
-            what: 'A **linked list** is a chain of separately allocated **nodes**. Each node holds its data and a pointer to the next node; a `head` pointer gives the first node, and the last node points to `NULL`. Unlike an array, the nodes can be anywhere in memory.',
-            why: ['An array has a fixed size (or must be `realloc()`ed and copied), and inserting at the front shifts every element: O(n).', 'A list grows one node at a time and inserts or deletes in O(1) once you hold the right node, at the cost of O(n) indexing.'],
-            how: { diagram: { type: 'chain', kind: 'singly', nodes: ['b0', 'b1', 'b2'] } },
-            notes: 'Array: one contiguous block. Linked list: nodes anywhere on the heap, and each one knows the next. A list trades fast indexing for cheap insertion and deletion and unlimited growth; operating-system kernels need exactly that trade. The next slide compares the costs.' },
+        { kind: 'concept', title: 'The `prev` pointer: a doubly linked list', ratio: 0.52,
+            what: 'In a **doubly linked list** every node stores two links: `next` points to the node after it and `prev` to the node before it. The first node\'s `prev` and the last node\'s `next` are `NULL`.',
+            why: ['With only `next`, you cannot walk backward, and deleting a node you already hold needs an O(n) search for its predecessor.', 'With `prev`, the node knows both neighbors, so it can be unlinked in O(1).'],
+            how: { code: { file: 'examples/dll_book.c', struct: 'node' } },
+            notes: 'Today every node gets a second pointer. The trade: backward traversal and O(1) delete, paid for with one more pointer per node and more pointer updates per operation. The next slide compares the costs.' },
 
-        { kind: 'content', title: 'What each one costs',
-            a: { table: { head: ['Operation', 'Array', 'Singly linked list'], colW: [5, 3.4, 3.6], rows: [
-                ['Access the *i*-th element', 'O(1), `a[i]`', 'O(n), walk from `head`'],
-                ['Insert / delete at the front', 'O(n), shift everything', '**O(1)**'],
-                ['Insert / delete in the middle (position known)', 'O(n), shift', '**O(1)** given the previous node'],
-                ['Size', 'Fixed, or `realloc()` + copy', 'Grows one node at a time'],
-                ['Extra memory', 'None', 'One pointer per node'],
+        { kind: 'content', title: 'What `prev` costs and what it buys',
+            a: { table: { head: ['Task', 'Singly linked', 'Doubly linked'], colW: [4.4, 4, 4], size: 17, rows: [
+                ['Walk backward', 'Impossible without extra memory', 'Follow `prev`'],
+                ['Delete a node, given a pointer to it', 'O(n): search for its predecessor', '**O(1)**: the node knows both neighbors'],
+                ['Insert *before* a given node', 'O(n)', '**O(1)**'],
+                ['Memory per node', '1 pointer', '2 pointers'],
+                ['Pointer updates per insert/delete', '1–2', '**2–4**: more ways to get it wrong'],
             ] } },
-            foot: 'A list trades fast indexing for cheap insertion and deletion and unlimited growth. Kernels need exactly that trade.' },
+            notes: 'The trade: backward traversal and O(1) delete, paid for with one more pointer per node and more pointer updates per operation.' },
 
-        { kind: 'concept', title: 'The node and the head pointer', ratio: 0.58,
-            what: 'A **node** is a struct that holds the data plus a `next` pointer to another node of the same type. The list itself is a pointer to the first node, called **`head`**: `head == NULL` means the list is empty, and the last node (the **tail**) has `next == NULL`.',
-            why: ['A struct cannot contain itself (its size would be infinite), but it can contain a **pointer** to its own type.', 'Without `head` nothing refers to the first node, and without the `NULL` at the end a traversal would not know where to stop.'],
-            how: { code: [{ file: 'examples/sll_book.c', struct: 'book' }, { file: 'examples/sll_book.c', struct: 'node' }] },
-            notes: 'The assignment\'s starter uses the same shape with struct student data;. Week 01 previewed this self-referential struct; today we build the list.' },
+        { kind: 'concept', title: 'Keeping both ends: `head` and `tail`', layout: 'tb', ratio: 0.55,
+            what: 'A small `struct dlist` holds two pointers: `head` to the first node and `tail` to the last. Both are `NULL` when the list is empty, and every operation keeps both up to date.',
+            why: 'With only `head`, inserting at the back and printing backward must first walk the whole list to find the last node, which is O(n). With `tail`, the last node is one pointer away. (The starter declares only `head`: keep a `tail` too, or walk when you need it.)',
+            how: { code: { file: 'examples/dll_book.c', struct: 'dlist' } },
+            notes: 'The assignment starter declares only struct node *head. You may keep a separate tail pointer, as the demo does, or walk to the last node when you need it. A small struct dlist holding both is the cleaner design.' },
 
-        { kind: 'content', title: 'Building a list by hand', layout: 'tb', ratio: 0.42,
-            a: { code: { file: 'examples/sll_manual.c', from: /struct node c =/, to: /struct node \*head = &a;/ } },
-            b: { diagram: { type: 'chain', kind: 'singly', nodes: ['[1]', '[2]', '[3]'] } },
-            notes: 'No malloc() yet, so we can focus on the links. Nodes are declared in reverse so each can point to the next.' },
-
-        { kind: 'demo', title: 'Live demo: sll_manual.c', layout: 'tb', ratio: 0.45,
-            a: { code: { file: 'examples/sll_manual.c', from: /for \(cur = head;/, to: /\(void \*\)cur->next\);/ } },
-            b: { out: `node at 0x16f75e4c8: [1] The C Programming Language       next = 0x16f75e4f8
-node at 0x16f75e4f8: [2] Understanding the Linux Kernel   next = 0x16f75e528
-node at 0x16f75e528: [3] Linux Device Drivers             next = 0x0`, label: './sll_manual' },
-            foot: 'Ask the class to draw this output as boxes and arrows, using the printed addresses.' },
-
-        { kind: 'concept', title: 'Traversal with a cursor', layout: 'tb', ratio: 0.5,
-            what: 'To **traverse** a list is to visit every node in order. A separate **cursor** pointer starts at `head` and follows `next` until it becomes `NULL`: `for (cur = head; cur != NULL; cur = cur->next)`.',
-            why: ['Moving `head` itself (`head = head->next`) loses the start of the list.', 'With `cur != NULL`, an empty list runs the loop zero times. `cur->next != NULL` would skip the last node and crash on an empty list.'],
-            how: { art: `step 1: cur = head        cur --> [1] --> [2] --> [3] --> NULL
-step 2: cur = cur->next           [1] --> [2] <-- cur
-step 3: cur = cur->next                   ... --> [3] <-- cur
-step 4: cur = cur->next   cur == NULL -> loop ends` },
-            notes: 'Use a separate cursor. For the empty list, head == NULL makes the loop run zero times, so traversal needs no special case.' },
-
-        { kind: 'content', title: 'Traversal rules', ratio: 0.5,
-            a: { bullets: [
-                'Use a **separate cursor**: `head = head->next` in a loop loses the list',
-                'Empty list: `head == NULL`, so the loop runs zero times. No special case',
-                'The condition is `cur != NULL`, not `cur->next != NULL`: that skips the last node and crashes on an empty list',
-            ] },
-            b: { code: { file: 'examples/sll_book.c', fn: 'count_list' } },
-            notes: 'In count_list, moving head is fine: the parameter is a copy of the caller\'s pointer (pass by value, Week 01).' },
-
-        { kind: 'content', title: 'Printing, including the empty list', layout: 'tb', ratio: 0.68,
-            a: { code: { file: 'examples/sll_book.c', fn: 'print_list' } },
+        { kind: 'content', title: 'Drawing a doubly linked list', layout: 'tb', ratio: 0.55,
+            a: { diagram: { type: 'chain', kind: 'doubly', nodes: ['[1]', '[2]', '[3]'], head: 'head', tail: 'tail' } },
             b: { bullets: [
-                '`const struct node *`: printing only reads the list',
-                'The empty case gets its own message, so an empty list is visible in tests',
-                'The loop itself needs no special case',
+                'Dark arrows are `next`, gray arrows are `prev`',
+                '`head->prev` and `tail->next` are `NULL`',
+                'Every link has a partner pointing the other way',
+            ] },
+            notes: 'Ask the class to point at each arrow and name the field: next or prev. The NULLs at both ends are what create special cases later.' },
+
+        { kind: 'concept', title: 'Invariants', layout: 'tb', ratio: 0.46,
+            what: 'An **invariant** is a property of the list that holds before and after every operation. An operation may break it temporarily, in the middle, but must restore all of them before it returns.',
+            why: 'Pointer bugs are silent: a wrong `prev` does not show in a forward print. Without written rules you cannot tell whether an operation is correct. Ask: **which invariants could this break, and which lines restore them?**',
+            how: { steps: [
+                '`head == NULL` if and only if `tail == NULL` (the empty list)',
+                '`head->prev == NULL` and `tail->next == NULL`',
+                'For every node `n`: if `n->next != NULL`, then `n->next->prev == n`',
+                'For every node `n`: if `n->prev != NULL`, then `n->prev->next == n`',
+            ], size: 18, rowH: 0.58 },
+            notes: 'An invariant is a property that holds before and after every operation. These four rules define a correct doubly linked list. Use the question on the slide every time you design a list operation.' },
+
+        { kind: 'concept', title: 'Inserting at the front', layout: 'tb', ratio: 0.44,
+            what: '`push_front()` makes a new node the first node. On a non-empty list it needs **four** pointer writes, in order; on an empty list the new node becomes both `head` and `tail`.',
+            why: 'Each write restores an invariant. Skip step 3, `head->prev = n`, and backward traversal silently skips the new node. Forget the empty case, and `tail` stays `NULL`.',
+            how: { art: `empty list:          head = tail = n,  n->prev = n->next = NULL
+
+non-empty list:      head --> [A] <=> [B] <-- tail
+  1. n->prev = NULL;
+  2. n->next = head;    [N] --> [A]
+  3. head->prev = n;    [N] <=> [A]
+  4. head = n;          head --> [N] <=> [A] <=> [B] <-- tail` },
+            notes: 'Trace both cases on the board. In the empty list, n becomes both head and tail. In the non-empty list, step 3 makes the old first node point back to n. The next slide shows the code.' },
+
+        { kind: 'content', title: 'Insert at the front: the code', layout: 'tb', ratio: 0.66,
+            a: { code: { file: 'examples/dll_book.c', fn: 'dlist_push_front' } },
+            b: { callout: 'Step 3, `list->head->prev = n`, is the one people forget. Without it invariant 3 breaks, and backward traversal skips the new node.', kind: 'bad' },
+            notes: 'The if/else handles the empty list: when there is no old first node, n is also the last node, so tail must change.' },
+
+        { kind: 'concept', title: 'Inserting at the back', layout: 'tb', ratio: 0.29,
+            what: 'It appends the node at the end. It is `push_front()` mirrored: `tail` for `head`, `prev` for `next`.',
+            why: 'It keeps insertion order, and with `tail` it costs O(1), not a walk through the list.',
+            how: { code: { file: 'examples/dll_book.c', fn: 'dlist_push_back' } },
+            notes: 'Compare the two functions side by side with the class: head and tail swap, next and prev swap. If the mirror does not hold, one of them has a bug.' },
+
+        { kind: 'content', title: 'Forward traversal: unchanged from Week 04', ratio: 0.62,
+            a: { code: { file: 'examples/dll_book.c', fn: 'dlist_print_forward' } },
+            b: { bullets: [
+                'The loop starts at `list->head`, follows `next`, and stops at `NULL`.',
+                'It is exactly the Week 04 loop: the `prev` links are simply not used.',
             ] } },
+
+        { kind: 'concept', title: 'Backward traversal', layout: 'tb', ratio: 0.5,
+            what: '**Backward traversal** visits the nodes from last to first: it starts at the last node and follows `prev` until it reaches `NULL`.',
+            why: ['A singly linked list cannot do this without extra memory.', 'It is also a test: a missing `prev` link is invisible in a forward print and shows up only when you print backward. That is why every test prints both directions.'],
+            how: { art: `forward :  head --> [1] --> [2] --> [3] --> NULL      follow next
+backward:  NULL <-- [1] <-- [2] <-- [3] <-- tail      follow prev` },
+            notes: 'Do not show the loop: backward print is part of the Week 05 assignment. The next slide asks students to write it.' },
+
+        { kind: 'exercise', title: 'Write the backward traversal', minutes: 3, ratio: 0.55,
+            a: { steps: [
+                'Where does the loop **start**?',
+                'Which pointer does it **follow**?',
+                'When does it **stop**?',
+            ], size: 22, rowH: 0.95 },
+            b: { callout: 'You need this loop in the lab: backward print is part of the Week 05 assignment.' },
+            notes: 'Give students three minutes. Do not show a solution: backward print is an assignment deliverable. Hint if needed: it is the mirror of the forward loop.' },
 
         /* ---------------- Part 2 ---------------- */
-        { newSection: 'Part 2 — insert, free, delete', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'Insert, free, and the design of delete', sub: 'push_front, the head problem, push_back, free_list, search and delete' },
+        { newSection: 'Part 2 — Delete and debug', kind: 'section', num: 2, label: 'PART 2 · 45 MIN', title: 'Delete in O(1), invariants, and debugging links', sub: 'Unlinking, the four cases, link dumps, invariant checkers' },
 
-        { kind: 'content', title: 'Creating a node',
-            a: { code: { file: 'examples/sll_book.c', fn: 'node_create', comment: true } },
-            foot: 'Creating a node and linking it are **separate steps**. The final project does the same: `student_create()`, then `list_add()`.' },
+        { kind: 'concept', title: 'Unlinking a node in O(1)', layout: 'tb', ratio: 0.46,
+            what: 'To **unlink** node `n`, make its two neighbors point at each other: `n->prev->next = n->next` and `n->next->prev = n->prev`. Afterwards `n` is out of the list and can be freed or inserted elsewhere.',
+            why: 'In a singly linked list a node does not know its predecessor, so deleting it means an O(n) search from `head`. Here `n` already knows both neighbors: no search, so the unlink is **O(1)**.',
+            how: { art: `before:   [P] <=> [N] <=> [X]
 
-        { kind: 'concept', title: 'Inserting at the front', layout: 'tb', ratio: 0.5,
-            what: 'Inserting a node `n` at the front takes two steps, in this order. First `n->next = head` makes the new node point to the old first node; then `head = n` makes the list start at the new node. The cost is O(1), whatever the length of the list.',
-            why: 'If the steps are swapped, `head = n` runs first; `n->next = head` then makes `n` point to itself, and the rest of the list is lost (and leaked).',
-            how: { art: `before:              head --> [A] --> [B] --> NULL
-                     n    --> [N]
+          n->prev->next = n->next;      [P] ------------> [X]
+          n->next->prev = n->prev;      [P] <------------ [X]
 
-1. n->next = head;   [N] --> [A] --> [B] --> NULL
+after:    [P] <=> [X]          [N] is unlinked` },
+            notes: 'This is the general case, for a node in the middle. The next slide shows what changes when a neighbor is NULL.' },
 
-2. head = n;         head --> [N] --> [A] --> [B] --> NULL` },
-            notes: 'push_front() in sll_book.c does exactly these two lines. The next slides show why it takes struct node ** instead of struct node *.' },
-
-        { kind: 'content', title: 'The head problem', ratio: 0.58,
-            a: { code: `void push_front_wrong(struct node *head,
-                      struct node *n)
-{
-    n->next = head;
-    head = n;      /* changes the LOCAL copy only */
-}
-
-struct node *head = NULL;
-push_front_wrong(head, n);   /* head is still NULL */`, label: null },
-            b: { callout: [
-                'This is `set_year_by_value()` from Week 01 again.',
-                'The function received a **copy** of `head` and changed only the copy.',
-                'There are two standard fixes: return the new head, or pass a pointer to the head.',
-            ], kind: 'bad' } },
-
-        { kind: 'concept', title: 'Pointer to pointer: `struct node **`', layout: 'tb', ratio: 0.5,
-            what: 'A **pointer to pointer** holds the address of a pointer variable. Passing `&head` gives a function a `struct node **headp`, and `*headp` **is** the caller\'s `head`, so `*headp = n` changes it.',
-            why: ['`push_front_wrong(head, n)` receives a copy of `head` and changes only the copy: the list in `main()` stays empty.', 'Every function that may change `head` (insert at the front, delete the first node) needs this, or must return the new head.'],
-            how: { art: ` main()                          push_front()
- +----------------+              +----------------+
- | head  *--------+--> [A] ...   | headp *        |
- +--------^-------+              +-------|--------+
-          +------------------------------+
-          *headp IS main's head variable` },
-            notes: 'struct node **headp = &head. Writing *headp writes main\'s head. Fix A (return the new head) is the alternative; the demo uses this one, Fix B.' },
-
-        { kind: 'content', title: 'Fix A — return the new head', ratio: 0.5,
-            a: { code: `struct node *push_front(struct node *head,
-                        struct node *n)
-{
-    n->next = head;
-    return n;
-}
-
-head = push_front(head, n);`, label: null },
-            b: { bullets: [
-                'The caller stores the result back into its own `head`',
-                'Simple, but every caller must remember the assignment',
+        { kind: 'concept', title: 'The four cases of unlinking', layout: 'tb', ratio: 0.42,
+            what: 'At either end a neighbor is `NULL`, so `head` or `tail` changes instead. Handle each side on its own: fix the previous node\'s `next` or else `head`; fix the next node\'s `prev` or else `tail`.',
+            why: 'Applying the general case to the first or last node dereferences `NULL` and crashes. Forgetting `head` or `tail` leaves them pointing at a freed node.',
+            how: { table: { head: ['Case', '`n->prev`', '`n->next`', 'Pointers to update'], colW: [2.6, 2, 2, 5.5], size: 17, rows: [
+                ['Middle node', 'node', 'node', '`n->prev->next`, `n->next->prev`'],
+                ['First node', '`NULL`', 'node', '`head`, `n->next->prev`'],
+                ['Last node', 'node', '`NULL`', '`n->prev->next`, `tail`'],
+                ['Only node', '`NULL`', '`NULL`', '`head`, `tail`'],
             ] } },
+            notes: 'Notice the pattern: each side is handled independently. Left side: if there is a previous node, fix its next; otherwise fix head. Right side: if there is a next node, fix its prev; otherwise fix tail.' },
 
-        { kind: 'content', title: 'Fix B — pass a pointer to the head', layout: 'tb', ratio: 0.6,
-            a: { code: { file: 'examples/sll_book.c', fn: 'push_front', comment: true } },
-            b: { callout: 'Call it as `push_front(&head, n);`. The demo uses Fix B because it scales to any function that may change `head`, including delete.' } },
-
-        { kind: 'content', title: 'Insert at the back', ratio: 0.62,
-            a: { code: `if (*headp == NULL) {        /* empty list */
-    *headp = n;
-} else {
-    struct node *cur = *headp;
-    while (cur->next != NULL)  /* stop AT the last */
-        cur = cur->next;
-    cur->next = n;
+        { kind: 'exercise', title: 'Write `dlist_unlink()`', minutes: 5, ratio: 0.66,
+            a: { code: `static void dlist_unlink(struct dlist *list, struct node *n)
+{
+    /* left side:  fix n->prev->next, or head */
+    /* right side: fix n->next->prev, or tail */
 }`, label: null },
             b: { bullets: [
-                'The straightforward version needs a special case for the empty list',
-                'The new node becomes `head` when the list is empty',
-                'Otherwise walk to the last node and link after it',
+                'Use two `if`/`else` statements, one per side',
+                'It must **not** call `free()`',
             ] } },
 
-        { kind: 'concept', title: 'Walking the links: `struct node **link`', layout: 'tb', ratio: 0.43,
-            what: 'Keep `link`, a pointer to **the pointer you might overwrite**: first `head`, then each node\'s `next`. `link = &(*link)->next` moves it on, and `*link = n` writes whichever pointer it reached.',
-            why: 'A plain `push_back()` needs a special case for the empty list, where `head` itself must change. Walking the links treats `head` and every `next` alike: no special case.',
-            how: { code: { file: 'examples/sll_book.c', fn: 'push_back' }, label: null },
-            notes: '&(*link)->next parses as &((*link)->next) (Week 02). At the end of the loop, link points to the NULL slot: main\'s head for an empty list, otherwise the last node\'s next. The same trick removes the first-node special case from delete.' },
+        { kind: 'answer', title: '`dlist_unlink()`', ratio: 0.66,
+            a: { code: `static void dlist_unlink(struct dlist *list, struct node *n)
+{
+    if (n->prev != NULL)
+        n->prev->next = n->next;
+    else
+        list->head = n->next;
 
-        { kind: 'concept', title: 'Freeing a whole list', layout: 'tb', ratio: 0.5,
-            what: 'Every node was allocated with `malloc()`, so every node must be freed. Walk the list and, for each node, **save `next` first**, then `free()` the node and move on; at the end, set `head` to `NULL`.',
-            why: ['The natural loop `for (...; cur = cur->next) free(cur);` reads `cur->next` **after** `cur` was freed: a use after free.', 'Without `*headp = NULL`, the caller\'s `head` still points into freed memory.'],
-            how: { code: `while (cur != NULL) {
-    next = cur->next;   /* save it BEFORE free() */
-    free(cur);
-    cur = next;
-}
-*headp = NULL;          /* no dangling head      */`, label: null },
-            notes: 'free_list() in sll_book.c does exactly this. Freeing the list is the last call in main() from now on.' },
+    if (n->next != NULL)
+        n->next->prev = n->prev;
+    else
+        list->tail = n->prev;
 
-        { kind: 'demo', title: 'Live demo: sll_book.c', ratio: 0.55,
-            a: { out: `(empty)
-[1] The C Programming Language (1978)
-[2] Understanding the Linux Kernel (2005)
-[3] Linux Device Drivers (2005)
-count = 3
-(empty)`, label: './sll_book' },
-            b: { callout: 'The demo uses `goto out_of_memory;` for error handling. One cleanup label at the end of a function is common in the Linux kernel: the cleanup code lives in one place.' } },
+    n->prev = NULL;
+    n->next = NULL;
+}`, label: null },
+            b: { callout: 'Delete by ID then becomes: find the node → `dlist_unlink()` → `free()`.', kind: 'good' },
+            notes: 'Resetting n->prev and n->next is optional but keeps the unlinked node from pointing into the list.' },
 
-        { kind: 'exercise', title: 'Search by ID: design it first', minutes: 5, ratio: 0.5,
-            a: { code: `/* Returns the node whose data.id == id,
- * or NULL if there is none. */
-struct node *find_by_id(struct node *head,
-                        int id);`, label: null },
+        { kind: 'concept', title: 'Unlinking vs. freeing', layout: 'tb', ratio: 0.48,
+            what: '**Unlinking** is a list operation: it changes links. **Freeing** is a memory operation: it ends the object\'s lifetime. Delete by ID is three separate jobs: find the node, unlink it, free it.',
+            why: ['If unlink also freed, you could not move a node from one list to another: unlink, then insert elsewhere, with no `malloc()` or `free()`.', 'The final project requires this split: `list_del()` must never call `free()`.'],
+            how: { diagram: { type: 'flow', boxH: 1.3, steps: [
+                { t: 'find', sub: 'search by ID, get the node', size: 20 },
+                { t: 'dlist_unlink()', sub: 'fix the links, O(1)', size: 20, code: true },
+                { t: 'free()', sub: 'end the node\'s lifetime', size: 20, code: true },
+            ] } },
+            notes: 'Only the find step is O(n). Once you hold the node, unlinking is O(1). Freeing is a separate memory operation, done by whoever owns the node.' },
+
+        { kind: 'content', title: 'Count the special cases', layout: 'tb', ratio: 0.55,
+            a: { stat: [
+                { value: '1', label: '`NULL` check in `push_front()`' },
+                { value: '1', label: '`NULL` check in `push_back()`' },
+                { value: '2', label: '`NULL` checks in `dlist_unlink()`' },
+            ] },
+            b: { callout: '**Remember this number: four.** Next week, a single extra node, the *sentinel*, makes all of them disappear.' } },
+
+        { kind: 'concept', title: 'A link dump', layout: 'tb', ratio: 0.36,
+            what: 'A **link dump** prints each node\'s `prev`, its own address (`self`), and `next`, one node per line.',
+            why: 'Pointer bugs stay silent until a crash far away; the dump makes the links visible so you can check them.',
+            how: { code: { file: 'examples/dll_book.c', from: /printf\("head = /, to: /\(void \*\)cur->prev, \(void \*\)cur/ }, label: 'dll_book.c (dlist_dump)' },
+            notes: 'Pointer bugs are silent until something crashes far away. Two tools help, and both are plain C. The first prints prev, self and next for every node; the next slide shows how to read its output.' },
+
+        { kind: 'content', title: 'Reading a link dump', layout: 'tb', ratio: 0.45,
+            a: { out: `  [1] prev = 0x0            self = 0x104a69280    next = 0x104a69240
+  [2] prev = 0x104a69280    self = 0x104a69240    next = 0x104a692c0
+  [3] prev = 0x104a69240    self = 0x104a692c0    next = 0x0`, label: 'output' },
             b: { steps: [
-                'What does it return for an empty list?',
-                'Why return a `struct node *` and not a copy of the `struct book`?',
-            ], size: 19, rowH: 1.1 },
-            notes: 'Write it on paper before the lab.' },
+                'Each node\'s `next` must equal the following line\'s `self`',
+                'That line\'s `prev` must equal this line\'s `self`',
+                '`0x0` (`NULL`) may appear only as the first `prev` and the last `next`',
+            ], size: 19, rowH: 0.7 },
+            notes: 'Read it diagonally. Walk through the three lines with the class.' },
 
-        { kind: 'concept', title: 'Deleting a node: unlink, then free', layout: 'tb', ratio: 0.5,
-            what: 'Deleting takes two separate steps: **unlink** the node by making its predecessor point past it (`prev->next = cur->next`), then **free** it. A singly linked node does not know its predecessor, so the search keeps a `prev` pointer one step behind `cur`.',
-            why: ['After `free(cur)` you may no longer read `cur->next`, so unlinking must come first.', 'The **first** node has no `prev`: `head` itself must change, so delete needs `struct node **headp` too.'],
-            how: { art: `prev     cur
- v        v
-[A] ---> [B] ---> [C] ---> NULL
+        { kind: 'concept', title: 'An invariant checker', layout: 'tb', ratio: 0.4,
+            what: 'An **invariant checker** verifies the invariants in code: walking forward, every node\'s `prev` must be the node before it, and `tail` must be the last node.',
+            why: 'A wrong `prev` crashes only later, somewhere unrelated. Called after every operation, the checker names the broken node at once.',
+            how: { code: { file: 'examples/dll_book.c', from: /for \(cur = list->head; cur != NULL; prev = cur/, to: /^    }$/, inclusiveSame: false }, label: 'dll_book.c (dlist_check)' },
+            notes: 'Call it after every operation while you develop. The checker walks forward, remembering the previous node, and verifies every prev link and the tail pointer.' },
 
-prev->next = cur->next;      [A] -------------> [C] ---> NULL
-free(cur);                         [B] (freed)` },
-            notes: 'Stretch: the struct node **link trick from push_back removes the first-node special case from delete too. Try it after the two-pointer version works. The next slide lists every case delete must handle.' },
+        { kind: 'demo', title: 'Live demo: dll_book.c', layout: 'tb', ratio: 0.42,
+            a: { code: { file: 'examples/dll_book.c', from: /break a link on purpose/, to: /list\.head->next->prev = list\.head;/ }, label: 'dll_book.c (main)' },
+            b: { out: `forward : [1] [2] [3]
+...
+check: OK
+BROKEN: node [2] has the wrong prev
+after breaking a link, check: FAILED
+after free, check: OK`, label: 'output' },
+            notes: 'dll_book.c builds a list, dumps it, checks it, breaks one link on purpose, checks again, and repairs it.' },
 
-        { kind: 'content', title: 'Every case delete must handle',
-            a: { table: { head: ['Case', 'What changes'], colW: [5, 7], rows: [
-                ['List is empty', 'Nothing. Report "not found"'],
-                ['ID is not in the list', 'Nothing. Report "not found"'],
-                ['Target is the **first** node', '`head` itself must change: there is no `prev`'],
-                ['Target is in the middle', '`prev->next = cur->next`'],
-                ['Target is the last node', 'Same as the middle: `prev->next` becomes `NULL`'],
-                ['Target is the **only** node', '`head` becomes `NULL`'],
+        { kind: 'content', title: 'Common pitfalls',
+            a: { table: { head: ['Symptom', 'Likely cause'], colW: [5, 7], size: 17, rows: [
+                ['Forward print is fine, backward print skips nodes', 'A `prev` was not set during insert (step 3 of push_front)'],
+                ['Backward print starts at the wrong node', '`tail` was not updated by `push_back()` or by deleting the last node'],
+                ['Crash when deleting the first or last node', 'Dereferenced `n->prev` or `n->next` without checking for `NULL`'],
+                ['List looks fine, then crashes after a delete', 'The deleted node was freed but a neighbor still points to it'],
             ] } } },
 
-        { kind: 'concept', title: 'Flags are not prerequisites: `make -B`', layout: 'tb', ratio: 0.5,
-            what: '`make` decides what to rebuild from **file timestamps** only. Changing `CFLAGS`, for example to add `-g` (debugging information for `gdb` or `lldb`), changes no file, so make sees nothing to do. `make -B` rebuilds everything regardless.',
-            why: 'Without forcing the rebuild you keep running the old executable, built without the new flag, and the debugger cannot show your source lines. After changing flags, run `make clean && make` or `make -B`.',
-            how: { term: [
-                { cmd: 'make  # builds with the Makefile\'s CFLAGS' },
-                { cmd: 'make CFLAGS="-Wall -Wextra -std=c11 -g"', out: "make: Nothing to be done for `all'." },
-                { cmd: 'make -B CFLAGS="-Wall -Wextra -std=c11 -g"  # -B forces it' },
-            ] },
-            notes: 'make compares file timestamps only; it does not notice a change of flags. -g adds debugging information for a debugger: gdb on Linux, lldb on macOS.' },
-
         /* ---------------- Lab ---------------- */
-        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 04 assignment', sub: 'Insert, search, delete, print, free. Build after every step' },
+        { newSection: 'Lab', kind: 'section', num: '>_', label: 'LAB · 60 MIN', title: 'Week 05 assignment', sub: 'Insert, print both ways, check the links, delete' },
 
-        { kind: 'content', title: 'Lab — suggested order', tag: '60 MIN',
+        { kind: 'content', title: 'Lab — suggested order', ratio: 0.6,
             a: { steps: [
-                '`node_create()`: allocate a node holding one student, with a `NULL` check',
-                'Insert (`push_front()` or `push_back()`) and print three students',
-                '`free_list()`. Call it at the end of `main()` from now on',
-                'Search by ID. Print the found student, or `Not found`',
-                'Delete by ID: find, unlink, free. Handle every case in the table',
-            ], size: 19, rowH: 0.95 },
-            notes: 'Task: assignments/week04-singly-linked-list/README.md' },
+                'Node creation, and insert (front, back, or both). Keep `prev` correct',
+                'Print the list forward',
+                'Print the list backward (the exercise from Part 1)',
+                'An invariant checker, adapted from `dlist_check()`',
+                'Delete by ID: find the node, unlink it (all four cases), free it',
+                'Free the whole list at exit',
+            ], size: 18, rowH: 0.85 },
+            b: { cards: [
+                { h: 'Task', body: '`assignments/week05-doubly-linked-list/README.md`', size: 16 },
+                { h: 'Rule', body: 'Build and run your checker after **every** step.', size: 16 },
+            ], cols: 1 } },
 
         { kind: 'content', title: 'Lab — test plan',
-            a: { table: { head: ['#', 'Action', 'Expected'], colW: [0.6, 6, 5.4], size: 15, rows: [
-                ['1', 'Print the empty list', 'an "empty" message, no crash'],
-                ['2', 'Delete ID 1 from the empty list', '"not found", no crash'],
-                ['3', 'Insert 1, 2, 3, then print', 'three students'],
-                ['4', 'Search for 2, then for 99', 'found / not found'],
-                ['5', 'Delete the first node, then print', 'two students, `head` updated'],
-                ['6', 'Delete the last node, then print', 'one student'],
-                ['7', 'Delete the only node, then print', 'empty list, `head == NULL`'],
-                ['8', 'Free the list at exit', 'no use-after-free'],
+            intro: 'After each step, print **forward and backward** and run the checker.',
+            a: { table: { head: ['#', 'Action', 'Expected forward / backward'], colW: [0.8, 5, 6], size: 17, rows: [
+                ['1', 'Empty list', 'empty / empty'],
+                ['2', 'Insert 1, 2, 3 at the back', '`1 2 3` / `3 2 1`'],
+                ['3', 'Delete 2 (middle)', '`1 3` / `3 1`'],
+                ['4', 'Delete 1 (first)', '`3` / `3`'],
+                ['5', 'Insert 4 at the back, delete 4 (last)', '`3` / `3`'],
+                ['6', 'Delete 3 (only)', 'empty / empty'],
+                ['7', 'Delete 99 (missing)', '"not found", list unchanged'],
             ] } } },
 
         { kind: 'content', title: 'Stretch goals',
             a: { cards: [
-                { n: 1, h: 'Delete with `**link`', body: 'No special case for the first node.' },
-                { n: 2, h: '`insert_sorted()`', body: 'Keep the list ordered by ID.' },
-                { n: 3, h: '`reverse_list()`', body: 'Reverse in place by changing only `next` pointers.' },
+                { n: 1, h: 'Insert anywhere in O(1)', body: '`insert_before(list, pos, n)` and `insert_after(list, pos, n)`.' },
+                { n: 2, h: 'Move without malloc()', body: 'Move a node from the front to the back using only unlink + push: no `malloc()` or `free()`.' },
             ] } },
 
         /* ---------------- Wrap-up ---------------- */
         { newSection: 'Wrap-up', kind: 'takeaways', items: [
-            'A list is nodes connected by `next`. `head == NULL` means empty; the last `next` is `NULL`',
-            'Traverse with a separate cursor: `for (cur = head; cur != NULL; cur = cur->next)`',
-            'A function that may change `head` needs `struct node **` (or must return the new head)',
-            'When freeing, save `next` **before** `free()`',
-            'Delete handles empty, not-found, first, middle, last, and only-node cases. Week 06 removes the first/last/only-node cases',
+            '`prev` gives backward traversal and O(1) delete, at the cost of more pointers to keep consistent',
+            'Write down the **invariants** and restore all of them at the end of every operation',
+            'Delete has four cases. Handle the left side and the right side independently',
+            'Unlinking and freeing are separate operations',
+            'A link dump and an invariant checker turn silent pointer bugs into visible ones',
         ] },
 
         { kind: 'quiz', questions: [
-            'What is the time cost of reaching the 1000th node of a list?',
-            'Why does `push_front_wrong(head, n)` leave `main()`\'s `head` unchanged?',
-            'What is wrong with `for (cur = head; cur != NULL; cur = cur->next) free(cur);`?',
-            'Which delete cases change `head`?',
-            'In `push_back()` with `struct node **link`, what does `link` point to when the list is empty?',
+            'In `push_front()` on a non-empty list, which line is easiest to forget, and what breaks without it?',
+            'Which pointers change when you delete the only node?',
+            'Why is deleting a known node O(1) in a doubly linked list but O(n) in a singly linked list?',
+            'State the invariant that relates `n` and `n->next`',
+            'How many `NULL` checks do push_front, push_back, and unlink need in total?',
         ] },
 
         { kind: 'answers', answers: [
-            'O(n): you must follow 999 `next` pointers from `head`',
-            'The function received a copy of `head` and changed only the copy',
-            '`cur = cur->next` reads from `cur` after it was freed: use after free',
-            'Deleting the first node, which includes deleting the only node',
-            'To `main()`\'s `head` variable itself, so `*link = n` sets `head`',
+            '`head->prev = n;` (the old first node pointing back). Without it, backward traversal skips `n`',
+            '`head` and `tail` both become `NULL`',
+            'The node stores its predecessor in `prev`; a singly linked node must search from `head`',
+            'If `n->next != NULL`, then `n->next->prev == n`',
+            'Four: one in each push, and two in unlink',
         ] },
 
-        { kind: 'next', title: 'Week 05 — Doubly Linked List', sub: 'A singly linked list only goes forward, and deleting a node means finding its predecessor. What if every node also knew the node before it?' },
+        { kind: 'next', title: 'Week 06 — Circular Doubly Linked List', sub: 'What if the list never had a `NULL` in it? With a sentinel, four special cases become zero.' },
     ],
 };
