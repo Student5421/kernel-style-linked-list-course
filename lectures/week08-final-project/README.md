@@ -7,6 +7,35 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Previous** | [Week 07](../week07-file-io/) |
 
+## Reference slide reading
+
+Use [Writing Large Programs](%5BSlide%5D%2007.%20Writing%20Large%20Programs.pdf)
+(41 pages). All page numbers below are one-based PDF pages. The primary
+reading is **pp. 21-40**, in this teaching order:
+
+1. Review the build pipeline on pp. 22-23, then split responsibilities and
+   share declarations using pp. 24-31.
+2. Apply include guards from pp. 35-37 before building the multi-file
+   [`examples/`](examples/) program. Connect pp. 38-40 on modules, cohesion,
+   and coupling to the project's list/student/menu layers.
+3. Read pp. 32-34 on `extern` as declaration/definition background; the final
+   project's list head still belongs in `main()`.
+
+Use **pp. 3-20** as a preprocessor recap: pp. 3-7 introduce directives and
+constants, pp. 8-15 explain macro expansion and pitfalls, and pp. 16-20 cover
+conditional compilation and diagnostics. Review operators before macros and
+function prototypes before sharing interfaces.
+
+Revisit [File I/O](../week07-file-io/%5BSlide%5D%2004.%20File%20IO.pdf)
+**pp. 17-29, 41-52, 61** for file lifetime, input, parsing, and buffering, and
+the [Week 03 ownership notes](../week03-dynamic-memory-singly-list/README.md)
+before implementing creation, deletion, and cleanup.
+
+At pp. 17-18, `#ifdef DEBUG` remains true when `DEBUG` is defined as `0`;
+`#if DEBUG` tests its numeric value. Include guards prevent repeated inclusion
+within one translation unit; they do not fix duplicate external definitions
+across separately compiled files.
+
 ## Learning Objectives
 
 By the end of this session you can:

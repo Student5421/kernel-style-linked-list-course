@@ -1,7 +1,8 @@
 # Pointers Revisited: supplementary live demos
 
 These examples extend `../pointer_basics.c` and `../struct_pointer.c` using
-**[Slide] 01. Pointers Revisited.pdf** (51 PDF pages). Page numbers below refer
+[Pointers Revisited](../../%5BSlide%5D%2001.%20Pointers%20Revisited.pdf)
+(51 PDF pages). Page numbers below refer
 to PDF page order, which agrees with the printed slide numbers. Each file is
 a standalone C11 program; the source is teaching material rather than a
 line-for-line transcription of the slides.

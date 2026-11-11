@@ -7,6 +7,25 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Previous / Next** | [Week 04](../week04-doubly-circular-list/) · [Week 06](../week06-container-of/) |
 
+## Reference slide reading
+
+Use the [Week 05 deck](week05-slides.pptx) for intrusive lists, first-member
+casts, multiple memberships, and ownership. The seven reference PDFs supply
+background rather than an intrusive-list implementation. After reviewing the
+Week 04 circular-list invariants, select a short refresher as needed:
+
+- [Structures, Unions and Enums](../week01-struct/%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf#page=24),
+  pp. 24-27: nesting a structure inside another structure and accessing its
+  members. Compare a node containing a book with a book containing links.
+- [Dynamic Memory Allocation](../week03-dynamic-memory-singly-list/%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf#page=25),
+  pp. 25-27: leaks and dangling pointers. Use this review when explaining why
+  every list membership must be removed before the owning code frees a book.
+- Optional: [Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf#page=17),
+  pp. 17-19, for generic object pointers; use the corrected
+  [`void_pointer.c`](../week01-struct/examples/pointers-revisited/void_pointer.c)
+  alongside the slides. A `void *` does not remember the payload's type or
+  locate its enclosing object. Defer the general recovery calculation to Week 06.
+
 ## Learning Objectives
 
 By the end of this session you can:

@@ -9,6 +9,37 @@
 
 This session has two halves. Parts 1 and 2 look at where variables live and move objects onto the heap with `malloc()` and `free()`, under a clear ownership rule. Parts 3 and 4 use those heap objects to build the course's first data structure, a singly linked list: nodes, traversal, insertion, freeing the whole list, and the design of delete.
 
+## Reference slide reading
+
+Page ranges below use one-based PDF pages. Start after the pointer and
+`sizeof` review in Weeks 01-02, then use the slides in this order before
+building the singly linked list.
+
+| Order | Reference pages | Connection to this lecture |
+|---|---|---|
+| 1 | [Dynamic Memory Allocation](%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf), pp. 2-5 | Motivation, memory regions, and storage lifetime; pair with [`memory_map.c`](examples/memory_map.c). |
+| 2 | [Dynamic Memory Allocation](%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf), pp. 6-24 | Allocation APIs, the visual allocation/free trace (pp. 9-19), dynamic arrays, `calloc()`, `realloc()`, and failure checks; pair with [`malloc_basics.c`](examples/malloc_basics.c). |
+| 3 | [Dynamic Memory Allocation](%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf), pp. 25-27 | Lost ownership, leaks, and dangling pointers; connect to the create/destroy pair in [`book_factory.c`](examples/book_factory.c), then freeing list nodes. |
+| 4 | [Structures, Unions and Enums](../week01-struct/%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf), p. 23 | A heap-allocated struct can own a separate heap string. Use [`dynamic_struct_copy.c`](../week01-struct/examples/structures-unions-enums/dynamic_struct_copy.c) to compare borrowed shallow copies with an owning deep clone. |
+| 5 (optional) | [Dynamic Memory Allocation](%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf), pp. 28-29 | Allocate a real table of row pointers, then each row; release rows before the table. First revisit [`matrix_arguments.c`](../week01-struct/examples/pointers-revisited/matrix_arguments.c) and the distinction between `int **` and a pointer to an array. |
+
+For generic allocation results and changing a head pointer, revisit
+[Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf),
+pp. 17-19 and 25-26, alongside
+[`pass_by_value.c`](../week01-struct/examples/pointers-revisited/pass_by_value.c).
+After introducing allocation, revisit [Strings](../week02-operators/%5BSlide%5D%2003.%20Strings.pdf)
+pp. 49-60 for destination capacity and copying, pp. 68-72 for byte-counted memory
+operations, and pp. 74-81 for length and pointer traversal. A copied pointer
+does not clone its allocation, and a string allocation needs its terminating
+`'\0'`. `memcpy()` requires non-overlapping regions; `memmove()` handles overlap.
+
+Check every allocation before use. For `realloc()` with a positive new size,
+save the result in a temporary pointer and replace the owner only on success;
+on failure, the original allocation still needs to be released. Use `free()`
+explicitly when releasing storage rather than relying on `realloc(p, 0)`.
+The layout and reuse diagrams illustrate lifetimes, not guaranteed addresses
+or allocator placement.
+
 ## Learning Objectives
 
 By the end of this session you can:

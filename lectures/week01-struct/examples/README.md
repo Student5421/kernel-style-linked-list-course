@@ -38,12 +38,14 @@ compiler-warning demonstration and is excluded from `make` and `make run`.
 | Pointer supplement | [`pointers-revisited/`](pointers-revisited/) | Passing pointers, array bounds and sizes, `void *`, array declarations, 2D arguments, callbacks, and complex declarations. |
 | Structure supplement | [`structures-unions-enums/`](structures-unions-enums/) | Returning structures, `typedef` aliases, nesting and arrays, ownership when copying pointer members, unions, enums, and tagged variants. |
 
-The supplements extend the material in **[Slide] 01. Pointers Revisited.pdf**
-and **[Slide] 05. Structures, Unions and Enums.pdf**. Their directory READMEs map
+The supplements extend the material in
+[Pointers Revisited](../%5BSlide%5D%2001.%20Pointers%20Revisited.pdf) and
+[Structures, Unions and Enums](../%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf).
+Their directory READMEs map
 examples to PDF page numbers, identify C11 clarifications, and provide short
-prediction and modification exercises. The source PDFs stay in the sibling
-`C Programming Part 2/` course folder; the examples do not depend on those files
-being present to compile or run.
+prediction and modification exercises. Lecture copies of both PDFs are beside
+the Week 01 deck, and the originals remain in the sibling `C Programming Part 2/`
+course folder. The examples compile and run independently of the PDFs.
 
 These are a reference bank across the course, rather than extra requirements for
 the first session. Use the following points in the existing schedule:
@@ -58,6 +60,10 @@ the first session. Use the following points in the existing schedule:
 For each demo, ask students to predict the output, run it, then make one change
 from the local README. Keep assignment work in `assignments/`; the supplements
 demonstrate mechanisms with books so students still design their own student code.
+The [full reference reading map](../../README.md#reference-pdf-placement) also
+places Strings, Dynamic Memory, Low Level Operations, File IO, and Writing Large
+Programs alongside the appropriate weekly decks. The existing code directories
+remain stable; each week's notes link the examples used there.
 
 ## Optional diagnostic build
 

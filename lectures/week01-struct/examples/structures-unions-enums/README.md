@@ -5,8 +5,10 @@ These independent C11 programs extend the existing `struct_basics.c` and
 to their own assignment. Each file has its own `main()` so it can be compiled
 and discussed separately.
 
-The source reference is `[Slide] 05. Structures, Unions and Enums.pdf` (49 pages)
-in the course's `C Programming Part 2/` directory. Page numbers below are
+The source reference is
+[Structures, Unions and Enums](../../%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf)
+(49 pages), stored beside the Week 01 deck. The original is also preserved in
+the course's `C Programming Part 2/` directory. Page numbers below are
 one-based PDF pages and match the printed slide numbers.
 
 ## Build and run

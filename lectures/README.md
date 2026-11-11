@@ -28,6 +28,54 @@ Week 01 spends more of its time on the toolchain and the Makefile. Week 08 adds 
 
 The slide decks are generated from [`slides/`](slides/); see its README to rebuild them after editing.
 
+## Reference PDF Placement
+
+The seven reference PDFs from **C Programming Part 2** are stored beside the
+weekly lecture decks below. Their original chapter numbers identify the source
+material, not this course's week numbers. The existing eight-week linked-list
+sequence determines when to use each topic. The PDFs retain their original
+contents and filenames.
+
+| Reference PDF | Pages | Primary location | Main use |
+|---|---:|---|---|
+| [01. Pointers Revisited](week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf) | 51 | Week 01 | Address, indirection, and pointer parameters first; revisit arrays, `**`, and callbacks later. |
+| [05. Structures, Unions and Enums](week01-struct/%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf) | 49 | Week 01 | Structure values and member access first; allocation, unions, and tagged variants later. |
+| [03. Strings](week02-operators/%5BSlide%5D%2003.%20Strings.pdf) | 82 | Week 02 | Character arrays, pointer traversal, and string operations before allocating and linking books. |
+| [06. Low Level Operations](week02-operators/%5BSlide%5D%2006.%20Low%20Level%20Operations.pdf) | 25 | Week 02 | Bitwise operators, precedence, and flags; revisit bit-fields and byte order in Week 06. |
+| [02. Dynamic Memory Allocation](week03-dynamic-memory-singly-list/%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf) | 30 | Week 03 | Storage layout, allocation, release, failure handling, and dangling pointers. |
+| [04. File IO](week07-file-io/%5BSlide%5D%2004.%20File%20IO.pdf) | 62 | Week 07 | Streams, file lifetime, text parsing, and persistence; binary I/O and positioning as extensions. |
+| [07. Writing Large Programs](week08-final-project/%5BSlide%5D%2007.%20Writing%20Large%20Programs.pdf) | 41 | Week 08 | Separate compilation, headers, shared declarations, and modules; use macro excerpts earlier. |
+
+Each reference PDF is stored in exactly one lecture directory: the most closely
+related teaching week listed above. Other weeks link to that single copy when
+revisiting selected pages. The pointer and structure PDFs already placed in
+Week 01 and the source copies in the sibling `C Programming Part 2/` folder
+are preserved.
+
+### Reading order and revisits
+
+Page ranges below are **one-based PDF page numbers**, which match the printed
+slide numbers. They are selected reading alongside the course decks, not a
+requirement to present every page in a single session. Each week's notes link
+the relevant PDFs and existing runnable examples.
+
+| Week | Selected reference reading | Teaching purpose |
+|---|---|---|
+| [01](week01-struct/#reference-slide-reading) | Pointers pp. 3-12; Structures pp. 3-22, 24-30; Strings pp. 3-14 as a short reference for `title[]`. Enums pp. 40-45 are an optional preview. | Build tools, book records, value copying, pointer parameters, and null-terminated title storage. |
+| [02](week02-operators/#reference-slide-reading) | Strings pp. 3-14, 26-34, 49-63, 74-81; Low Level pp. 2-19; Pointers pp. 13-16, 20-23, 27-39; Large Programs pp. 8-10, 14-15. | Read pointer expressions and loops, understand strings and arrays, set/test flags, and parenthesize macros. Matrix interfaces and extra library functions are extensions. |
+| [03](week03-dynamic-memory-singly-list/#reference-slide-reading) | Dynamic Memory pp. 2-27, optionally 28-29; Pointers pp. 17-19, 25-26; Structures p. 23; Strings pp. 13-14, 49-60, 68-72. | Establish allocation and ownership before creating linked-list nodes; distinguish copies of arrays from copies of pointer values. |
+| [04](week04-doubly-circular-list/#reference-slide-reading) | Dynamic Memory pp. 25-27; Pointers pp. 25-26; Large Programs pp. 16-18. | Review lifetime and changing a head pointer, then use conditional compilation with invariant checks. The existing linked-list deck is primary. |
+| [05](week05-intrusive-list/#reference-slide-reading) | Structures pp. 21-27; Pointers pp. 17-19; Dynamic Memory pp. 25-27. | Review embedded members, generic object pointers, and one owner before intrusive lists. The existing linked-list deck is primary. |
+| [06](week06-container-of/#reference-slide-reading) | Low Level pp. 20-24; Pointers pp. 13-19; Strings pp. 68-72; Large Programs pp. 6-10, 14-18. Optional: Structures pp. 32-47, Pointers pp. 41-50, Large Programs pp. 11-13, 19-20. | Connect layout and byte arithmetic to `offsetof()` and `container_of()`; revisit bit-fields, byte order, macros, and optional variants/callbacks. |
+| [07](week07-file-io/#reference-slide-reading) | File IO pp. 3-52, 61; Strings pp. 15-25, 37-48, 64-67, 73; Low Level pp. 22-24. File IO pp. 53-60 are optional binary/positioning extensions. | Read and parse complete lines, manage streams, and persist payload data rather than live pointer values. |
+| [08](week08-final-project/#reference-slide-reading) | Large Programs pp. 21-40; pp. 3-20 as preprocessor review. Revisit File IO pp. 17-29, 41-61 as needed. | Split the final project into interfaces and implementations, link it, and integrate input and persistence. |
+
+Weeks 03-06 retain the course's own list lectures: the reference PDFs supply
+language prerequisites and do not replace singly, doubly, circular, or intrusive
+list instruction. Historical/nonportable code in the reference PDFs should be
+discussed alongside the C11 notes and runnable examples; for example, use
+`fgets()` for the Strings slides' `gets()` comparison.
+
 ## Conventions
 
 - **Live demo** marks code to run in class. Every demo is in that week's `examples/` directory.

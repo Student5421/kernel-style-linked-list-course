@@ -7,6 +7,34 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Previous / Next** | [Week 05](../week05-intrusive-list/) · [Week 07](../week07-file-io/) |
 
+## Reference slide reading
+
+The [Week 06 deck](week06-slides.pptx) teaches `offsetof()`, `container_of()`,
+and list macros. Start with Week 05's embedded-member model; the following
+PDF sections support the derivation rather than replace it:
+
+- [Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf#page=13),
+  pp. 13-19: `sizeof`, scaled pointer arithmetic, and generic object pointers.
+  Use `size_t` and `%zu`; byte arithmetic needs a character pointer, and
+  standard C11 does not support arithmetic on `void *`.
+- [Low Level Operations](../week02-operators/%5BSlide%5D%2006.%20Low%20Level%20Operations.pdf#page=20),
+  pp. 20-24: implementation-dependent bit-field storage and byte ordering.
+  Contrast these with offsets of ordinary members: bit-fields have no address
+  and cannot be used with `offsetof()`.
+  [Strings](../week02-operators/%5BSlide%5D%2003.%20Strings.pdf#page=68),
+  pp. 68-72, supplies byte-counted memory operations after the byte-pointer review.
+- [Writing Large Programs](../week08-final-project/%5BSlide%5D%2007.%20Writing%20Large%20Programs.pdf#page=3),
+  pp. 3-10 and 15-18: preprocessing, parameter substitution, repeated
+  evaluation, parentheses, and conditional compilation. Page 15 directly
+  supports the macro-parenthesization discussion; pp. 11-13 (`#` / `##`) and
+  19-20 (predefined macros / `#error`) are optional extensions.
+- Optional: [Structures, Unions and Enums](../week01-struct/%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf#page=32),
+  pp. 32-47, with the [union/enum examples](../week01-struct/examples/structures-unions-enums/README.md),
+  for shared storage and tagged variants; [Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf#page=41),
+  pp. 41-50, with the [callback/declaration examples](../week01-struct/examples/pointers-revisited/README.md),
+  for function pointers and complex types. These are enrichment, not prerequisites
+  for the list assignment.
+
 ## Learning Objectives
 
 By the end of this session you can:

@@ -60,6 +60,10 @@ Read each week's `README.md` first, then start the assignment in `starter/`. Wee
 
 The lecture notes for each week, including the lab, are in [`lectures/`](lectures/). You can build each week's demo code with `make` in `lectures/weekNN-*/examples/`. The slides are `weekNN-slides.pptx` in each week's folder.
 
+The seven reference PDFs from **C Programming Part 2** are also placed beside
+the relevant weekly decks. See the [PDF placement and reading map](lectures/README.md#reference-pdf-placement)
+for primary locations and page ranges to revisit in later weeks.
+
 ## General Rules
 
 1. Write C11 code.

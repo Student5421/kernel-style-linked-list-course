@@ -7,6 +7,27 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Previous / Next** | [Week 01](../week01-struct/) · [Week 03](../week03-dynamic-memory-singly-list/) |
 
+## Reference slide reading
+
+Page ranges below use one-based PDF pages. Read the selected sections alongside
+the existing demos; the complete reference PDFs are not additional material to
+finish in this session.
+
+| Order | Reference pages | Connection to this lecture |
+|---|---|---|
+| 1 (recap) | [Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf), pp. 13-16, 20-23, 27-39 | Review array sizes, pointer arithmetic, pointer declarations, and 2D argument types after Week 01's pointer basics. Use the [pointer supplement](../week01-struct/examples/pointers-revisited/README.md) before [`pointer_exprs.c`](examples/pointer_exprs.c). |
+| 2 | [Strings](%5BSlide%5D%2003.%20Strings.pdf), pp. 3-14, 26-34 | Connect null-terminated character arrays, array/pointer differences, traversal, arrays of strings, and `argv` to `*`, `[]`, and `++`. Revisit [`struct_basics.c`](../week01-struct/examples/struct_basics.c) for a book's embedded title array. |
+| 3 (practice) | [Strings](%5BSlide%5D%2003.%20Strings.pdf), pp. 49-63, 74-81 | After precedence and side effects, read copying, concatenation, comparison, length, and the condensed pointer loops. Predict which pointer advances and which character is copied before running or rewriting a loop. |
+| 4 | [Low Level Operations](%5BSlide%5D%2006.%20Low%20Level%20Operations.pdf), pp. 2-19 | Read the bitwise operators, shifts, masks, and applications alongside [`bit_flags.c`](examples/bit_flags.c). |
+| 5 | [Writing Large Programs](../week08-final-project/%5BSlide%5D%2007.%20Writing%20Large%20Programs.pdf), pp. 8-10, 14-15 | Use the macro sections with [`macro_parens.c`](examples/macro_parens.c); return to the full program-organization reference in Week 08. |
+
+Revisit Strings pp. 15-25, 35-48, 64-67, and 73 with [Week 07's input and
+parsing](../week07-file-io/); reserve pp. 68-72 for byte-oriented memory review
+in [Week 06](../week06-container-of/). The old `gets()` examples are historical:
+`gets()` was removed in C11, so use `fgets()` with a buffer size and check its
+return value. String-copy and concatenation destinations need enough capacity
+for the result plus `'\0'`; an `n` suffix alone does not establish that capacity.
+
 ## Learning Objectives
 
 By the end of this session you can:

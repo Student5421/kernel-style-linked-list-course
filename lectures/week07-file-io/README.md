@@ -7,6 +7,34 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Previous / Next** | [Week 06](../week06-container-of/) · [Week 08](../week08-final-project/) |
 
+## Reference slide reading
+
+Use [File I/O](%5BSlide%5D%2004.%20File%20IO.pdf) (62 pages). All page
+numbers below are one-based PDF pages. Core reading is **pp. 3-52, then 61**:
+
+1. Read pp. 3-15 for streams and text/binary distinctions, then pp. 17-27
+   for opening modes, paths, and closing files.
+2. Continue with pp. 28-40 for formatted I/O, pp. 41-48 for character/line
+   I/O, and pp. 49-52 for parsing strings. Finish with p. 61 on buffering.
+3. Use pp. 53-60 as optional binary-I/O and file-positioning extensions.
+
+Before parsing, revisit [Strings](../week02-operators/%5BSlide%5D%2003.%20Strings.pdf)
+**pp. 15-25** for input buffers and **pp. 42-48** for conversions. For binary
+representation, consult [Low Level Operations](../week02-operators/%5BSlide%5D%2006.%20Low%20Level%20Operations.pdf)
+**pp. 22-24**. Pointer, string, and resource-ownership basics come first;
+list persistence then uses the intrusive-list traversal from Weeks 05-06.
+Strings **pp. 37-41, 64-67, and 73** are optional references for character
+validation, searching/tokenizing text, and error strings.
+
+Pair the reading with [`stdio_streams.c`](examples/stdio_streams.c),
+[`count_chars.c`](examples/count_chars.c), [`input_demo.c`](examples/input_demo.c),
+and [`library_io.c`](examples/library_io.c), in that order.
+
+Three clarifications: `FILE *` is a stream handle, distinct from an OS file
+descriptor. On p. 47, use `fgets(buf, sizeof(buf), fp)`; `gets()` was removed
+from C11. The raw-struct example on p. 56 is unsuitable for our linked lists:
+pointer values and padding do not provide a portable saved format.
+
 ## Learning Objectives
 
 By the end of this session you can:

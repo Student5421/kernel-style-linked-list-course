@@ -9,6 +9,24 @@
 
 This week gives every node a second link. Parts 1 and 2 add a `prev` pointer to the singly linked list from Week 03: backward traversal and O(1) delete become possible, at the price of special cases around `NULL`. Parts 3 and 4 make every one of those special cases disappear with a sentinel node and circular links. The lab follows the same split: Lab A builds the doubly linked list (Assignment 04A), and Lab B builds the circular list with a sentinel (Assignment 04B).
 
+## Reference slide reading
+
+The [Week 04 deck](week04-slides.pptx) remains the primary slide material for
+doubly linked lists, sentinels, circular invariants, and safe deletion. The
+seven supplied reference PDFs review prerequisites; they do not teach these
+list algorithms. Revisit only the sections needed during the live demos:
+
+- [Pointers Revisited](../week01-struct/%5BSlide%5D%2001.%20Pointers%20Revisited.pdf#page=25),
+  pp. 25-26: double pointers, after recalling `&`, `*`, and struct pointers.
+  [Structures, Unions and Enums](../week01-struct/%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf#page=21),
+  pp. 21-27: pointer parameters and nested data used by `struct node`.
+- [Dynamic Memory Allocation](../week03-dynamic-memory-singly-list/%5BSlide%5D%2002.%20Dynamic%20Memory%20Allocation.pdf#page=25),
+  pp. 25-27: leaks and dangling pointers. Apply Week 03's ownership rules when
+  unlinking nodes and saving the next link before freeing the current node.
+- [Writing Large Programs](../week08-final-project/%5BSlide%5D%2007.%20Writing%20Large%20Programs.pdf#page=16),
+  pp. 16-18: conditional compilation and `-D`; connect these to the lecture's
+  `assert()` / `-DNDEBUG` demonstration, which the reference does not cover.
+
 ## Learning Objectives
 
 By the end of this session you can:

@@ -7,6 +7,29 @@
 | **Demo code** | [`examples/`](examples/) |
 | **Next week** | [Week 02 — Operators and Precedence](../week02-operators/) |
 
+## Reference slide reading
+
+The two PDFs already beside this week's deck are the starting references:
+
+- [Pointers Revisited](%5BSlide%5D%2001.%20Pointers%20Revisited.pdf), pp. 3-12:
+  addresses, dereferencing, `NULL`, and passing a pointer value. Run
+  [`pointer_basics.c`](examples/pointer_basics.c) and
+  [`struct_pointer.c`](examples/struct_pointer.c) after the toolchain introduction.
+- [Structures, Unions and Enums](%5BSlide%5D%2005.%20Structures%2C%20Unions%20and%20Enums.pdf),
+  pp. 3-22 and 24-30: tags, initialization, assignment, parameter/return values,
+  and nested members. Start with [`struct_basics.c`](examples/struct_basics.c);
+  nesting and return-value examples are extensions. Enums (pp. 40-45) may be a
+  short preview for Week 02's masks.
+- [Strings](../week02-operators/%5BSlide%5D%2003.%20Strings.pdf), pp. 3-14:
+  use as a brief reference for `char title[32]`, the terminating `\0`, and the
+  difference between an array and a pointer to a string literal.
+
+Save the allocation example (Structures p. 23) and pointer-to-pointer work
+(Pointers pp. 25-26) for Week 03. Array interfaces fit Week 02; union storage,
+tagged variants, callbacks, and complex declarations are later extensions.
+The [course reading map](../README.md#reference-pdf-placement) gives their
+week-by-week placement. Page numbers throughout are one-based PDF pages.
+
 ## Learning Objectives
 
 By the end of this session you can:
