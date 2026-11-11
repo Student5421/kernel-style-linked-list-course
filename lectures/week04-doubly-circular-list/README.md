@@ -4,7 +4,7 @@
 |---|---|
 | **Session** | Lecture + live coding + lab |
 | **Assignment** | [Week 04 — Doubly Linked and Circular Lists](../../assignments/week04-doubly-circular-list/) (Assignments 04A and 04B) |
-| **Demo code** | [`examples/`](examples/) |
+| **Demo code** | [`examples/`](examples/) · [Teaching guide](examples/README.md) |
 | **Previous / Next** | [Week 03](../week03-dynamic-memory-singly-list/) · [Week 05](../week05-intrusive-list/) |
 
 This week gives every node a second link. Parts 1 and 2 add a `prev` pointer to the singly linked list from Week 03: backward traversal and O(1) delete become possible, at the price of special cases around `NULL`. Parts 3 and 4 make every one of those special cases disappear with a sentinel node and circular links. The lab follows the same split: Lab A builds the doubly linked list (Assignment 04A), and Lab B builds the circular list with a sentinel (Assignment 04B).

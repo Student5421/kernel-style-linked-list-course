@@ -35,6 +35,10 @@ PDF sections support the derivation rather than replace it:
   for function pointers and complex types. These are enrichment, not prerequisites
   for the list assignment.
 
+The [example guide](examples/README.md) adds byte-representation, overlapping
+memory-copy, and bit-field demonstrations alongside the existing list examples.
+Run them together with `make -C examples run` from this week's directory.
+
 ## Learning Objectives
 
 By the end of this session you can:

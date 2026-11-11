@@ -4,7 +4,7 @@
 |---|---|
 | **Session** | Lecture + live coding + lab |
 | **Assignment** | [Week 05 — Intrusive Linked List](../../assignments/week05-intrusive-list/) |
-| **Demo code** | [`examples/`](examples/) |
+| **Demo code** | [`examples/`](examples/) · [Teaching guide](examples/README.md) |
 | **Previous / Next** | [Week 04](../week04-doubly-circular-list/) · [Week 06](../week06-container-of/) |
 
 ## Reference slide reading

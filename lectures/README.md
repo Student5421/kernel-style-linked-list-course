@@ -87,6 +87,9 @@ discussed alongside the C11 notes and runnable examples; for example, use
 ## Building the Examples
 
 ```bash
+make -C lectures                                # build all eight weeks
+make -C lectures run                            # run all demos with prepared input
+make -C lectures clean                          # clean all eight weeks
 make -C lectures/week01-struct/examples          # build one week's demos
 make -C lectures/week01-struct/examples run      # run core demos and both PDF supplements
 make -C lectures/week01-struct/examples clean    # remove the executables
@@ -97,5 +100,32 @@ The [Week 01 example guide](week01-struct/examples/README.md) includes supplemen
 for **Pointers Revisited** and **Structures, Unions and Enums**. Their READMEs map
 the runnable code to the reference PDF pages and suggest when to revisit each
 topic during Weeks 01, 02, 03, and 06.
+
+### Examples added from the reference PDFs
+
+The later weeks have their own example guides with PDF page mappings, expected
+observations, and short prediction/modification exercises. Each week's `make`
+builds the examples and `make run` supplies fixed arguments or prepared input,
+so all demos can be run without typing at the keyboard.
+
+| Week | Example guide | Added focus |
+|---|---|---|
+| 02 | [Strings and bit operations](week02-operators/examples/README.md) | Writable string storage, capacity checks, comparisons/search, pointer scans and command-line arguments, packed bit fields. |
+| 03 | [Allocation and ownership](week03-dynamic-memory-singly-list/examples/README.md) | Safe resizing, runtime matrix allocation and cleanup, owned title replacement and append. |
+| 04 | [Invariants and build modes](week04-doubly-circular-list/examples/README.md) | Always-on validation versus `assert()`, `NDEBUG`, and conditional diagnostics. |
+| 05 | [Borrowed intrusive membership](week05-intrusive-list/examples/README.md) | Link membership and payload ownership with books owned outside the list. |
+| 06 | [Layout and representation](week06-container-of/examples/README.md) | Object bytes and byte order, overlap-aware copying, and bit-fields versus addressable members. |
+| 07 | [Streams, parsing, and positioning](week07-file-io/examples/README.md) | Line/block copying, binary records with an explicit format, file positions, and validated line parsing. |
+| 08 | [Preprocessing and complete modules](week08-final-project/examples/README.md) | Macro expansion and conditional compilation, guarded interfaces, one shared definition, private helpers, and header dependencies. |
+
+The Week 08 `stats_demo` keeps its intentional header-dependency exercise;
+the additional module example shows a complete working build beside it.
+Compiler flags are not prerequisites, so use `-B` when changing them:
+
+```bash
+make -B -C lectures CFLAGS='-std=c11 -Wall -Wextra -Wpedantic -Werror'
+make -C lectures run
+make -C lectures clean
+```
 
 The outputs shown in the notes were captured on macOS (Apple Clang, GNU Make 3.81). Addresses change from run to run. On Linux, gcc words some messages differently, and newer GNU Make quotes names as `'name'` instead of `` `name' ``.

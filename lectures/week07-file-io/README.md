@@ -29,6 +29,9 @@ validation, searching/tokenizing text, and error strings.
 Pair the reading with [`stdio_streams.c`](examples/stdio_streams.c),
 [`count_chars.c`](examples/count_chars.c), [`input_demo.c`](examples/input_demo.c),
 and [`library_io.c`](examples/library_io.c), in that order.
+The [example guide](examples/README.md) adds checked stream copies,
+`strtol` input validation, and an optional encoded binary/positioning demo;
+run the prepared examples with `make -C examples run` from this directory.
 
 Three clarifications: `FILE *` is a stream handle, distinct from an OS file
 descriptor. On p. 47, use `fgets(buf, sizeof(buf), fp)`; `gets()` was removed

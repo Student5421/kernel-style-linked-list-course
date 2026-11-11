@@ -28,6 +28,11 @@ in [Week 06](../week06-container-of/). The old `gets()` examples are historical:
 return value. String-copy and concatenation destinations need enough capacity
 for the result plus `'\0'`; an `n` suffix alone does not establish that capacity.
 
+The [example guide](examples/README.md) maps runnable string and packed-field
+demos to these reference pages, with observations and short prediction exercises.
+Run the whole set without keyboard input using `make -C examples run` from this
+week's directory.
+
 ## Learning Objectives
 
 By the end of this session you can:

@@ -21,6 +21,10 @@ reading is **pp. 21-40**, in this teaching order:
 3. Read pp. 32-34 on `extern` as declaration/definition background; the final
    project's list head still belongs in `main()`.
 
+See the [example guide](examples/README.md) for preprocessor experiments
+and a complete book module; run `make -C examples run`. The stats dependency
+exercise remains available.
+
 Use **pp. 3-20** as a preprocessor recap: pp. 3-7 introduce directives and
 constants, pp. 8-15 explain macro expansion and pitfalls, and pp. 16-20 cover
 conditional compilation and diagnostics. Review operators before macros and

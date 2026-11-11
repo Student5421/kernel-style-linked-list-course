@@ -4,7 +4,7 @@
 |---|---|
 | **Session** | Lecture + live coding + lab |
 | **Assignment** | [Week 03 — Assignment 03A (Dynamic Memory) and Assignment 03B (Singly Linked List)](../../assignments/week03-dynamic-memory-singly-list/) |
-| **Demo code** | [`examples/`](examples/) |
+| **Demo code** | [`examples/`](examples/) · [Teaching guide](examples/README.md) |
 | **Previous / Next** | [Week 02](../week02-operators/) · [Week 04](../week04-doubly-circular-list/) |
 
 This session has two halves. Parts 1 and 2 look at where variables live and move objects onto the heap with `malloc()` and `free()`, under a clear ownership rule. Parts 3 and 4 use those heap objects to build the course's first data structure, a singly linked list: nodes, traversal, insertion, freeing the whole list, and the design of delete.

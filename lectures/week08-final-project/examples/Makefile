@@ -7,7 +7,7 @@ TARGET = stats_demo
 SRCS = main.c stats.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(TARGET)
+all: $(TARGET) preprocessor_demo book-module
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
@@ -19,10 +19,19 @@ $(TARGET): $(OBJS)
 # editing stats.h does NOT rebuild anything. Uncomment it to fix that.
 # main.o stats.o: stats.h
 
-run: $(TARGET)
+preprocessor_demo: preprocessor_demo.c
+	$(CC) $(CFLAGS) preprocessor_demo.c -o preprocessor_demo
+
+book-module:
+	$(MAKE) -C book-module all
+
+run: all
 	./$(TARGET) < numbers.txt
+	./preprocessor_demo
+	$(MAKE) -C book-module run
 
 clean:
-	rm -rf $(OBJS) $(TARGET) *.dSYM
+	rm -rf $(OBJS) $(TARGET) preprocessor_demo preprocessor_demo.i *.dSYM
+	$(MAKE) -C book-module clean
 
-.PHONY: all run clean
+.PHONY: all run clean book-module

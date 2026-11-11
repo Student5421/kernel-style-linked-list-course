@@ -64,6 +64,10 @@ The seven reference PDFs from **C Programming Part 2** are also placed beside
 the relevant weekly decks. See the [PDF placement and reading map](lectures/README.md#reference-pdf-placement)
 for primary locations and page ranges to revisit in later weeks.
 
+Each week's example guide maps its demos to the reference PDF pages. Build or
+run all eight weeks with `make -C lectures` or `make -C lectures run`;
+`make -C lectures clean` removes the generated programs.
+
 ## General Rules
 
 1. Write C11 code.

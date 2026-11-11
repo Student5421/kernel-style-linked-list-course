@@ -1,5 +1,6 @@
 # Week 03 lecture examples
 #   make          build every example
+#   make run      run every safe example with fixed input
 #   make clean    remove the executables
 #
 # dangling_local.c is built by hand on purpose (see the comment in the file).
@@ -7,7 +8,8 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11
 
-PROGRAMS = memory_map malloc_basics book_factory sll_manual sll_book
+PROGRAMS = memory_map malloc_basics book_factory sll_manual sll_book \
+           realloc_catalog dynamic_matrix owned_title
 
 all: $(PROGRAMS)
 
@@ -26,7 +28,22 @@ sll_manual: sll_manual.c
 sll_book: sll_book.c
 	$(CC) $(CFLAGS) sll_book.c -o sll_book
 
+realloc_catalog: realloc_catalog.c
+	$(CC) $(CFLAGS) realloc_catalog.c -o realloc_catalog
+
+dynamic_matrix: dynamic_matrix.c
+	$(CC) $(CFLAGS) dynamic_matrix.c -o dynamic_matrix
+
+owned_title: owned_title.c
+	$(CC) $(CFLAGS) owned_title.c -o owned_title
+
+run: all
+	@set -e; for program in $(PROGRAMS); do \
+		printf '\n=== %s ===\n' "$$program"; \
+		./$$program; \
+	done
+
 clean:
 	rm -rf $(PROGRAMS) dangling_local *.dSYM
 
-.PHONY: all clean
+.PHONY: all run clean
