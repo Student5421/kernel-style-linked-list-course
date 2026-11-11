@@ -410,7 +410,7 @@ struct book {
 
 - The type name is the two words `struct book`.
 - The definition creates **no variable**. It only describes a layout.
-- We do **not** `typedef` structs in this course. Keeping the word `struct` visible means you always know you are dealing with a structure.
+- The core linked-list examples keep the word `struct` visible so you always know you are dealing with a structure. The [structure supplement](examples/structures-unions-enums/) also demonstrates `typedef` alias syntax used in the reference PDF; an alias does not create a distinct type.
 
 ### 3.3 Creating and initializing variables
 
@@ -591,6 +591,27 @@ struct node {
 ```
 
 That one idea is the whole linked list. We get there in Week 03.
+
+### 4.5 Supplemental examples from the reference PDFs
+
+The [example guide](examples/README.md) extends the core demos with two reference
+sets. Each set includes independent runnable programs, PDF page mappings, and
+short prediction/modification exercises.
+
+| Reference | Examples | Main additions |
+|---|---|---|
+| `[Slide] 01. Pointers Revisited.pdf` | [Pointer supplement](examples/pointers-revisited/) | Pointer parameters and `**`, array arithmetic and `sizeof`, `void *`, pointer/array declarations, 2D arrays, function pointers, and complex declarations. |
+| `[Slide] 05. Structures, Unions and Enums.pdf` | [Structure supplement](examples/structures-unions-enums/) | Structure return values and aliases, nested structures and arrays, shallow/deep copying, union storage, enums, and tagged unions. |
+
+Use these throughout the course: pointer expressions fit Week 02, allocation and
+ownership fit Week 03, and layout and generic callbacks fit Week 06. The core
+Week 01 lab remains the starting point.
+
+```bash
+make -C lectures/week01-struct/examples supplements
+make -C lectures/week01-struct/examples/pointers-revisited run
+make -C lectures/week01-struct/examples/structures-unions-enums run
+```
 
 ---
 

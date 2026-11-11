@@ -40,8 +40,14 @@ The slide decks are generated from [`slides/`](slides/); see its README to rebui
 
 ```bash
 make -C lectures/week01-struct/examples          # build one week's demos
+make -C lectures/week01-struct/examples run      # run core demos and both PDF supplements
 make -C lectures/week01-struct/examples clean    # remove the executables
 make -C lectures/week07-file-io/examples test    # Week 07: run the file-based tests
 ```
+
+The [Week 01 example guide](week01-struct/examples/README.md) includes supplements
+for **Pointers Revisited** and **Structures, Unions and Enums**. Their READMEs map
+the runnable code to the reference PDF pages and suggest when to revisit each
+topic during Weeks 01, 02, 03, and 06.
 
 The outputs shown in the notes were captured on macOS (Apple Clang, GNU Make 3.81). Addresses change from run to run. On Linux, gcc words some messages differently, and newer GNU Make quotes names as `'name'` instead of `` `name' ``.
